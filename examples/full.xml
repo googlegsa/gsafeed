@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE gsafeed PUBLIC "-//Google//DTD GSA Feeds//EN" "">
+<gsafeed>
+  <header>
+    <datasource>sample</datasource>
+    <feedtype>full</feedtype>
+  </header>
+  <group>
+    <record url="http://www.example.com/hello01" mimetype="text/plain"
+      last-modified="Tue, 6 Nov 2007 12:45:26 GMT">
+      <content>This is hello01</content>
+    </record>
+    <record url="http://www.example.com/hello02" mimetype="text/plain"
+      lock="true">
+      <content>This is hello02</content>
+    </record>
+    <record url="http://www.example.com/hello03" mimetype="text/html">
+    <content><![CDATA[
+      <html>
+        <head><title>namaste</title></head>
+        <body>
+          This is hello03
+        </body>
+      </html>
+    ]]></content>
+    </record>
+    <record url="http://www.example.com/hello04" mimetype="text/html">
+      <content encoding="base64binary">Zm9vIGJhcgo</content>
+    </record>
+  </group>
+</gsafeed>

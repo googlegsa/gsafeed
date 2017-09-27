@@ -1,0 +1,12 @@
+# Normal private files
+build/
+dist/
+build.properties
+
+# IntelliJ files
+workspace/
+classes/
+.idea
+
+# NetBeans files
+nbproject/
