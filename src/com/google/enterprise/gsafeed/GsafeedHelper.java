@@ -1,3 +1,17 @@
+// Copyright 2017 Google Inc. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package com.google.enterprise.gsafeed;
 
 import org.w3c.dom.Document;
@@ -59,19 +73,19 @@ public class GsafeedHelper {
         @Override
         public void warning(SAXParseException exception)
             throws SAXException {
-          throw new SAXException(exception.toString());
+          throw exception;
         }
 
         @Override
         public void error(SAXParseException exception)
             throws SAXException {
-          throw new SAXException(exception.toString());
+          throw exception;
         }
 
         @Override
         public void fatalError(SAXParseException exception)
             throws SAXException {
-          throw new SAXException(exception.toString());
+          throw exception;
         }
       });
     Document document = docBuilder.parse(inputStream);
@@ -116,6 +130,10 @@ public class GsafeedHelper {
     // "standalone='yes'". This is one way to avoid that since
     // it's not part of the GSA's usual feeds.
     marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+    // TODO(aptls): check use of this property in Java 7, 8;
+    // those versions might use com.sun.xml.bind.xmlHeaders.
+    // Compare this with using a Transformer + JAXBSource for
+    // marshalling.
     marshaller.setProperty("com.sun.xml.internal.bind.xmlHeaders",
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
         + System.getProperty("line.separator")

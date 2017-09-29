@@ -4,8 +4,9 @@
   <property name="src.dir" location="src"/>
   <property name="build.dir" location="build"/>
   <property name="build-src.dir" location="${build.dir}/src"/>
+  <property name="generate.dir" location="${build.dir}/generate-src"/>
   <property file="build.properties"/>
-  <property name="compile.java.version" value="7"/>
+  <property name="compile.java.version" value="6"/>
   <property name="compile.java.bootclasspath"
             value="${build.bootclasspath}"/>
 
@@ -23,8 +24,24 @@
       includeantruntime="false" encoding="utf-8"
       source="${compile.java.version}" target="${compile.java.version}">
       <bootclasspath path="${compile.java.bootclasspath}"/>
-      <compilerarg value="-Xlint:unchecked"/>
+      <compilerarg value="-Xlint"/>
     </javac>
+  </target>
+
+  <target name="generate" description="Generate classes from DTD">
+    <delete dir="${generate.dir}"/>
+    <mkdir dir="${generate.dir}"/>
+    <exec executable="xjc">
+      <arg value="-dtd"/>
+      <arg value="-d"/>
+      <arg value="${generate.dir}"/>
+      <arg value="-p"/>
+      <arg value="com.google.enterprise.gsafeed.generated"/>
+      <arg value="-target"/>
+      <arg value="2.0"/>
+      <arg value="-no-header"/>
+      <arg value="examples/gsafeed.dtd"/>
+    </exec>
   </target>
 
   <target name="clean" description="Remove build output">

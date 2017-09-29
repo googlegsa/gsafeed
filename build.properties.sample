@@ -1,0 +1,12 @@
+##
+# These properties are specific to the individual's development environment.
+#
+# Installation locations for Java for OS X 2015-001
+
+jdk6.home = /Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes
+
+# JDK 6 bootclasspath.
+build.bootclasspath = ${jdk6.home}/classes.jar\
+    :${jdk6.home}/jsse.jar\
+    :${jdk6.home}/jce.jar
+
