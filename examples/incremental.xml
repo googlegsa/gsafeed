@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE gsafeed PUBLIC "-//Google//DTD GSA Feeds//EN" "">
+<gsafeed>
+  <header>
+    <datasource>hello</datasource>
+    <feedtype>incremental</feedtype>
+  </header>
+  <group action="delete">
+    <record url="http://www.example.com/hello01" mimetype="text/plain"/>
+  </group>
+  <group>
+    <record url="http://www.example.com/hello02" mimetype="text/plain">
+      <content>UPDATED - This is hello02</content>
+    </record>
+    <record url="http://www.example.com/hello03" mimetype="text/plain" action="delete"/>
+    <record url="http://www.example.com/hello04" mimetype="text/plain">
+      <content>UPDATED - This is hello04</content>
+    </record>
+  </group>
+</gsafeed>

@@ -1,0 +1,60 @@
+<project name="gsafeed" default="build" basedir=".">
+  <description>Feed Files for GSA</description>
+  <tstamp/>
+  <property name="src.dir" location="src"/>
+  <property name="build.dir" location="build"/>
+  <property name="build-src.dir" location="${build.dir}/src"/>
+  <property name="generate.dir" location="${build.dir}/generate-src"/>
+  <property file="build.properties"/>
+  <property name="compile.java.version" value="6"/>
+  <property name="compile.java.bootclasspath"
+            value="${build.bootclasspath}"/>
+
+  <path id="examples.run.classpath">
+    <path location="examples"/>
+  </path>
+
+  <target name="build"
+    depends="-real-build"
+    description="Build source"/>
+
+  <target name="-real-build">
+    <mkdir dir="${build-src.dir}"/>
+    <javac srcdir="${src.dir}" destdir="${build-src.dir}" debug="true"
+      includeantruntime="false" encoding="utf-8"
+      source="${compile.java.version}" target="${compile.java.version}">
+      <bootclasspath path="${compile.java.bootclasspath}"/>
+      <compilerarg value="-Xlint"/>
+    </javac>
+  </target>
+
+  <target name="generate" description="Generate classes from DTD">
+    <delete dir="${generate.dir}"/>
+    <mkdir dir="${generate.dir}"/>
+    <exec executable="xjc">
+      <arg value="-dtd"/>
+      <arg value="-d"/>
+      <arg value="${generate.dir}"/>
+      <arg value="-p"/>
+      <arg value="com.google.enterprise.gsafeed.generated"/>
+      <arg value="-target"/>
+      <arg value="2.0"/>
+      <arg value="-no-header"/>
+      <arg value="examples/gsafeed.dtd"/>
+    </exec>
+  </target>
+
+  <target name="clean" description="Remove build output">
+    <delete dir="${build.dir}"/>
+  </target>
+
+  <target name="marshal_unmarshal" depends="build"
+      description="Marshal/unmarshal example">
+    <property name="example.args" value="/metadata-and-url.xml"/>
+    <java classpath="${build-src.dir}" fork="true"
+      classname="com.google.enterprise.gsafeed.examples.MarshalUnmarshal">
+      <classpath refid="examples.run.classpath"/>
+      <arg line="${example.args}"/>
+    </java>
+  </target>
+</project>

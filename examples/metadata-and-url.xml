@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE gsafeed PUBLIC "-//Google//DTD GSA Feeds//EN" "">
+<gsafeed>
+  <header>
+    <datasource>example3</datasource>
+    <feedtype>metadata-and-url</feedtype>
+  </header>
+
+  <group>
+    <record url="http://www.example.com/search/employeesearch.php?q=jwong"
+      action="add" mimetype="text/html" lock="true">
+      <metadata>
+        <meta name="Name" content="Jenny Wong"/>
+        <meta name="Title" content="Metadata Developer"/>
+        <meta name="Phone" content="x12345"/>
+        <meta name="Floor" content="3"/>
+        <meta name="PhotoURL"
+          content="http://www/employeedir/engineering/jwong.jpg"/>
+        <meta name="URL"
+          content="http://www.example.com/search/employeesearch.php?q=jwong"/>
+      </metadata>
+    </record>
+  </group>
+</gsafeed>
