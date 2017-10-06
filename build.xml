@@ -42,6 +42,17 @@
       <arg value="-no-header"/>
       <arg value="examples/gsafeed.dtd"/>
     </exec>
+    <exec executable="xjc">
+      <arg value="-dtd"/>
+      <arg value="-d"/>
+      <arg value="${generate.dir}"/>
+      <arg value="-p"/>
+      <arg value="com.google.enterprise.gsafeed.generated.groups"/>
+      <arg value="-target"/>
+      <arg value="2.0"/>
+      <arg value="-no-header"/>
+      <arg value="examples/groups.dtd"/>
+    </exec>
   </target>
 
   <target name="clean" description="Remove build output">
@@ -53,6 +64,16 @@
     <property name="example.args" value="/metadata-and-url.xml"/>
     <java classpath="${build-src.dir}" fork="true"
       classname="com.google.enterprise.gsafeed.examples.MarshalUnmarshal">
+      <classpath refid="examples.run.classpath"/>
+      <arg line="${example.args}"/>
+    </java>
+  </target>
+
+  <target name="groups_marshal_unmarshal" depends="build"
+      description="Groups marshal/unmarshal example">
+    <property name="example.args" value="/groupsfeed.xml"/>
+    <java classpath="${build-src.dir}" fork="true"
+      classname="com.google.enterprise.gsafeed.examples.XmlgroupsMarshalUnmarshal">
       <classpath refid="examples.run.classpath"/>
       <arg line="${example.args}"/>
     </java>
