@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.enterprise.adaptor;
+package com.google.enterprise.gsafeed;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -20,16 +20,21 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
+import javax.net.ssl.SSLException;
+
 /** Takes an XML feed file for the GSA, sends it to GSA and
   then reads reply from GSA. */
+/* Modified from GsaFeedFileSender in adaptor library. */
 class GsaFeedFileSender {
   private static final Logger log
       = Logger.getLogger(GsaFeedFileSender.class.getName());
@@ -234,7 +239,7 @@ class GsaFeedFileSender {
       uc = setupConnection(destUrl, msg.length, useCompression);
       uc.connect();
     } catch (IOException ioe) {
-      throw GsaCommunicationHandler.handleGsaException(destUrl.toString(), ioe);
+      throw handleGsaException(destUrl.toString(), ioe);
     }
     try {
       writeToGsa(uc, msg, useCompression);
@@ -243,6 +248,27 @@ class GsaFeedFileSender {
     } catch (IOException ioe) {
       uc.disconnect();
       throw ioe;
+    }
+  }
+
+  /** Wrap certain GSA communication problems with more descriptive messages. */
+  /* Method copied from GsaCommunicationHandler in adaptor library. */
+  static IOException handleGsaException(String gsa, IOException e) {
+    if (e instanceof ConnectException) {
+      return new IOException("Failed to connect to the GSA at " + gsa + " . "
+          + "Please verify that the gsa.hostname configuration property "
+          + "is correct and the GSA is online, and is configured to accept "
+          + "feeds from this computer.", e);
+    } else if (e instanceof UnknownHostException) {
+      return new IOException("Failed to locate the GSA at " + gsa + " . "
+          + "Please verify that the gsa.hostname configuration property "
+          + "is correct.", e);
+    } else if (e instanceof SSLException) {
+      return new IOException("Failed to connect to the GSA at " + gsa + " . "
+          + "Please verify that the your SSL Certificates are properly "
+          + "configured for secure communication with the GSA.", e);
+    } else {
+      return e;
     }
   }
 }

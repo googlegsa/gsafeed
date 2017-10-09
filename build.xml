@@ -5,10 +5,16 @@
   <property name="build.dir" location="build"/>
   <property name="build-src.dir" location="${build.dir}/src"/>
   <property name="generate.dir" location="${build.dir}/generate-src"/>
+  <property name="lib.dir" location="lib"/>
   <property file="build.properties"/>
   <property name="compile.java.version" value="6"/>
   <property name="compile.java.bootclasspath"
             value="${build.bootclasspath}"/>
+
+  <path id="gsafeed.build.classpath">
+    <fileset dir="${lib.dir}">
+    </fileset>
+  </path>
 
   <path id="examples.run.classpath">
     <path location="examples"/>
@@ -25,6 +31,7 @@
       source="${compile.java.version}" target="${compile.java.version}">
       <bootclasspath path="${compile.java.bootclasspath}"/>
       <compilerarg value="-Xlint"/>
+      <classpath refid="gsafeed.build.classpath"/>
     </javac>
   </target>
 
