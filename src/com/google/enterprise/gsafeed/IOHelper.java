@@ -27,7 +27,7 @@ import java.nio.charset.Charset;
  * Utility class for providing useful methods when handling streams or other
  * forms of I/O.
  */
-/* Copied from IOHelper in adaptor library. */
+// Copied from IOHelper in adaptor library.
 public class IOHelper {
   // Prevent construction
   private IOHelper() {}

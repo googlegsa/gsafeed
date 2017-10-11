@@ -64,4 +64,16 @@
       <arg line="${example.args}"/>
     </java>
   </target>
+
+  <target name="send_feed" depends="build"
+      description="Send feed example">
+    <property name="example.feed" value="/full.xml"/>
+    <property name="example.gsa" value="example.com"/>
+    <java classpath="${build-src.dir}" fork="true"
+      classname="com.google.enterprise.gsafeed.examples.SendFeed">
+      <classpath refid="examples.run.classpath"/>
+      <arg value="${example.feed}"/>
+      <arg value="${example.gsa}"/>
+    </java>
+  </target>
 </project>
