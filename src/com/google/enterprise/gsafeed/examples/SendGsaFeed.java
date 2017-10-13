@@ -26,11 +26,15 @@ import java.nio.charset.Charset;
 /**
  * Example of sending a feed to the GSA.
  */
-public class SendFeed {
+public class SendGsaFeed {
+  public static final Charset UTF_8 = Charset.forName("UTF-8");
 
   public static void main(String... args) throws Exception {
-    Charset utf8 = Charset.forName("UTF-8");
-
+    if (args.length != 2) {
+      System.out.println("Usage: " + SendGsaFeed.class.getName()
+          + " <feed file> <GSA hostname>");
+      return;
+    }
     String feedFile = args[0];
     String gsaHost = args[1];
 
@@ -38,15 +42,16 @@ public class SendFeed {
         + " to GSA at " + gsaHost);
 
     // Read the feed file to get the datasource and feedtype.
-    URL feedUrl = SendFeed.class.getResource(args[0]);
-    String xml = IOHelper.readInputStreamToString(feedUrl.openStream(), utf8);
+    URL feedUrl = SendGsaFeed.class.getResource(feedFile);
+    String xml = IOHelper.readInputStreamToString(feedUrl.openStream(), UTF_8);
     Gsafeed feed = GsafeedHelper.unmarshalWithDtd(
-        new ByteArrayInputStream(xml.getBytes(utf8)));
+        new ByteArrayInputStream(xml.getBytes(UTF_8)));
     String datasource = feed.getHeader().getDatasource();
     String feedtype = feed.getHeader().getFeedtype();
 
     // Send the feed to the GSA.
-    GsaFeedFileSender sender = new GsaFeedFileSender(gsaHost, false, utf8);
-    sender.sendGsaFeed(datasource, feedtype, xml, false);
+    GsaFeedFileSender sender =
+        new GsaFeedFileSender(gsaHost, /* secure */ false, UTF_8);
+    sender.sendGsaFeed(datasource, feedtype, xml, /* useCompression */ false);
   }
 }

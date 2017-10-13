@@ -5,14 +5,15 @@
   <property name="build.dir" location="build"/>
   <property name="build-src.dir" location="${build.dir}/src"/>
   <property name="generate.dir" location="${build.dir}/generate-src"/>
-  <property name="lib.dir" location="lib"/>
+  <property name="third_party.dir" location="third_party"/>
   <property file="build.properties"/>
   <property name="compile.java.version" value="6"/>
   <property name="compile.java.bootclasspath"
             value="${build.bootclasspath}"/>
 
   <path id="gsafeed.build.classpath">
-    <fileset dir="${lib.dir}">
+    <fileset dir="${third_party.dir}">
+        <include name="guava/*.jar"/>
     </fileset>
   </path>
 
@@ -65,15 +66,16 @@
     </java>
   </target>
 
-  <target name="send_feed" depends="build"
+  <target name="send_gsafeed" depends="build"
       description="Send feed example">
-    <property name="example.feed" value="/full.xml"/>
-    <property name="example.gsa" value="example.com"/>
+    <property name="example.feedfile" value="/full.xml"/>
+    <property name="example.gsahost" value="example.com"/>
+    <property name="example.args"
+              value="${example.feedfile} ${example.gsahost}"/>
     <java classpath="${build-src.dir}" fork="true"
-      classname="com.google.enterprise.gsafeed.examples.SendFeed">
+      classname="com.google.enterprise.gsafeed.examples.SendGsaFeed">
       <classpath refid="examples.run.classpath"/>
-      <arg value="${example.feed}"/>
-      <arg value="${example.gsa}"/>
+      <arg line="${example.args}"/>
     </java>
   </target>
 </project>
