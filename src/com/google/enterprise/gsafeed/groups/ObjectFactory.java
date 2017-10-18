@@ -38,38 +38,33 @@ public class ObjectFactory {
    * Create a new ObjectFactory that can be used to create new
    * instances of schema derived classes for package:
    * com.google.enterprise.gsafeed.generated.groups
-   *
    */
   public ObjectFactory() {
   }
 
   /**
-   * Create an instance of {@link Principal }
-   *
+   * Create an instance of {@link Principal}
    */
   public Principal createPrincipal() {
     return new Principal();
   }
 
   /**
-   * Create an instance of {@link Members }
-   *
+   * Create an instance of {@link Members}
    */
   public Members createMembers() {
     return new Members();
   }
 
   /**
-   * Create an instance of {@link Xmlgroups }
-   *
+   * Create an instance of {@link Xmlgroups}
    */
   public Xmlgroups createXmlgroups() {
     return new Xmlgroups();
   }
 
   /**
-   * Create an instance of {@link Membership }
-   *
+   * Create an instance of {@link Membership}
    */
   public Membership createMembership() {
     return new Membership();

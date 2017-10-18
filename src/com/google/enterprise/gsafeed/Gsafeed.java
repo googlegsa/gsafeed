@@ -42,10 +42,7 @@ public class Gsafeed {
   /**
    * Gets the value of the header property.
    *
-   * @return
-   *     possible object is
-   *     {@link Header }
-   *
+   * @return possible object is {@link Header}
    */
   public Header getHeader() {
     return header;
@@ -54,10 +51,7 @@ public class Gsafeed {
   /**
    * Sets the value of the header property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link Header }
-   *
+   * @param value allowed object is {@link Header}
    */
   public void setHeader(Header value) {
     this.header = value;
@@ -81,9 +75,9 @@ public class Gsafeed {
    *
    * <p>
    * Objects of the following type(s) are allowed in the list
-   * {@link Group }
+   * {@link Group}
    *
-   *
+   * @return the Group objects
    */
   public List<Group> getGroup() {
     if (group == null) {

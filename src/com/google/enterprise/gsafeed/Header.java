@@ -40,10 +40,7 @@ public class Header {
   /**
    * Gets the value of the datasource property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getDatasource() {
     return datasource;
@@ -52,10 +49,7 @@ public class Header {
   /**
    * Sets the value of the datasource property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setDatasource(String value) {
     this.datasource = value;
@@ -64,10 +58,7 @@ public class Header {
   /**
    * Gets the value of the feedtype property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getFeedtype() {
     return feedtype;
@@ -76,10 +67,7 @@ public class Header {
   /**
    * Sets the value of the feedtype property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setFeedtype(String value) {
     this.feedtype = value;

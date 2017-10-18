@@ -56,10 +56,7 @@ public class Group {
   /**
    * Gets the value of the action property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getAction() {
     if (action == null) {
@@ -72,10 +69,7 @@ public class Group {
   /**
    * Sets the value of the action property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setAction(String value) {
     this.action = value;
@@ -84,10 +78,7 @@ public class Group {
   /**
    * Gets the value of the feedrank property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getFeedrank() {
     return feedrank;
@@ -96,9 +87,7 @@ public class Group {
   /**
    * Sets the value of the feedrank property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
+   * @param value allowed object is {@link String}
    *
    */
   public void setFeedrank(String value) {
@@ -108,10 +97,7 @@ public class Group {
   /**
    * Gets the value of the pagerank property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getPagerank() {
     return pagerank;
@@ -120,10 +106,7 @@ public class Group {
   /**
    * Sets the value of the pagerank property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setPagerank(String value) {
     this.pagerank = value;
@@ -148,10 +131,10 @@ public class Group {
    *
    * <p>
    * Objects of the following type(s) are allowed in the list
-   * {@link Acl }
-   * {@link Record }
+   * {@link Acl}
+   * {@link Record}
    *
-   *
+   * @return the Acl and Record objects
    */
   public List<Object> getAclOrRecord() {
     if (aclOrRecord == null) {

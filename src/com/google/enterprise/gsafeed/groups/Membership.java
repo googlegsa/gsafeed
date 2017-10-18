@@ -40,10 +40,7 @@ public class Membership {
   /**
    * Gets the value of the principal property.
    *
-   * @return
-   *     possible object is
-   *     {@link Principal }
-   *
+   * @return possible object is {@link Principal}
    */
   public Principal getPrincipal() {
     return principal;
@@ -52,10 +49,7 @@ public class Membership {
   /**
    * Sets the value of the principal property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link Principal }
-   *
+   * @param value allowed object is {@link Principal}
    */
   public void setPrincipal(Principal value) {
     this.principal = value;
@@ -64,10 +58,7 @@ public class Membership {
   /**
    * Gets the value of the members property.
    *
-   * @return
-   *     possible object is
-   *     {@link Members }
-   *
+   * @return possible object is {@link Members}
    */
   public Members getMembers() {
     return members;
@@ -76,10 +67,7 @@ public class Membership {
   /**
    * Sets the value of the members property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link Members }
-   *
+   * @param value allowed object is {@link Members}
    */
   public void setMembers(Members value) {
     this.members = value;

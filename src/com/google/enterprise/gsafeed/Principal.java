@@ -56,10 +56,7 @@ public class Principal {
   /**
    * Gets the value of the scope property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getScope() {
     return scope;
@@ -68,10 +65,7 @@ public class Principal {
   /**
    * Sets the value of the scope property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setScope(String value) {
     this.scope = value;
@@ -80,10 +74,7 @@ public class Principal {
   /**
    * Gets the value of the access property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getAccess() {
     return access;
@@ -92,10 +83,7 @@ public class Principal {
   /**
    * Sets the value of the access property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setAccess(String value) {
     this.access = value;
@@ -104,10 +92,7 @@ public class Principal {
   /**
    * Gets the value of the namespace property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getNamespace() {
     if (namespace == null) {
@@ -120,10 +105,7 @@ public class Principal {
   /**
    * Sets the value of the namespace property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setNamespace(String value) {
     this.namespace = value;
@@ -132,10 +114,7 @@ public class Principal {
   /**
    * Gets the value of the caseSensitivityType property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getCaseSensitivityType() {
     if (caseSensitivityType == null) {
@@ -148,10 +127,7 @@ public class Principal {
   /**
    * Sets the value of the caseSensitivityType property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setCaseSensitivityType(String value) {
     this.caseSensitivityType = value;
@@ -160,10 +136,7 @@ public class Principal {
   /**
    * Gets the value of the principalType property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getPrincipalType() {
     return principalType;
@@ -172,10 +145,7 @@ public class Principal {
   /**
    * Sets the value of the principalType property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setPrincipalType(String value) {
     this.principalType = value;
@@ -184,10 +154,7 @@ public class Principal {
   /**
    * Gets the value of the value property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getvalue() {
     return value;
@@ -196,10 +163,7 @@ public class Principal {
   /**
    * Sets the value of the value property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setvalue(String value) {
     this.value = value;

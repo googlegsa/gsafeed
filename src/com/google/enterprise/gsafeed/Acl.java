@@ -50,10 +50,7 @@ public class Acl {
   /**
    * Gets the value of the url property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getUrl() {
     return url;
@@ -62,10 +59,7 @@ public class Acl {
   /**
    * Sets the value of the url property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setUrl(String value) {
     this.url = value;
@@ -74,10 +68,7 @@ public class Acl {
   /**
    * Gets the value of the inheritanceType property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getInheritanceType() {
     if (inheritanceType == null) {
@@ -90,10 +81,7 @@ public class Acl {
   /**
    * Sets the value of the inheritanceType property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setInheritanceType(String value) {
     this.inheritanceType = value;
@@ -102,10 +90,7 @@ public class Acl {
   /**
    * Gets the value of the inheritFrom property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getInheritFrom() {
     return inheritFrom;
@@ -114,10 +99,7 @@ public class Acl {
   /**
    * Sets the value of the inheritFrom property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setInheritFrom(String value) {
     this.inheritFrom = value;
@@ -139,12 +121,11 @@ public class Acl {
    *    getPrincipal().add(newItem);
    * </pre>
    *
-   *
    * <p>
    * Objects of the following type(s) are allowed in the list
-   * {@link Principal }
+   * {@link Principal}
    *
-   *
+   * @return the Principal objects
    */
   public List<Principal> getPrincipal() {
     if (principal == null) {

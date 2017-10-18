@@ -55,9 +55,9 @@ public class Xmlgroups {
    *
    * <p>
    * Objects of the following type(s) are allowed in the list
-   * {@link Membership }
+   * {@link Membership}
    *
-   *
+   * @return the Membership objects
    */
   public List<Membership> getMembership() {
     if (membership == null) {

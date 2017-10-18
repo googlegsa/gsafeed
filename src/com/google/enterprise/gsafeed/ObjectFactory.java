@@ -38,78 +38,68 @@ public class ObjectFactory {
    * Create a new ObjectFactory that can be used to create new
    * instances of schema derived classes for package:
    * com.google.enterprise.gsafeed
-   *
    */
   public ObjectFactory() {
   }
 
   /**
-   * Create an instance of {@link Principal }
-   *
+   * Create an instance of {@link Principal}
    */
   public Principal createPrincipal() {
     return new Principal();
   }
 
   /**
-   * Create an instance of {@link Metadata }
-   *
+   * Create an instance of {@link Metadata}
    */
   public Metadata createMetadata() {
     return new Metadata();
   }
 
   /**
-   * Create an instance of {@link Meta }
-   *
+   * Create an instance of {@link Meta}
    */
   public Meta createMeta() {
     return new Meta();
   }
 
   /**
-   * Create an instance of {@link Gsafeed }
-   *
+   * Create an instance of {@link Gsafeed}
    */
   public Gsafeed createGsafeed() {
     return new Gsafeed();
   }
 
   /**
-   * Create an instance of {@link Header }
-   *
+   * Create an instance of {@link Header}
    */
   public Header createHeader() {
     return new Header();
   }
 
   /**
-   * Create an instance of {@link Group }
-   *
+   * Create an instance of {@link Group}
    */
   public Group createGroup() {
     return new Group();
   }
 
   /**
-   * Create an instance of {@link Record }
-   *
+   * Create an instance of {@link Record}
    */
   public Record createRecord() {
     return new Record();
   }
 
   /**
-   * Create an instance of {@link Acl }
-   *
+   * Create an instance of {@link Acl}
    */
   public Acl createAcl() {
     return new Acl();
   }
 
   /**
-   * Create an instance of {@link Content }
-   *
+   * Create an instance of {@link Content}
    */
   public Content createContent() {
     return new Content();

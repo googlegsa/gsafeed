@@ -81,10 +81,7 @@ public class Record {
   /**
    * Gets the value of the url property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getUrl() {
     return url;
@@ -93,10 +90,7 @@ public class Record {
   /**
    * Sets the value of the url property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setUrl(String value) {
     this.url = value;
@@ -105,10 +99,7 @@ public class Record {
   /**
    * Gets the value of the displayurl property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getDisplayurl() {
     return displayurl;
@@ -117,10 +108,7 @@ public class Record {
   /**
    * Sets the value of the displayurl property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setDisplayurl(String value) {
     this.displayurl = value;
@@ -129,10 +117,7 @@ public class Record {
   /**
    * Gets the value of the action property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getAction() {
     return action;
@@ -141,10 +126,7 @@ public class Record {
   /**
    * Sets the value of the action property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setAction(String value) {
     this.action = value;
@@ -153,10 +135,7 @@ public class Record {
   /**
    * Gets the value of the mimetype property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getMimetype() {
     return mimetype;
@@ -165,10 +144,7 @@ public class Record {
   /**
    * Sets the value of the mimetype property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setMimetype(String value) {
     this.mimetype = value;
@@ -177,10 +153,7 @@ public class Record {
   /**
    * Gets the value of the lastModified property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getLastModified() {
     return lastModified;
@@ -189,10 +162,7 @@ public class Record {
   /**
    * Sets the value of the lastModified property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setLastModified(String value) {
     this.lastModified = value;
@@ -201,10 +171,7 @@ public class Record {
   /**
    * Gets the value of the lock property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getLock() {
     if (lock == null) {
@@ -217,10 +184,7 @@ public class Record {
   /**
    * Sets the value of the lock property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setLock(String value) {
     this.lock = value;
@@ -229,10 +193,7 @@ public class Record {
   /**
    * Gets the value of the authmethod property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getAuthmethod() {
     return authmethod;
@@ -241,10 +202,7 @@ public class Record {
   /**
    * Sets the value of the authmethod property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setAuthmethod(String value) {
     this.authmethod = value;
@@ -253,10 +211,7 @@ public class Record {
   /**
    * Gets the value of the feedrank property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getFeedrank() {
     return feedrank;
@@ -265,10 +220,7 @@ public class Record {
   /**
    * Sets the value of the feedrank property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setFeedrank(String value) {
     this.feedrank = value;
@@ -277,10 +229,7 @@ public class Record {
   /**
    * Gets the value of the pagerank property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getPagerank() {
     return pagerank;
@@ -289,10 +238,7 @@ public class Record {
   /**
    * Sets the value of the pagerank property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setPagerank(String value) {
     this.pagerank = value;
@@ -301,10 +247,7 @@ public class Record {
   /**
    * Gets the value of the crawlImmediately property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getCrawlImmediately() {
     if (crawlImmediately == null) {
@@ -317,10 +260,7 @@ public class Record {
   /**
    * Sets the value of the crawlImmediately property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setCrawlImmediately(String value) {
     this.crawlImmediately = value;
@@ -329,10 +269,7 @@ public class Record {
   /**
    * Gets the value of the crawlOnce property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getCrawlOnce() {
     if (crawlOnce == null) {
@@ -345,10 +282,7 @@ public class Record {
   /**
    * Sets the value of the crawlOnce property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setCrawlOnce(String value) {
     this.crawlOnce = value;
@@ -357,10 +291,7 @@ public class Record {
   /**
    * Gets the value of the scoring property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getScoring() {
     return scoring;
@@ -369,10 +300,7 @@ public class Record {
   /**
    * Sets the value of the scoring property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setScoring(String value) {
     this.scoring = value;
@@ -381,10 +309,7 @@ public class Record {
   /**
    * Gets the value of the acl property.
    *
-   * @return
-   *     possible object is
-   *     {@link Acl }
-   *
+   * @return possible object is {@link Acl}
    */
   public Acl getAcl() {
     return acl;
@@ -393,10 +318,7 @@ public class Record {
   /**
    * Sets the value of the acl property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link Acl }
-   *
+   * @param value allowed object is {@link Acl}
    */
   public void setAcl(Acl value) {
     this.acl = value;
@@ -421,9 +343,9 @@ public class Record {
    *
    * <p>
    * Objects of the following type(s) are allowed in the list
-   * {@link Metadata }
+   * {@link Metadata}
    *
-   *
+   * @return the Metadata objects
    */
   public List<Metadata> getMetadata() {
     if (metadata == null) {
@@ -451,9 +373,9 @@ public class Record {
    *
    * <p>
    * Objects of the following type(s) are allowed in the list
-   * {@link Content }
+   * {@link Content}
    *
-   *
+   * @return the Content objects
    */
   public List<Content> getContent() {
     if (content == null) {

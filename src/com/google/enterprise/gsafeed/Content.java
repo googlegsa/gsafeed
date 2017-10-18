@@ -43,10 +43,7 @@ public class Content {
   /**
    * Gets the value of the encoding property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getEncoding() {
     return encoding;
@@ -55,10 +52,7 @@ public class Content {
   /**
    * Sets the value of the encoding property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setEncoding(String value) {
     this.encoding = value;
@@ -67,10 +61,7 @@ public class Content {
   /**
    * Gets the value of the value property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getvalue() {
     return value;
@@ -79,10 +70,7 @@ public class Content {
   /**
    * Sets the value of the value property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setvalue(String value) {
     this.value = value;

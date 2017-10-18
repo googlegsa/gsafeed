@@ -43,10 +43,7 @@ public class Metadata {
   /**
    * Gets the value of the overwriteAcls property.
    *
-   * @return
-   *     possible object is
-   *     {@link String }
-   *
+   * @return possible object is {@link String}
    */
   public String getOverwriteAcls() {
     if (overwriteAcls == null) {
@@ -59,10 +56,7 @@ public class Metadata {
   /**
    * Sets the value of the overwriteAcls property.
    *
-   * @param value
-   *     allowed object is
-   *     {@link String }
-   *
+   * @param value allowed object is {@link String}
    */
   public void setOverwriteAcls(String value) {
     this.overwriteAcls = value;
@@ -86,9 +80,9 @@ public class Metadata {
    *
    * <p>
    * Objects of the following type(s) are allowed in the list
-   * {@link Meta }
+   * {@link Meta}
    *
-   *
+   * @return the Meta objects
    */
   public List<Meta> getMeta() {
     if (meta == null) {

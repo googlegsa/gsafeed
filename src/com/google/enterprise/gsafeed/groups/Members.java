@@ -55,9 +55,9 @@ public class Members {
    *
    * <p>
    * Objects of the following type(s) are allowed in the list
-   * {@link Principal }
+   * {@link Principal}
    *
-   *
+   * @return the Principal objects
    */
   public List<Principal> getPrincipal() {
     if (principal == null) {
