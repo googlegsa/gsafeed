@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -38,125 +38,108 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement(name = "group")
 public class Group {
 
-    @XmlAttribute(name = "action")
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String action;
-    @XmlAttribute(name = "feedrank")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String feedrank;
-    @XmlAttribute(name = "pagerank")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String pagerank;
-    @XmlElements({
-        @XmlElement(name = "acl", type = Acl.class),
-        @XmlElement(name = "record", type = Record.class)
-    })
-    protected List<Object> aclOrRecord;
+  @XmlAttribute(name = "action")
+  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+  protected String action;
+  @XmlAttribute(name = "feedrank")
+  @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+  protected String feedrank;
+  @XmlAttribute(name = "pagerank")
+  @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+  protected String pagerank;
+  @XmlElements({
+    @XmlElement(name = "acl", type = Acl.class),
+    @XmlElement(name = "record", type = Record.class)
+  })
+  protected List<Object> aclOrRecord;
 
-    /**
-     * Gets the value of the action property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getAction() {
-        if (action == null) {
-            return "add";
-        } else {
-            return action;
-        }
+  /**
+   * Gets the value of the action property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getAction() {
+    if (action == null) {
+      return "add";
+    } else {
+      return action;
     }
+  }
 
-    /**
-     * Sets the value of the action property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setAction(String value) {
-        this.action = value;
+  /**
+   * Sets the value of the action property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setAction(String value) {
+    this.action = value;
+  }
+
+  /**
+   * Gets the value of the feedrank property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getFeedrank() {
+    return feedrank;
+  }
+
+  /**
+   * Sets the value of the feedrank property.
+   *
+   * @param value allowed object is {@link String}
+   *
+   */
+  public void setFeedrank(String value) {
+    this.feedrank = value;
+  }
+
+  /**
+   * Gets the value of the pagerank property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getPagerank() {
+    return pagerank;
+  }
+
+  /**
+   * Sets the value of the pagerank property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setPagerank(String value) {
+    this.pagerank = value;
+  }
+
+  /**
+   * Gets the value of the aclOrRecord property.
+   *
+   * <p>
+   * This accessor method returns a reference to the live list,
+   * not a snapshot. Therefore any modification you make to the
+   * returned list will be present inside the JAXB object.  This
+   * is why there is not a <CODE>set</CODE> method for the
+   * aclOrRecord property.
+   *
+   * <p>
+   * For example, to add a new item, do as follows:
+   * <pre>
+   *    getAclOrRecord().add(newItem);
+   * </pre>
+   *
+   *
+   * <p>
+   * Objects of the following type(s) are allowed in the list
+   * {@link Acl}
+   * {@link Record}
+   *
+   * @return the Acl and Record objects
+   */
+  public List<Object> getAclOrRecord() {
+    if (aclOrRecord == null) {
+      aclOrRecord = new ArrayList<Object>();
     }
-
-    /**
-     * Gets the value of the feedrank property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFeedrank() {
-        return feedrank;
-    }
-
-    /**
-     * Sets the value of the feedrank property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFeedrank(String value) {
-        this.feedrank = value;
-    }
-
-    /**
-     * Gets the value of the pagerank property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPagerank() {
-        return pagerank;
-    }
-
-    /**
-     * Sets the value of the pagerank property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPagerank(String value) {
-        this.pagerank = value;
-    }
-
-    /**
-     * Gets the value of the aclOrRecord property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the aclOrRecord property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAclOrRecord().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Acl }
-     * {@link Record }
-     * 
-     * 
-     */
-    public List<Object> getAclOrRecord() {
-        if (aclOrRecord == null) {
-            aclOrRecord = new ArrayList<Object>();
-        }
-        return this.aclOrRecord;
-    }
-
+    return this.aclOrRecord;
+  }
 }

@@ -25,93 +25,74 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "meta")
 public class Meta {
 
-    @XmlAttribute(name = "encoding")
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String encoding;
-    @XmlAttribute(name = "name", required = true)
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String name;
-    @XmlAttribute(name = "content", required = true)
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String content;
+  @XmlAttribute(name = "encoding")
+  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+  protected String encoding;
+  @XmlAttribute(name = "name", required = true)
+  @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+  protected String name;
+  @XmlAttribute(name = "content", required = true)
+  @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+  protected String content;
 
-    /**
-     * Gets the value of the encoding property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getEncoding() {
-        return encoding;
-    }
+  /**
+   * Gets the value of the encoding property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getEncoding() {
+    return encoding;
+  }
 
-    /**
-     * Sets the value of the encoding property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setEncoding(String value) {
-        this.encoding = value;
-    }
+  /**
+   * Sets the value of the encoding property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setEncoding(String value) {
+    this.encoding = value;
+  }
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
+  /**
+   * Gets the value of the name property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getName() {
+    return name;
+  }
 
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+  /**
+   * Sets the value of the name property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setName(String value) {
+    this.name = value;
+  }
 
-    /**
-     * Gets the value of the content property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getContent() {
-        return content;
-    }
+  /**
+   * Gets the value of the content property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getContent() {
+    return content;
+  }
 
-    /**
-     * Sets the value of the content property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setContent(String value) {
-        this.content = value;
-    }
-
+  /**
+   * Sets the value of the content property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setContent(String value) {
+    this.content = value;
+  }
 }

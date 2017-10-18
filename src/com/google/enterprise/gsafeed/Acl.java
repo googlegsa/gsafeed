@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -36,120 +36,101 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement(name = "acl")
 public class Acl {
 
-    @XmlAttribute(name = "url")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String url;
-    @XmlAttribute(name = "inheritance-type")
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String inheritanceType;
-    @XmlAttribute(name = "inherit-from")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String inheritFrom;
-    protected List<Principal> principal;
+  @XmlAttribute(name = "url")
+  @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+  protected String url;
+  @XmlAttribute(name = "inheritance-type")
+  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+  protected String inheritanceType;
+  @XmlAttribute(name = "inherit-from")
+  @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+  protected String inheritFrom;
+  protected List<Principal> principal;
 
-    /**
-     * Gets the value of the url property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUrl() {
-        return url;
+  /**
+   * Gets the value of the url property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getUrl() {
+    return url;
+  }
+
+  /**
+   * Sets the value of the url property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setUrl(String value) {
+    this.url = value;
+  }
+
+  /**
+   * Gets the value of the inheritanceType property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getInheritanceType() {
+    if (inheritanceType == null) {
+      return "leaf-node";
+    } else {
+      return inheritanceType;
     }
+  }
 
-    /**
-     * Sets the value of the url property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUrl(String value) {
-        this.url = value;
+  /**
+   * Sets the value of the inheritanceType property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setInheritanceType(String value) {
+    this.inheritanceType = value;
+  }
+
+  /**
+   * Gets the value of the inheritFrom property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getInheritFrom() {
+    return inheritFrom;
+  }
+
+  /**
+   * Sets the value of the inheritFrom property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setInheritFrom(String value) {
+    this.inheritFrom = value;
+  }
+
+  /**
+   * Gets the value of the principal property.
+   *
+   * <p>
+   * This accessor method returns a reference to the live list,
+   * not a snapshot. Therefore any modification you make to the
+   * returned list will be present inside the JAXB object.  This
+   * is why there is not a <CODE>set</CODE> method for the
+   * principal property.
+   *
+   * <p>
+   * For example, to add a new item, do as follows:
+   * <pre>
+   *    getPrincipal().add(newItem);
+   * </pre>
+   *
+   * <p>
+   * Objects of the following type(s) are allowed in the list
+   * {@link Principal}
+   *
+   * @return the Principal objects
+   */
+  public List<Principal> getPrincipal() {
+    if (principal == null) {
+      principal = new ArrayList<Principal>();
     }
-
-    /**
-     * Gets the value of the inheritanceType property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getInheritanceType() {
-        if (inheritanceType == null) {
-            return "leaf-node";
-        } else {
-            return inheritanceType;
-        }
-    }
-
-    /**
-     * Sets the value of the inheritanceType property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setInheritanceType(String value) {
-        this.inheritanceType = value;
-    }
-
-    /**
-     * Gets the value of the inheritFrom property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getInheritFrom() {
-        return inheritFrom;
-    }
-
-    /**
-     * Sets the value of the inheritFrom property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setInheritFrom(String value) {
-        this.inheritFrom = value;
-    }
-
-    /**
-     * Gets the value of the principal property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the principal property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getPrincipal().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Principal }
-     * 
-     * 
-     */
-    public List<Principal> getPrincipal() {
-        if (principal == null) {
-            principal = new ArrayList<Principal>();
-        }
-        return this.principal;
-    }
-
+    return this.principal;
+  }
 }

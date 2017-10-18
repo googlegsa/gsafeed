@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -32,57 +32,44 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "header")
 public class Header {
 
-    @XmlElement(required = true)
-    protected String datasource;
-    @XmlElement(required = true)
-    protected String feedtype;
+  @XmlElement(required = true)
+  protected String datasource;
+  @XmlElement(required = true)
+  protected String feedtype;
 
-    /**
-     * Gets the value of the datasource property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDatasource() {
-        return datasource;
-    }
+  /**
+   * Gets the value of the datasource property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getDatasource() {
+    return datasource;
+  }
 
-    /**
-     * Sets the value of the datasource property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDatasource(String value) {
-        this.datasource = value;
-    }
+  /**
+   * Sets the value of the datasource property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setDatasource(String value) {
+    this.datasource = value;
+  }
 
-    /**
-     * Gets the value of the feedtype property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFeedtype() {
-        return feedtype;
-    }
+  /**
+   * Gets the value of the feedtype property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getFeedtype() {
+    return feedtype;
+  }
 
-    /**
-     * Sets the value of the feedtype property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFeedtype(String value) {
-        this.feedtype = value;
-    }
-
+  /**
+   * Sets the value of the feedtype property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setFeedtype(String value) {
+    this.feedtype = value;
+  }
 }

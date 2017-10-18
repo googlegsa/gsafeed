@@ -35,147 +35,116 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement(name = "principal")
 public class Principal {
 
-    @XmlAttribute(name = "scope", required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String scope;
-    @XmlAttribute(name = "namespace")
-    @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-    protected String namespace;
-    @XmlAttribute(name = "case-sensitivity-type")
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String caseSensitivityType;
-    @XmlAttribute(name = "principal-type")
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String principalType;
-    @XmlValue
-    protected String value;
+  @XmlAttribute(name = "scope", required = true)
+  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+  protected String scope;
+  @XmlAttribute(name = "namespace")
+  @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+  protected String namespace;
+  @XmlAttribute(name = "case-sensitivity-type")
+  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+  protected String caseSensitivityType;
+  @XmlAttribute(name = "principal-type")
+  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+  protected String principalType;
+  @XmlValue
+  protected String value;
 
-    /**
-     * Gets the value of the scope property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getScope() {
-        return scope;
+  /**
+   * Gets the value of the scope property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getScope() {
+    return scope;
+  }
+
+  /**
+   * Sets the value of the scope property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setScope(String value) {
+    this.scope = value;
+  }
+
+  /**
+   * Gets the value of the namespace property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getNamespace() {
+    if (namespace == null) {
+      return "Default";
+    } else {
+      return namespace;
     }
+  }
 
-    /**
-     * Sets the value of the scope property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setScope(String value) {
-        this.scope = value;
+  /**
+   * Sets the value of the namespace property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setNamespace(String value) {
+    this.namespace = value;
+  }
+
+  /**
+   * Gets the value of the caseSensitivityType property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getCaseSensitivityType() {
+    if (caseSensitivityType == null) {
+      return "EVERYTHING_CASE_SENSITIVE";
+    } else {
+      return caseSensitivityType;
     }
+  }
 
-    /**
-     * Gets the value of the namespace property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getNamespace() {
-        if (namespace == null) {
-            return "Default";
-        } else {
-            return namespace;
-        }
-    }
+  /**
+   * Sets the value of the caseSensitivityType property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setCaseSensitivityType(String value) {
+    this.caseSensitivityType = value;
+  }
 
-    /**
-     * Sets the value of the namespace property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setNamespace(String value) {
-        this.namespace = value;
-    }
+  /**
+   * Gets the value of the principalType property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getPrincipalType() {
+    return principalType;
+  }
 
-    /**
-     * Gets the value of the caseSensitivityType property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCaseSensitivityType() {
-        if (caseSensitivityType == null) {
-            return "EVERYTHING_CASE_SENSITIVE";
-        } else {
-            return caseSensitivityType;
-        }
-    }
+  /**
+   * Sets the value of the principalType property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setPrincipalType(String value) {
+    this.principalType = value;
+  }
 
-    /**
-     * Sets the value of the caseSensitivityType property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCaseSensitivityType(String value) {
-        this.caseSensitivityType = value;
-    }
+  /**
+   * Gets the value of the value property.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getvalue() {
+    return value;
+  }
 
-    /**
-     * Gets the value of the principalType property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getPrincipalType() {
-        return principalType;
-    }
-
-    /**
-     * Sets the value of the principalType property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPrincipalType(String value) {
-        this.principalType = value;
-    }
-
-    /**
-     * Gets the value of the value property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getvalue() {
-        return value;
-    }
-
-    /**
-     * Sets the value of the value property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setvalue(String value) {
-        this.value = value;
-    }
-
+  /**
+   * Sets the value of the value property.
+   *
+   * @param value allowed object is {@link String}
+   */
+  public void setvalue(String value) {
+    this.value = value;
+  }
 }
