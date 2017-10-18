@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmlgroups>
+  <membership source="others">
+    <principal scope="GROUP" namespace="Default"
+      case-sensitivity-type="EVERYTHING_CASE_SENSITIVE">abc/group1</principal>
+    <members>
+      <principal scope="GROUP" namespace="Default"
+        case-sensitivity-type="EVERYTHING_CASE_SENSITIVE">subgroup1</principal>
+      <principal scope="USER" namespace="Default"
+        case-sensitivity-type="EVERYTHING_CASE_SENSITIVE">user1</principal>
+    </members>
+  </membership>
+  <membership source="others">
+    <principal scope="GROUP" namespace="Default"
+      case-sensitivity-type="EVERYTHING_CASE_SENSITIVE">subgroup1</principal>
+    <members>
+      <principal scope="USER" namespace="Default"
+       case-sensitivity-type="EVERYTHING_CASE_SENSITIVE">example/user2</principal>
+    </members>
+  </membership>
+</xmlgroups>
+
