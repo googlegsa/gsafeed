@@ -33,36 +33,36 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "xmlgroups")
 public class Xmlgroups {
 
-    @XmlElement(required = true)
-    protected List<Membership> membership;
+  @XmlElement(required = true)
+  protected List<Membership> membership;
 
-    /**
-     * Gets the value of the membership property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the membership property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getMembership().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Membership }
-     *
-     *
-     */
-    public List<Membership> getMembership() {
-        if (membership == null) {
-            membership = new ArrayList<Membership>();
-        }
-        return this.membership;
+  /**
+   * Gets the value of the membership property.
+   *
+   * <p>
+   * This accessor method returns a reference to the live list,
+   * not a snapshot. Therefore any modification you make to the
+   * returned list will be present inside the JAXB object.  This
+   * is why there is not a <CODE>set</CODE> method for the
+   * membership property.
+   *
+   * <p>
+   * For example, to add a new item, do as follows:
+   * <pre>
+   *    getMembership().add(newItem);
+   * </pre>
+   *
+   *
+   * <p>
+   * Objects of the following type(s) are allowed in the list
+   * {@link Membership }
+   *
+   *
+   */
+  public List<Membership> getMembership() {
+    if (membership == null) {
+      membership = new ArrayList<Membership>();
     }
-
+    return this.membership;
+  }
 }

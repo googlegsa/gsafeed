@@ -33,36 +33,36 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "members")
 public class Members {
 
-    @XmlElement(required = true)
-    protected List<Principal> principal;
+  @XmlElement(required = true)
+  protected List<Principal> principal;
 
-    /**
-     * Gets the value of the principal property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the principal property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getPrincipal().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Principal }
-     *
-     *
-     */
-    public List<Principal> getPrincipal() {
-        if (principal == null) {
-            principal = new ArrayList<Principal>();
-        }
-        return this.principal;
+  /**
+   * Gets the value of the principal property.
+   *
+   * <p>
+   * This accessor method returns a reference to the live list,
+   * not a snapshot. Therefore any modification you make to the
+   * returned list will be present inside the JAXB object.  This
+   * is why there is not a <CODE>set</CODE> method for the
+   * principal property.
+   *
+   * <p>
+   * For example, to add a new item, do as follows:
+   * <pre>
+   *    getPrincipal().add(newItem);
+   * </pre>
+   *
+   *
+   * <p>
+   * Objects of the following type(s) are allowed in the list
+   * {@link Principal }
+   *
+   *
+   */
+  public List<Principal> getPrincipal() {
+    if (principal == null) {
+      principal = new ArrayList<Principal>();
     }
-
+    return this.principal;
+  }
 }

@@ -32,57 +32,56 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "membership")
 public class Membership {
 
-    @XmlElement(required = true)
-    protected Principal principal;
-    @XmlElement(required = true)
-    protected Members members;
+  @XmlElement(required = true)
+  protected Principal principal;
+  @XmlElement(required = true)
+  protected Members members;
 
-    /**
-     * Gets the value of the principal property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Principal }
-     *
-     */
-    public Principal getPrincipal() {
-        return principal;
-    }
+  /**
+   * Gets the value of the principal property.
+   *
+   * @return
+   *     possible object is
+   *     {@link Principal }
+   *
+   */
+  public Principal getPrincipal() {
+    return principal;
+  }
 
-    /**
-     * Sets the value of the principal property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Principal }
-     *
-     */
-    public void setPrincipal(Principal value) {
-        this.principal = value;
-    }
+  /**
+   * Sets the value of the principal property.
+   *
+   * @param value
+   *     allowed object is
+   *     {@link Principal }
+   *
+   */
+  public void setPrincipal(Principal value) {
+    this.principal = value;
+  }
 
-    /**
-     * Gets the value of the members property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Members }
-     *
-     */
-    public Members getMembers() {
-        return members;
-    }
+  /**
+   * Gets the value of the members property.
+   *
+   * @return
+   *     possible object is
+   *     {@link Members }
+   *
+   */
+  public Members getMembers() {
+    return members;
+  }
 
-    /**
-     * Sets the value of the members property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Members }
-     *
-     */
-    public void setMembers(Members value) {
-        this.members = value;
-    }
-
+  /**
+   * Sets the value of the members property.
+   *
+   * @param value
+   *     allowed object is
+   *     {@link Members }
+   *
+   */
+  public void setMembers(Members value) {
+    this.members = value;
+  }
 }

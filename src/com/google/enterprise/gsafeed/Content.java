@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -34,58 +34,57 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement(name = "content")
 public class Content {
 
-    @XmlAttribute(name = "encoding")
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String encoding;
-    @XmlValue
-    protected String value;
+  @XmlAttribute(name = "encoding")
+  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
+  protected String encoding;
+  @XmlValue
+  protected String value;
 
-    /**
-     * Gets the value of the encoding property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getEncoding() {
-        return encoding;
-    }
+  /**
+   * Gets the value of the encoding property.
+   *
+   * @return
+   *     possible object is
+   *     {@link String }
+   *
+   */
+  public String getEncoding() {
+    return encoding;
+  }
 
-    /**
-     * Sets the value of the encoding property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setEncoding(String value) {
-        this.encoding = value;
-    }
+  /**
+   * Sets the value of the encoding property.
+   *
+   * @param value
+   *     allowed object is
+   *     {@link String }
+   *
+   */
+  public void setEncoding(String value) {
+    this.encoding = value;
+  }
 
-    /**
-     * Gets the value of the value property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getvalue() {
-        return value;
-    }
+  /**
+   * Gets the value of the value property.
+   *
+   * @return
+   *     possible object is
+   *     {@link String }
+   *
+   */
+  public String getvalue() {
+    return value;
+  }
 
-    /**
-     * Sets the value of the value property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setvalue(String value) {
-        this.value = value;
-    }
-
+  /**
+   * Sets the value of the value property.
+   *
+   * @param value
+   *     allowed object is
+   *     {@link String }
+   *
+   */
+  public void setvalue(String value) {
+    this.value = value;
+  }
 }
