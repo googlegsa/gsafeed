@@ -5,6 +5,7 @@
   <property name="build.dir" location="build"/>
   <property name="build-src.dir" location="${build.dir}/src"/>
   <property name="generate.dir" location="${build.dir}/generate-src"/>
+  <property name="third_party.dir" location="third_party"/>
   <property file="build.properties"/>
   <property name="compile.java.version" value="6"/>
   <property name="compile.java.bootclasspath" value="${build.bootclasspath}"/>
@@ -14,6 +15,12 @@
        the immediately following release of Java. For example, for
        "6", pick a class added in Java 7. -->
   <property name="compile.java.newerClassname" value="java.lang.AutoCloseable"/>
+
+  <path id="gsafeed.build.classpath">
+    <fileset dir="${third_party.dir}">
+        <include name="guava/*.jar"/>
+    </fileset>
+  </path>
 
   <path id="examples.run.classpath">
     <path location="examples"/>
@@ -39,6 +46,7 @@
       source="${compile.java.version}" target="${compile.java.version}">
       <bootclasspath path="${compile.java.bootclasspath}"/>
       <compilerarg value="-Xlint"/>
+      <classpath refid="gsafeed.build.classpath"/>
     </javac>
   </target>
 
@@ -83,11 +91,24 @@
     </java>
   </target>
 
+  <target name="send_gsafeed" depends="build"
+      description="Send feed example">
+    <property name="example.feedfile" value="/full.xml"/>
+    <property name="example.gsahost" value="example.com"/>
+    <property name="example.args"
+              value="${example.feedfile} ${example.gsahost}"/>
+    <java classpath="${build-src.dir}" fork="true"
+      classname="com.google.enterprise.gsafeed.examples.SendGsaFeed">
+      <classpath refid="examples.run.classpath"/>
+      <arg line="${example.args}"/>
+    </java>
+  </target>
+  
   <target name="groups_marshal_unmarshal" depends="build"
       description="Groups marshal/unmarshal example">
     <property name="example.args" value="/groupsfeed.xml"/>
     <java classpath="${build-src.dir}" fork="true"
-      classname="com.google.enterprise.gsafeed.examples.XmlgroupsMarshalUnmarshal">
+      classname="com.google.enterprise.gsafeed.examples.XmlgroupsMarshalUnmarshal"
       <classpath refid="examples.run.classpath"/>
       <arg line="${example.args}"/>
     </java>
