@@ -108,7 +108,7 @@
       description="Groups marshal/unmarshal example">
     <property name="example.args" value="/groupsfeed.xml"/>
     <java classpath="${build-src.dir}" fork="true"
-      classname="com.google.enterprise.gsafeed.examples.XmlgroupsMarshalUnmarshal"
+      classname="com.google.enterprise.gsafeed.examples.XmlgroupsMarshalUnmarshal">
       <classpath refid="examples.run.classpath"/>
       <arg line="${example.args}"/>
     </java>
