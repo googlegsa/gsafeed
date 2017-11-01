@@ -60,9 +60,11 @@ public class Acl {
    * Sets the value of the url property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setUrl(String value) {
+  public Acl setUrl(String value) {
     this.url = value;
+    return this;
   }
 
   /**
@@ -82,9 +84,11 @@ public class Acl {
    * Sets the value of the inheritanceType property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setInheritanceType(String value) {
+  public Acl setInheritanceType(String value) {
     this.inheritanceType = value;
+    return this;
   }
 
   /**
@@ -100,9 +104,11 @@ public class Acl {
    * Sets the value of the inheritFrom property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setInheritFrom(String value) {
+  public Acl setInheritFrom(String value) {
     this.inheritFrom = value;
+    return this;
   }
 
   /**

@@ -50,9 +50,11 @@ public class Header {
    * Sets the value of the datasource property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setDatasource(String value) {
+  public Header setDatasource(String value) {
     this.datasource = value;
+    return this;
   }
 
   /**
@@ -68,8 +70,10 @@ public class Header {
    * Sets the value of the feedtype property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setFeedtype(String value) {
+  public Header setFeedtype(String value) {
     this.feedtype = value;
+    return this;
   }
 }

@@ -66,9 +66,11 @@ public class Principal {
    * Sets the value of the scope property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setScope(String value) {
+  public Principal setScope(String value) {
     this.scope = value;
+    return this;
   }
 
   /**
@@ -84,9 +86,11 @@ public class Principal {
    * Sets the value of the access property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setAccess(String value) {
+  public Principal setAccess(String value) {
     this.access = value;
+    return this;
   }
 
   /**
@@ -106,9 +110,11 @@ public class Principal {
    * Sets the value of the namespace property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setNamespace(String value) {
+  public Principal setNamespace(String value) {
     this.namespace = value;
+    return this;
   }
 
   /**
@@ -128,9 +134,11 @@ public class Principal {
    * Sets the value of the caseSensitivityType property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setCaseSensitivityType(String value) {
+  public Principal setCaseSensitivityType(String value) {
     this.caseSensitivityType = value;
+    return this;
   }
 
   /**
@@ -146,9 +154,11 @@ public class Principal {
    * Sets the value of the principalType property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setPrincipalType(String value) {
+  public Principal setPrincipalType(String value) {
     this.principalType = value;
+    return this;
   }
 
   /**
@@ -164,8 +174,10 @@ public class Principal {
    * Sets the value of the value property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setvalue(String value) {
+  public Principal setvalue(String value) {
     this.value = value;
+    return this;
   }
 }

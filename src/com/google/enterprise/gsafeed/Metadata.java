@@ -57,9 +57,11 @@ public class Metadata {
    * Sets the value of the overwriteAcls property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setOverwriteAcls(String value) {
+  public Metadata setOverwriteAcls(String value) {
     this.overwriteAcls = value;
+    return this;
   }
 
   /**
