@@ -29,12 +29,16 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
  * Test GsafeedHelper.
  */
 public class GsafeedHelperTest {
+  private static final Charset UTF_8 = Charset.forName("UTF-8");
+
   @ClassRule
   public static TemporaryFolder testFolder = new TemporaryFolder();
 
@@ -177,15 +181,13 @@ public class GsafeedHelperTest {
 
   @Test
   public void testWithDtd() throws Exception {
-    Gsafeed feed = GsafeedHelper.unmarshalWithDtd(
-        new ByteArrayInputStream(validFeed.getBytes("UTF-8")));
+    Gsafeed feed = GsafeedHelper.unmarshalWithDtd(asStream(validFeed));
     assertEquals("sample", feed.getHeader().getDatasource());
   }
 
   @Test
   public void testWithoutDtd() throws Exception {
-    Gsafeed feed = GsafeedHelper.unmarshalWithoutDtd(
-        new ByteArrayInputStream(validFeed.getBytes("UTF-8")));
+    Gsafeed feed = GsafeedHelper.unmarshalWithoutDtd(asStream(validFeed));
     assertEquals("sample", feed.getHeader().getDatasource());
   }
 
@@ -194,46 +196,41 @@ public class GsafeedHelperTest {
     thrown.expect(SAXParseException.class);
     thrown.expectMessage(
         "Element type \"invalid-element\" must be declared.");
-    Gsafeed feed = GsafeedHelper.unmarshalWithDtd(
-        new ByteArrayInputStream(invalidFeed.getBytes("UTF-8")));
+    GsafeedHelper.unmarshalWithDtd(asStream(invalidFeed));
   }
 
   @Test
   public void testWithoutDtdInvalidDoc() throws Exception {
-    Gsafeed feed = GsafeedHelper.unmarshalWithoutDtd(
-        new ByteArrayInputStream(invalidFeed.getBytes("UTF-8")));
+    Gsafeed feed = GsafeedHelper.unmarshalWithoutDtd(asStream(invalidFeed));
     assertEquals("sample", feed.getHeader().getDatasource());
   }
 
   @Test
   public void testWithDtdExternalEntity() throws Exception {
-    Gsafeed feed = GsafeedHelper.unmarshalWithDtd(
-        new ByteArrayInputStream(externalEntityFeed.getBytes("UTF-8")));
+    Gsafeed feed =
+        GsafeedHelper.unmarshalWithDtd(asStream(externalEntityFeed));
     assertEquals("", getFirstRecordContent(feed));
   }
 
   @Test
   public void testWithoutDtdExternalEntity() throws Exception {
-    Gsafeed feed = GsafeedHelper.unmarshalWithoutDtd(
-        new ByteArrayInputStream(externalEntityFeed.getBytes("UTF-8")));
+    Gsafeed feed =
+        GsafeedHelper.unmarshalWithoutDtd(asStream(externalEntityFeed));
     assertEquals("", getFirstRecordContent(feed));
   }
 
   @Test
   public void testWithDtdExternalParameterEntity() throws Exception {
     thrown.expect(SAXParseException.class);
-    thrown.expectMessage("The entity \"all\" was referenced, but not declared.");
-    Gsafeed feed = GsafeedHelper.unmarshalWithDtd(
-        new ByteArrayInputStream(
-            externalParameterEntityFeed.getBytes("UTF-8")));
-    assertEquals("", getFirstRecordContent(feed));
+    thrown.expectMessage(
+        "The entity \"all\" was referenced, but not declared.");
+    GsafeedHelper.unmarshalWithDtd(asStream(externalParameterEntityFeed));
   }
 
   @Test
   public void testWithoutDtdExternalParameterEntity() throws Exception {
     Gsafeed feed = GsafeedHelper.unmarshalWithoutDtd(
-        new ByteArrayInputStream(
-            externalParameterEntityFeed.getBytes("UTF-8")));
+        asStream(externalParameterEntityFeed));
     assertEquals("", getFirstRecordContent(feed));
   }
 
@@ -243,8 +240,7 @@ public class GsafeedHelperTest {
     thrown.expectMessage("JAXP00010001: The parser has encountered more "
         + "than \"64000\" entity expansions in this document; "
         + "this is the limit imposed by the JDK.");
-    Gsafeed feed = GsafeedHelper.unmarshalWithDtd(
-        new ByteArrayInputStream((entityExpansionFeed.getBytes("UTF-8"))));
+    GsafeedHelper.unmarshalWithDtd(asStream(entityExpansionFeed));
   }
 
   @Test
@@ -253,8 +249,11 @@ public class GsafeedHelperTest {
     thrown.expectMessage("JAXP00010001: The parser has encountered more "
         + "than \"64000\" entity expansions in this document; "
         + "this is the limit imposed by the JDK.");
-    Gsafeed feed = GsafeedHelper.unmarshalWithoutDtd(
-        new ByteArrayInputStream(entityExpansionFeed.getBytes("UTF-8")));
+    GsafeedHelper.unmarshalWithoutDtd(asStream(entityExpansionFeed));
+  }
+
+  private InputStream asStream(String value) {
+    return new ByteArrayInputStream(value.getBytes(UTF_8));
   }
 
   private String getFirstRecordContent(Gsafeed feed) {
