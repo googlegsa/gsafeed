@@ -14,25 +14,26 @@
 
 package com.google.enterprise.gsafeed;
 
-import org.w3c.dom.Document;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.net.URL;
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.bind.UnmarshallerHandler;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
 
 /**
  * Helper methods for reading and creating GSA feed files.
@@ -51,25 +52,28 @@ public class GsafeedHelper {
   public static Gsafeed unmarshalWithDtd(InputStream inputStream)
       throws JAXBException, IOException, ParserConfigurationException,
       SAXException {
-    JAXBContext jaxbContext =
-        JAXBContext.newInstance("com.google.enterprise.gsafeed");
-    Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-    DocumentBuilderFactory docBuilderFactory =
-        DocumentBuilderFactory.newInstance();
-    docBuilderFactory.setValidating(true);
-    DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-    docBuilder.setEntityResolver(new EntityResolver() {
+    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+    saxParserFactory.setValidating(true);
+    saxParserFactory.setXIncludeAware(false);
+    saxParserFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    saxParserFactory.setFeature(
+        "http://xml.org/sax/features/external-parameter-entities", false);
+    saxParserFactory.setFeature(
+        "http://xml.org/sax/features/external-general-entities", false);
+    XMLReader xmlReader = saxParserFactory.newSAXParser().getXMLReader();
+    xmlReader.setEntityResolver(new EntityResolver() {
         @Override
         public InputSource resolveEntity(String publicId,
             String systemId) throws SAXException, IOException {
-          if (publicId.equals("-//Google//DTD GSA Feeds//EN")) {
+          if (publicId != null
+              && publicId.equals("-//Google//DTD GSA Feeds//EN")) {
             return new InputSource(
                 GsafeedHelper.class.getResource("/gsafeed.dtd").openStream());
           }
-          return null; // DTD is the only expected entity in feed files
+          return new InputSource(new StringReader(""));
         }
       });
-    docBuilder.setErrorHandler(new ErrorHandler() {
+    xmlReader.setErrorHandler(new ErrorHandler() {
         @Override
         public void warning(SAXParseException exception)
             throws SAXException {
@@ -88,8 +92,14 @@ public class GsafeedHelper {
           throw exception;
         }
       });
-    Document document = docBuilder.parse(inputStream);
-    return (Gsafeed) unmarshaller.unmarshal(document);
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance("com.google.enterprise.gsafeed");
+    Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+    UnmarshallerHandler unmarshallerHandler =
+        unmarshaller.getUnmarshallerHandler();
+    xmlReader.setContentHandler(unmarshallerHandler);
+    xmlReader.parse(new InputSource(inputStream));
+    return (Gsafeed) unmarshallerHandler.getResult();
   }
 
   /**
@@ -97,25 +107,62 @@ public class GsafeedHelper {
    */
   public static Gsafeed unmarshalWithoutDtd(URL url) throws JAXBException,
       IOException, ParserConfigurationException, SAXException {
-    JAXBContext jaxbContext =
-        JAXBContext.newInstance("com.google.enterprise.gsafeed");
-    Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-    DocumentBuilderFactory docBuilderFactory =
-        DocumentBuilderFactory.newInstance();
-    docBuilderFactory.setValidating(false);
-    DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-    docBuilder.setEntityResolver(new EntityResolver() {
+    return unmarshalWithoutDtd(url.openStream());
+  }
+
+  /**
+   * Avoid reading the DTD. No validation will happen.
+   */
+  public static Gsafeed unmarshalWithoutDtd(InputStream inputStream)
+      throws JAXBException, IOException, ParserConfigurationException,
+      SAXException {
+    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+    saxParserFactory.setValidating(false);
+    saxParserFactory.setXIncludeAware(false);
+    saxParserFactory.setFeature(
+        XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    saxParserFactory.setFeature(
+        "http://xml.org/sax/features/external-general-entities", false);
+    saxParserFactory.setFeature(
+        "http://xml.org/sax/features/external-parameter-entities", false);
+    saxParserFactory.setFeature(
+        "http://apache.org/xml/features/nonvalidating/load-external-dtd",
+        false);
+    XMLReader xmlReader = saxParserFactory.newSAXParser().getXMLReader();
+    xmlReader.setEntityResolver(new EntityResolver() {
         @Override
         public InputSource resolveEntity(String publicId,
             String systemId) throws SAXException, IOException {
-          if (publicId.equals("-//Google//DTD GSA Feeds//EN")) {
-            return new InputSource(new StringReader(""));
-          }
-          return null; // DTD is the only expected entity in feed files
+          return new InputSource(new StringReader(""));
         }
       });
-    Document document = docBuilder.parse(url.openStream());
-    return (Gsafeed) unmarshaller.unmarshal(document);
+    xmlReader.setErrorHandler(new ErrorHandler() {
+        @Override
+        public void warning(SAXParseException exception)
+            throws SAXException {
+          throw exception;
+        }
+
+        @Override
+        public void error(SAXParseException exception)
+            throws SAXException {
+          throw exception;
+        }
+
+        @Override
+        public void fatalError(SAXParseException exception)
+            throws SAXException {
+          throw exception;
+        }
+      });
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance("com.google.enterprise.gsafeed");
+    Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+    UnmarshallerHandler unmarshallerHandler =
+        unmarshaller.getUnmarshallerHandler();
+    xmlReader.setContentHandler(unmarshallerHandler);
+    xmlReader.parse(new InputSource(inputStream));
+    return (Gsafeed) unmarshallerHandler.getResult();
   }
 
   /**
