@@ -19,6 +19,12 @@
        "6", pick a class added in Java 7. -->
   <property name="compile.java.newerClassname" value="java.lang.AutoCloseable"/>
 
+  <!-- Use add-modules with Java 9 and higher. -->
+  <condition property="java.modules"
+      value="" else="--add-modules java.xml.bind">
+    <matches string="${ant.java.version}" pattern="^1\.[678]$"/>
+  </condition>
+
   <path id="gsafeed.build.classpath">
     <fileset dir="${third_party.dir}">
         <include name="guava/*.jar"/>
@@ -101,6 +107,7 @@
   <target name="test" depends="build" description="Run JUnit tests">
     <junit printsummary="no" haltonfailure="yes" forkmode="once" fork="true"
       dir="${basedir}" maxmemory="512m">
+      <jvmarg line="${java.modules}"/>
       <classpath refid="junit.classpath"/>
       <classpath location="${build-src.dir}"/>
       <classpath location="${build-test.dir}"/>
@@ -123,6 +130,7 @@
     <property name="example.args" value="/metadata-and-url.xml"/>
     <java classpath="${build-src.dir}" fork="true"
       classname="com.google.enterprise.gsafeed.examples.MarshalUnmarshal">
+      <jvmarg line="${java.modules}"/>
       <classpath refid="examples.run.classpath"/>
       <arg line="${example.args}"/>
     </java>
@@ -136,6 +144,7 @@
               value="${example.feedfile} ${example.gsahost}"/>
     <java classpath="${build-src.dir}" fork="true"
       classname="com.google.enterprise.gsafeed.examples.SendGsaFeed">
+      <jvmarg line="${java.modules}"/>
       <classpath refid="examples.run.classpath"/>
       <arg line="${example.args}"/>
     </java>
@@ -146,6 +155,7 @@
     <property name="example.args" value="/groupsfeed.xml"/>
     <java classpath="${build-src.dir}" fork="true"
       classname="com.google.enterprise.gsafeed.examples.XmlgroupsMarshalUnmarshal">
+      <jvmarg line="${java.modules}"/>
       <classpath refid="examples.run.classpath"/>
       <arg line="${example.args}"/>
     </java>
