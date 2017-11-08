@@ -14,9 +14,9 @@
 
 package com.google.enterprise.gsafeed.examples;
 
+import com.google.enterprise.gsafeed.FeedHelper;
 import com.google.enterprise.gsafeed.GsaFeedFileSender;
 import com.google.enterprise.gsafeed.Gsafeed;
-import com.google.enterprise.gsafeed.GsafeedHelper;
 import com.google.enterprise.gsafeed.IOHelper;
 
 import java.io.ByteArrayInputStream;
@@ -44,7 +44,7 @@ public class SendGsaFeed {
     // Read the feed file to get the datasource and feedtype.
     URL feedUrl = SendGsaFeed.class.getResource(feedFile);
     String xml = IOHelper.readInputStreamToString(feedUrl.openStream(), UTF_8);
-    Gsafeed feed = GsafeedHelper.unmarshalWithDtd(
+    Gsafeed feed = FeedHelper.getGsafeedHelper().unmarshalWithDtd(
         new ByteArrayInputStream(xml.getBytes(UTF_8)));
     String datasource = feed.getHeader().getDatasource();
     String feedtype = feed.getHeader().getFeedtype();

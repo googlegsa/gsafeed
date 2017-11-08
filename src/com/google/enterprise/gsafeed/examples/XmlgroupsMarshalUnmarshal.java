@@ -14,7 +14,7 @@
 
 package com.google.enterprise.gsafeed.examples;
 
-import com.google.enterprise.gsafeed.XmlgroupsHelper;
+import com.google.enterprise.gsafeed.FeedHelper;
 import com.google.enterprise.gsafeed.groups.Membership;
 import com.google.enterprise.gsafeed.groups.Principal;
 import com.google.enterprise.gsafeed.groups.Xmlgroups;
@@ -29,12 +29,14 @@ import java.net.URL;
 public class XmlgroupsMarshalUnmarshal {
 
   public static void main(String... args) throws Exception {
+    FeedHelper<Xmlgroups> helper = FeedHelper.getXmlgroupsHelper();
+
     // Read a feed file.
     URL feedUrl = MarshalUnmarshal.class.getResource(args[0]);
     // Examples in the feed developer's guide, as well as groups
     // feeds downloaded from the GSA, don't include the doctype,
     // so skip the validation here.
-    Xmlgroups feed = XmlgroupsHelper.unmarshalWithoutDtd(feedUrl);
+    Xmlgroups feed = helper.unmarshalWithoutDtd(feedUrl);
 
     // List the groups and their members.
     for (Membership membership : feed.getMembership()) {
@@ -46,14 +48,13 @@ public class XmlgroupsMarshalUnmarshal {
 
     // Marshal that feed object back to XML.
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    XmlgroupsHelper.marshal(feed, out);
+    helper.marshal(feed, out);
     System.out.println();
     System.out.println(out.toString("UTF-8"));
 
     // Read the marshalled feed to check that it's still a valid
     // groups feed. Groups feed construction in the adaptor
     // library code adds a doctype, so check this using the dtd.
-    XmlgroupsHelper.unmarshalWithDtd(
-        new ByteArrayInputStream(out.toByteArray()));
+    helper.unmarshalWithDtd(new ByteArrayInputStream(out.toByteArray()));
   }
 }
