@@ -14,8 +14,6 @@
 
 package com.google.enterprise.gsafeed;
 
-import com.google.enterprise.gsafeed.groups.Xmlgroups;
-
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
@@ -27,7 +25,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
-import java.net.URL;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -40,34 +37,28 @@ import javax.xml.parsers.SAXParserFactory;
 /**
  * Helper for reading and creating GSA feed files.
  */
-public class FeedHelper<T> {
-  public static final String PUBLIC_ID = "-//Google//DTD GSA Feeds//EN";
+class FeedHelper {
+  private static final String PUBLIC_ID = "-//Google//DTD GSA Feeds//EN";
 
-  public static FeedHelper<Gsafeed> getGsafeedHelper() throws JAXBException {
-    return new FeedHelper<Gsafeed>("gsafeed", "/gsafeed.dtd", Gsafeed.class);
-  }
+  enum Validation { FALSE, TRUE }
 
-  public static FeedHelper<Xmlgroups> getXmlgroupsHelper()
-      throws JAXBException {
-    return new FeedHelper<Xmlgroups>(
-        "xmlgroups", "/groupsfeed.dtd", Xmlgroups.class);
-  }
+  private String rootElementName;
+  private JAXBContext jaxbContext;
+  private EntityResolver entityResolver;
+  ErrorHandler errorHandler;
 
-  private final String rootElement;
-  private final JAXBContext jaxbContext;
-  private final EntityResolver entityResolver;
-  private ErrorHandler errorHandler;
-
-  private FeedHelper(final String rootElement, final String dtdPath,
-      final Class<T> c) throws JAXBException {
-    this.rootElement = rootElement;
-    this.jaxbContext = JAXBContext.newInstance(c.getPackage().getName());
+  FeedHelper(Class<?> rootElementClass, String rootElementName,
+      final String dtdPath) throws JAXBException {
+    this.rootElementName = rootElementName;
+    this.jaxbContext =
+        JAXBContext.newInstance(rootElementClass.getPackage().getName());
     this.entityResolver = new EntityResolver() {
         @Override
         public InputSource resolveEntity(String publicId,
             String systemId) throws SAXException, IOException {
           if (publicId != null && publicId.equals(PUBLIC_ID)) {
-            return new InputSource(c.getResource(dtdPath).openStream());
+            return new InputSource(
+                FeedHelper.class.getResource(dtdPath).openStream());
           }
           return new InputSource(new StringReader(""));
         }
@@ -93,48 +84,35 @@ public class FeedHelper<T> {
       };
   }
 
-  public void setErrorHandler(ErrorHandler errorHandler) {
-    this.errorHandler = errorHandler;
-  }
-
-  /**
-   * Use the DTD to check for errors in the feed being read.
-   */
-  public T unmarshalWithDtd(URL url) throws JAXBException,
-      IOException, ParserConfigurationException, SAXException {
-    return unmarshalWithDtd(url.openStream());
-  }
-
-  /**
-   * Use the DTD to check for errors in the feed being read.
-   */
-  public T unmarshalWithDtd(InputStream inputStream)
+  Object unmarshal(InputStream inputStream, Validation validation)
       throws JAXBException, IOException, ParserConfigurationException,
       SAXException {
-    return unmarshal(inputStream, /* validating */ true);
-  }
-
-  /**
-   * Avoid reading the DTD. No validation will happen.
-   */
-  public T unmarshalWithoutDtd(URL url) throws JAXBException,
-      IOException, ParserConfigurationException, SAXException {
-    return unmarshalWithoutDtd(url.openStream());
-  }
-
-  /**
-   * Avoid reading the DTD. No validation will happen.
-   */
-  public T unmarshalWithoutDtd(InputStream inputStream)
-      throws JAXBException, IOException, ParserConfigurationException,
-      SAXException {
-    return unmarshal(inputStream, /* validating */ false);
+    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+    saxParserFactory.setValidating(validation == Validation.TRUE);
+    saxParserFactory.setXIncludeAware(false);
+    saxParserFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    saxParserFactory.setFeature(
+        "http://xml.org/sax/features/external-parameter-entities", false);
+    saxParserFactory.setFeature(
+        "http://xml.org/sax/features/external-general-entities", false);
+    saxParserFactory.setFeature(
+        "http://apache.org/xml/features/nonvalidating/load-external-dtd",
+        validation == Validation.TRUE);
+    XMLReader xmlReader = saxParserFactory.newSAXParser().getXMLReader();
+    xmlReader.setEntityResolver(entityResolver);
+    xmlReader.setErrorHandler(errorHandler);
+    Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+    UnmarshallerHandler unmarshallerHandler =
+        unmarshaller.getUnmarshallerHandler();
+    xmlReader.setContentHandler(unmarshallerHandler);
+    xmlReader.parse(new InputSource(inputStream));
+    return unmarshallerHandler.getResult();
   }
 
   /**
    * Write the feed to the given stream.
    */
-  public void marshal(T feed, OutputStream out)
+  void marshal(Object feed, OutputStream out)
       throws IOException, JAXBException {
     Marshaller marshaller = jaxbContext.createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -149,34 +127,8 @@ public class FeedHelper<T> {
     marshaller.setProperty("com.sun.xml.internal.bind.xmlHeaders",
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
         + System.getProperty("line.separator")
-        + "<!DOCTYPE " + rootElement
+        + "<!DOCTYPE " + rootElementName
         + " PUBLIC \"" + PUBLIC_ID + "\" \"\">");
     marshaller.marshal(feed, out);
-  }
-
-  @SuppressWarnings("unchecked")
-  private T unmarshal(InputStream inputStream, boolean validating)
-      throws JAXBException, IOException, ParserConfigurationException,
-      SAXException {
-    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
-    saxParserFactory.setValidating(validating);
-    saxParserFactory.setXIncludeAware(false);
-    saxParserFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-    saxParserFactory.setFeature(
-        "http://xml.org/sax/features/external-parameter-entities", false);
-    saxParserFactory.setFeature(
-        "http://xml.org/sax/features/external-general-entities", false);
-    saxParserFactory.setFeature(
-        "http://apache.org/xml/features/nonvalidating/load-external-dtd",
-        validating);
-    XMLReader xmlReader = saxParserFactory.newSAXParser().getXMLReader();
-    xmlReader.setEntityResolver(entityResolver);
-    xmlReader.setErrorHandler(errorHandler);
-    Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-    UnmarshallerHandler unmarshallerHandler =
-        unmarshaller.getUnmarshallerHandler();
-    xmlReader.setContentHandler(unmarshallerHandler);
-    xmlReader.parse(new InputSource(inputStream));
-    return (T) unmarshallerHandler.getResult();
   }
 }

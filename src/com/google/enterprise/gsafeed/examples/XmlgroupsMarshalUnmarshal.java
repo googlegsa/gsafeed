@@ -14,7 +14,7 @@
 
 package com.google.enterprise.gsafeed.examples;
 
-import com.google.enterprise.gsafeed.FeedHelper;
+import com.google.enterprise.gsafeed.XmlgroupsHelper;
 import com.google.enterprise.gsafeed.groups.Membership;
 import com.google.enterprise.gsafeed.groups.Principal;
 import com.google.enterprise.gsafeed.groups.Xmlgroups;
@@ -29,7 +29,7 @@ import java.net.URL;
 public class XmlgroupsMarshalUnmarshal {
 
   public static void main(String... args) throws Exception {
-    FeedHelper<Xmlgroups> helper = FeedHelper.getXmlgroupsHelper();
+    XmlgroupsHelper helper = new XmlgroupsHelper();
 
     // Read a feed file.
     URL feedUrl = MarshalUnmarshal.class.getResource(args[0]);

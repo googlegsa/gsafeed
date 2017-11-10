@@ -14,9 +14,9 @@
 
 package com.google.enterprise.gsafeed.examples;
 
-import com.google.enterprise.gsafeed.FeedHelper;
 import com.google.enterprise.gsafeed.Group;
 import com.google.enterprise.gsafeed.Gsafeed;
+import com.google.enterprise.gsafeed.GsafeedHelper;
 import com.google.enterprise.gsafeed.Record;
 
 import java.io.ByteArrayInputStream;
@@ -29,7 +29,7 @@ import java.net.URL;
 public class MarshalUnmarshal {
 
   public static void main(String... args) throws Exception {
-    FeedHelper<Gsafeed> helper = FeedHelper.getGsafeedHelper();
+    GsafeedHelper helper = new GsafeedHelper();
 
     // Read a feed file.
     URL feedUrl = MarshalUnmarshal.class.getResource(args[0]);
