@@ -53,7 +53,7 @@ public class XmlgroupsHelper extends FeedHelper {
   public Xmlgroups unmarshalWithDtd(InputStream inputStream)
       throws JAXBException, IOException, ParserConfigurationException,
       SAXException {
-    return Xmlgroups.class.cast(unmarshal(inputStream, Validation.TRUE));
+    return (Xmlgroups) unmarshal(inputStream, Validation.TRUE);
   }
 
   /**
@@ -70,7 +70,7 @@ public class XmlgroupsHelper extends FeedHelper {
   public Xmlgroups unmarshalWithoutDtd(InputStream inputStream)
       throws JAXBException, IOException, ParserConfigurationException,
       SAXException {
-    return Xmlgroups.class.cast(unmarshal(inputStream, Validation.FALSE));
+    return (Xmlgroups) unmarshal(inputStream, Validation.FALSE);
   }
 
   /**

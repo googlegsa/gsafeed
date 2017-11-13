@@ -51,7 +51,7 @@ public class GsafeedHelper extends FeedHelper {
   public Gsafeed unmarshalWithDtd(InputStream inputStream)
       throws JAXBException, IOException, ParserConfigurationException,
       SAXException {
-    return Gsafeed.class.cast(unmarshal(inputStream, Validation.TRUE));
+    return (Gsafeed) unmarshal(inputStream, Validation.TRUE);
   }
 
   /**
@@ -68,7 +68,7 @@ public class GsafeedHelper extends FeedHelper {
   public Gsafeed unmarshalWithoutDtd(InputStream inputStream)
       throws JAXBException, IOException, ParserConfigurationException,
       SAXException {
-    return Gsafeed.class.cast(unmarshal(inputStream, Validation.FALSE));
+    return (Gsafeed) unmarshal(inputStream, Validation.FALSE);
   }
 
   /**
