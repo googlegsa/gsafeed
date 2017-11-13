@@ -44,7 +44,7 @@ public class SendGsaFeed {
     // Read the feed file to get the datasource and feedtype.
     URL feedUrl = SendGsaFeed.class.getResource(feedFile);
     String xml = IOHelper.readInputStreamToString(feedUrl.openStream(), UTF_8);
-    Gsafeed feed = GsafeedHelper.unmarshalWithDtd(
+    Gsafeed feed = new GsafeedHelper().unmarshalWithDtd(
         new ByteArrayInputStream(xml.getBytes(UTF_8)));
     String datasource = feed.getHeader().getDatasource();
     String feedtype = feed.getHeader().getFeedtype();

@@ -29,9 +29,11 @@ import java.net.URL;
 public class MarshalUnmarshal {
 
   public static void main(String... args) throws Exception {
+    GsafeedHelper helper = new GsafeedHelper();
+
     // Read a feed file.
     URL feedUrl = MarshalUnmarshal.class.getResource(args[0]);
-    Gsafeed feed = GsafeedHelper.unmarshalWithDtd(feedUrl);
+    Gsafeed feed = helper.unmarshalWithDtd(feedUrl);
 
     // List the records in the feed.
     for (Group group : feed.getGroup()) {
@@ -45,13 +47,12 @@ public class MarshalUnmarshal {
 
     // Marshal that feed object back to XML.
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    GsafeedHelper.marshal(feed, out);
+    helper.marshal(feed, out);
     System.out.println();
     System.out.println(out.toString("UTF-8"));
 
     // Read the marshalled feed to check that it's still a valid
     // gsafeed.
-    GsafeedHelper.unmarshalWithDtd(
-        new ByteArrayInputStream(out.toByteArray()));
+    helper.unmarshalWithDtd(new ByteArrayInputStream(out.toByteArray()));
   }
 }

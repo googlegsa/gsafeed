@@ -17,6 +17,7 @@ package com.google.enterprise.gsafeed;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -179,15 +180,22 @@ public class GsafeedHelperTest {
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
+  private GsafeedHelper helper;
+
+  @Before
+  public void setUp() throws Exception {
+    helper = new GsafeedHelper();
+  }
+
   @Test
   public void testWithDtd() throws Exception {
-    Gsafeed feed = GsafeedHelper.unmarshalWithDtd(asStream(validFeed));
+    Gsafeed feed = helper.unmarshalWithDtd(asStream(validFeed));
     assertEquals("sample", feed.getHeader().getDatasource());
   }
 
   @Test
   public void testWithoutDtd() throws Exception {
-    Gsafeed feed = GsafeedHelper.unmarshalWithoutDtd(asStream(validFeed));
+    Gsafeed feed = helper.unmarshalWithoutDtd(asStream(validFeed));
     assertEquals("sample", feed.getHeader().getDatasource());
   }
 
@@ -196,26 +204,26 @@ public class GsafeedHelperTest {
     thrown.expect(SAXParseException.class);
     thrown.expectMessage(
         "Element type \"invalid-element\" must be declared.");
-    GsafeedHelper.unmarshalWithDtd(asStream(invalidFeed));
+    helper.unmarshalWithDtd(asStream(invalidFeed));
   }
 
   @Test
   public void testWithoutDtdInvalidDoc() throws Exception {
-    Gsafeed feed = GsafeedHelper.unmarshalWithoutDtd(asStream(invalidFeed));
+    Gsafeed feed = helper.unmarshalWithoutDtd(asStream(invalidFeed));
     assertEquals("sample", feed.getHeader().getDatasource());
   }
 
   @Test
   public void testWithDtdExternalEntity() throws Exception {
     Gsafeed feed =
-        GsafeedHelper.unmarshalWithDtd(asStream(externalEntityFeed));
+        helper.unmarshalWithDtd(asStream(externalEntityFeed));
     assertEquals("", getFirstRecordContent(feed));
   }
 
   @Test
   public void testWithoutDtdExternalEntity() throws Exception {
     Gsafeed feed =
-        GsafeedHelper.unmarshalWithoutDtd(asStream(externalEntityFeed));
+        helper.unmarshalWithoutDtd(asStream(externalEntityFeed));
     assertEquals("", getFirstRecordContent(feed));
   }
 
@@ -224,12 +232,12 @@ public class GsafeedHelperTest {
     thrown.expect(SAXParseException.class);
     thrown.expectMessage(
         "The entity \"all\" was referenced, but not declared.");
-    GsafeedHelper.unmarshalWithDtd(asStream(externalParameterEntityFeed));
+    helper.unmarshalWithDtd(asStream(externalParameterEntityFeed));
   }
 
   @Test
   public void testWithoutDtdExternalParameterEntity() throws Exception {
-    Gsafeed feed = GsafeedHelper.unmarshalWithoutDtd(
+    Gsafeed feed = helper.unmarshalWithoutDtd(
         asStream(externalParameterEntityFeed));
     assertEquals("", getFirstRecordContent(feed));
   }
@@ -240,7 +248,7 @@ public class GsafeedHelperTest {
     thrown.expectMessage("JAXP00010001: The parser has encountered more "
         + "than \"64000\" entity expansions in this document; "
         + "this is the limit imposed by the JDK.");
-    GsafeedHelper.unmarshalWithDtd(asStream(entityExpansionFeed));
+    helper.unmarshalWithDtd(asStream(entityExpansionFeed));
   }
 
   @Test
@@ -249,7 +257,7 @@ public class GsafeedHelperTest {
     thrown.expectMessage("JAXP00010001: The parser has encountered more "
         + "than \"64000\" entity expansions in this document; "
         + "this is the limit imposed by the JDK.");
-    GsafeedHelper.unmarshalWithoutDtd(asStream(entityExpansionFeed));
+    helper.unmarshalWithoutDtd(asStream(entityExpansionFeed));
   }
 
   private InputStream asStream(String value) {
