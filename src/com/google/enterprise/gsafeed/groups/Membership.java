@@ -50,9 +50,11 @@ public class Membership {
    * Sets the value of the principal property.
    *
    * @param value allowed object is {@link Principal}
+   * @return this object
    */
-  public void setPrincipal(Principal value) {
+  public Membership setPrincipal(Principal value) {
     this.principal = value;
+    return this;
   }
 
   /**
@@ -68,8 +70,10 @@ public class Membership {
    * Sets the value of the members property.
    *
    * @param value allowed object is {@link Members}
+   * @return this object
    */
-  public void setMembers(Members value) {
+  public Membership setMembers(Members value) {
     this.members = value;
+    return this;
   }
 }

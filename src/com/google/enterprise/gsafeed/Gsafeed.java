@@ -52,9 +52,11 @@ public class Gsafeed {
    * Sets the value of the header property.
    *
    * @param value allowed object is {@link Header}
+   * @return this object
    */
-  public void setHeader(Header value) {
+  public Gsafeed setHeader(Header value) {
     this.header = value;
+    return this;
   }
 
   /**

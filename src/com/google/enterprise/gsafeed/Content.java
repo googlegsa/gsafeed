@@ -53,9 +53,11 @@ public class Content {
    * Sets the value of the encoding property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setEncoding(String value) {
+  public Content setEncoding(String value) {
     this.encoding = value;
+    return this;
   }
 
   /**
@@ -71,8 +73,10 @@ public class Content {
    * Sets the value of the value property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setvalue(String value) {
+  public Content setvalue(String value) {
     this.value = value;
+    return this;
   }
 }

@@ -91,9 +91,11 @@ public class Record {
    * Sets the value of the url property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setUrl(String value) {
+  public Record setUrl(String value) {
     this.url = value;
+    return this;
   }
 
   /**
@@ -109,9 +111,11 @@ public class Record {
    * Sets the value of the displayurl property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setDisplayurl(String value) {
+  public Record setDisplayurl(String value) {
     this.displayurl = value;
+    return this;
   }
 
   /**
@@ -127,9 +131,11 @@ public class Record {
    * Sets the value of the action property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setAction(String value) {
+  public Record setAction(String value) {
     this.action = value;
+    return this;
   }
 
   /**
@@ -145,9 +151,11 @@ public class Record {
    * Sets the value of the mimetype property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setMimetype(String value) {
+  public Record setMimetype(String value) {
     this.mimetype = value;
+    return this;
   }
 
   /**
@@ -163,9 +171,11 @@ public class Record {
    * Sets the value of the lastModified property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setLastModified(String value) {
+  public Record setLastModified(String value) {
     this.lastModified = value;
+    return this;
   }
 
   /**
@@ -185,9 +195,11 @@ public class Record {
    * Sets the value of the lock property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setLock(String value) {
+  public Record setLock(String value) {
     this.lock = value;
+    return this;
   }
 
   /**
@@ -203,9 +215,11 @@ public class Record {
    * Sets the value of the authmethod property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setAuthmethod(String value) {
+  public Record setAuthmethod(String value) {
     this.authmethod = value;
+    return this;
   }
 
   /**
@@ -221,9 +235,11 @@ public class Record {
    * Sets the value of the feedrank property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setFeedrank(String value) {
+  public Record setFeedrank(String value) {
     this.feedrank = value;
+    return this;
   }
 
   /**
@@ -239,9 +255,11 @@ public class Record {
    * Sets the value of the pagerank property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setPagerank(String value) {
+  public Record setPagerank(String value) {
     this.pagerank = value;
+    return this;
   }
 
   /**
@@ -261,9 +279,11 @@ public class Record {
    * Sets the value of the crawlImmediately property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setCrawlImmediately(String value) {
+  public Record setCrawlImmediately(String value) {
     this.crawlImmediately = value;
+    return this;
   }
 
   /**
@@ -283,9 +303,11 @@ public class Record {
    * Sets the value of the crawlOnce property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setCrawlOnce(String value) {
+  public Record setCrawlOnce(String value) {
     this.crawlOnce = value;
+    return this;
   }
 
   /**
@@ -301,9 +323,11 @@ public class Record {
    * Sets the value of the scoring property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setScoring(String value) {
+  public Record setScoring(String value) {
     this.scoring = value;
+    return this;
   }
 
   /**
@@ -319,9 +343,11 @@ public class Record {
    * Sets the value of the acl property.
    *
    * @param value allowed object is {@link Acl}
+   * @return this object
    */
-  public void setAcl(Acl value) {
+  public Record setAcl(Acl value) {
     this.acl = value;
+    return this;
   }
 
   /**

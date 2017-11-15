@@ -55,9 +55,11 @@ public class Meta {
    * Sets the value of the encoding property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setEncoding(String value) {
+  public Meta setEncoding(String value) {
     this.encoding = value;
+    return this;
   }
 
   /**
@@ -73,9 +75,11 @@ public class Meta {
    * Sets the value of the name property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setName(String value) {
+  public Meta setName(String value) {
     this.name = value;
+    return this;
   }
 
   /**
@@ -91,8 +95,10 @@ public class Meta {
    * Sets the value of the content property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setContent(String value) {
+  public Meta setContent(String value) {
     this.content = value;
+    return this;
   }
 }

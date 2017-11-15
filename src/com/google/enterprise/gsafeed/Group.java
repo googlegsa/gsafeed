@@ -70,9 +70,11 @@ public class Group {
    * Sets the value of the action property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setAction(String value) {
+  public Group setAction(String value) {
     this.action = value;
+    return this;
   }
 
   /**
@@ -88,10 +90,11 @@ public class Group {
    * Sets the value of the feedrank property.
    *
    * @param value allowed object is {@link String}
-   *
+   * @return this object
    */
-  public void setFeedrank(String value) {
+  public Group setFeedrank(String value) {
     this.feedrank = value;
+    return this;
   }
 
   /**
@@ -107,9 +110,11 @@ public class Group {
    * Sets the value of the pagerank property.
    *
    * @param value allowed object is {@link String}
+   * @return this object
    */
-  public void setPagerank(String value) {
+  public Group setPagerank(String value) {
     this.pagerank = value;
+    return this;
   }
 
   /**
