@@ -119,12 +119,15 @@ public class GsaFeedFileSender {
       String xmlDocument) {
     StringBuilder sb = new StringBuilder();
     String ft = feedtype.toLowerCase(US);
-    if (ft.equals("incremental")) {
+    if (ft.equals("full") || ft.equals("incremental")) {
       buildPostParameter(sb, "groupsource", "text/plain", groupsource);
       buildPostParameter(sb, "feedtype", "text/plain", feedtype);
       buildPostParameter(sb, "data", "text/xml", xmlDocument);
     } else if (ft.equals("cleanup")) {
       buildPostParameter(sb, "cleanup", "text/plain", groupsource);
+    } else if (ft.equals("replace")) {
+      buildPostParameter(sb, "replace", "text/plain", groupsource);
+      buildPostParameter(sb, "data", "text/xml", xmlDocument);
     } else {
       throw new IllegalArgumentException("invalid feedtype: " + feedtype);
     }
