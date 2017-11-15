@@ -38,6 +38,12 @@
     </fileset>
   </path>
 
+  <path id="xmlunit.classpath">
+    <fileset dir="third_party/xmlunit">
+      <include name="xmlunit-core-2.5.0.jar"/>
+    </fileset>
+  </path>
+
   <path id="examples.run.classpath">
     <path location="examples"/>
   </path>
@@ -74,6 +80,7 @@
       <classpath refid="gsafeed.build.classpath"/>
       <classpath location="${build-src.dir}"/>
       <classpath refid="junit.classpath"/>
+      <classpath refid="xmlunit.classpath"/>
     </javac>
   </target>
 
@@ -109,6 +116,7 @@
       dir="${basedir}" maxmemory="512m">
       <jvmarg line="${java.modules}"/>
       <classpath refid="junit.classpath"/>
+      <classpath refid="xmlunit.classpath"/>
       <classpath location="${build-src.dir}"/>
       <classpath location="${build-test.dir}"/>
       <classpath refid="examples.run.classpath"/>
