@@ -40,7 +40,7 @@
 
   <path id="xmlunit.classpath">
     <fileset dir="third_party/xmlunit">
-      <include name="xmlunit-core-2.5.0.jar"/>
+      <include name="*.jar"/>
     </fileset>
   </path>
 

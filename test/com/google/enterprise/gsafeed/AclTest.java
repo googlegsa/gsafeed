@@ -16,9 +16,7 @@ package com.google.enterprise.gsafeed;
 
 import static org.junit.Assert.assertFalse;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
 
@@ -26,9 +24,6 @@ import org.xmlunit.diff.Diff;
  * Test Acl.
  */
 public class AclTest {
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void testAcl() throws Exception {
     String expected =

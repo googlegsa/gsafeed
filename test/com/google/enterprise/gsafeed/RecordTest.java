@@ -16,9 +16,7 @@ package com.google.enterprise.gsafeed;
 
 import static org.junit.Assert.assertFalse;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
 
@@ -26,9 +24,6 @@ import org.xmlunit.diff.Diff;
  * Test Record.
  */
 public class RecordTest {
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
   @Test
   public void testRecord() throws Exception {
     String expected =
