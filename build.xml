@@ -112,6 +112,8 @@
       <classpath location="${build-src.dir}"/>
       <classpath location="${build-test.dir}"/>
       <classpath refid="examples.run.classpath"/>
+      <!-- Some resources are in the test directory itself. -->
+      <classpath location="${test.dir}"/>
       <formatter type="plain" usefile="false"/>
       <batchtest>
         <fileset dir="${test.dir}">
