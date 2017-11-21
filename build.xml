@@ -31,10 +31,13 @@
     </fileset>
   </path>
 
-  <path id="junit.classpath">
+  <path id="test.classpath">
     <fileset dir="third_party/junit">
       <include name="junit-4.11.jar"/>
       <include name="hamcrest-core-1.3.jar"/>
+    </fileset>
+    <fileset dir="third_party/xmlunit">
+      <include name="*.jar"/>
     </fileset>
   </path>
 
@@ -73,7 +76,7 @@
       <compilerarg value="-Xlint"/>
       <classpath refid="gsafeed.build.classpath"/>
       <classpath location="${build-src.dir}"/>
-      <classpath refid="junit.classpath"/>
+      <classpath refid="test.classpath"/>
     </javac>
   </target>
 
@@ -108,7 +111,7 @@
     <junit printsummary="no" haltonfailure="yes" forkmode="once" fork="true"
       dir="${basedir}" maxmemory="512m">
       <jvmarg line="${java.modules}"/>
-      <classpath refid="junit.classpath"/>
+      <classpath refid="test.classpath"/>
       <classpath location="${build-src.dir}"/>
       <classpath location="${build-test.dir}"/>
       <classpath refid="examples.run.classpath"/>
