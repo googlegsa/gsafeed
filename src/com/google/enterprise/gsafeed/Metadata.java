@@ -43,14 +43,16 @@ public class Metadata {
   /**
    * Gets the value of the overwriteAcls property.
    *
-   * @return possible object is {@link String}
+   * @return possible object is {@link boolean}
    */
-  public String getOverwriteAcls() {
+  public boolean getOverwriteAcls() {
+    // The default as defined in the dtd is true. Return that
+    // here to reflect the underlying meaning, but don't set the
+    // string to avoid adding the attribute to the generated xml.
     if (overwriteAcls == null) {
-      return "true";
-    } else {
-      return overwriteAcls;
+      return true;
     }
+    return Boolean.valueOf(overwriteAcls);
   }
 
   /**
@@ -60,7 +62,18 @@ public class Metadata {
    * @return this object
    */
   public Metadata setOverwriteAcls(String value) {
-    this.overwriteAcls = value;
+    this.overwriteAcls = Boolean.valueOf(value).toString();
+    return this;
+  }
+
+  /**
+   * Sets the value of the overwriteAcls property.
+   *
+   * @param value allowed object is {@link boolean}
+   * @return this object
+   */
+  public Metadata setOverwriteAcls(boolean value) {
+    this.overwriteAcls = Boolean.toString(value);
     return this;
   }
 

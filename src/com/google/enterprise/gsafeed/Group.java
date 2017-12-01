@@ -53,27 +53,75 @@ public class Group {
   })
   protected List<Object> aclOrRecord;
 
+  /** Action types. */
+  public static enum Action {
+    ADD("add"),
+    DELETE("delete");
+
+    private String xmlValue;
+
+    private Action(String xmlValue) {
+      this.xmlValue = xmlValue;
+    }
+
+    @Override
+    public String toString() {
+      return xmlValue;
+    }
+
+    public static Action fromString(String value) {
+      if (value.equals("add")) {
+        return ADD;
+      }
+      if (value.equals("delete")) {
+          return DELETE;
+      }
+      throw new IllegalArgumentException(value);
+    }
+  }
+
   /**
    * Gets the value of the action property.
    *
-   * @return possible object is {@link String}
+   * @return possible object is {@link Action}
    */
-  public String getAction() {
+  public Action getAction() {
     if (action == null) {
-      return "add";
+      return null;
     } else {
-      return action;
+      return Action.fromString(action);
     }
   }
 
   /**
    * Sets the value of the action property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link String} or null
    * @return this object
+   * @throws IllegalArgumentException if value isn't a valid
+   * action attribute value
    */
   public Group setAction(String value) {
-    this.action = value;
+    if (value == null) {
+      this.action = null;
+    } else {
+      setAction(Action.fromString(value));
+    }
+    return this;
+  }
+
+  /**
+   * Sets the value of the action property.
+   *
+   * @param value allowed object is {@link Action} or null
+   * @return this object
+   */
+  public Group setAction(Action value) {
+    if (value == null) {
+      this.action = null;
+    } else {
+      this.action = value.toString();
+    }
     return this;
   }
 

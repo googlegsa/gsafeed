@@ -14,6 +14,7 @@
 
 package com.google.enterprise.gsafeed;
 
+import com.google.common.base.Strings;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -40,23 +41,74 @@ public class Content {
   @XmlValue
   protected String value;
 
+  /** Encoding types. */
+  public static enum Encoding {
+    BASE_64_BINARY("base64binary"),
+    BASE_64_COMPRESSED("base64compressed");
+
+    private String xmlValue;
+
+    private Encoding(String xmlValue) {
+      this.xmlValue = xmlValue;
+    }
+
+    @Override
+    public String toString() {
+      return xmlValue;
+    }
+
+    public static Encoding fromString(String value) {
+      if (value.equals("base64binary")) {
+        return BASE_64_BINARY;
+      }
+      if (value.equals("base64compressed")) {
+          return BASE_64_COMPRESSED;
+      }
+      throw new IllegalArgumentException(value);
+    }
+  }
+
   /**
    * Gets the value of the encoding property.
    *
-   * @return possible object is {@link String}
+   * @return possible object is {@link Encoding}
    */
-  public String getEncoding() {
-    return encoding;
+  public Encoding getEncoding() {
+    if (encoding == null) {
+      return null;
+    }
+    return Encoding.fromString(encoding);
   }
 
   /**
    * Sets the value of the encoding property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link String} or null
    * @return this object
+   * @throws IllegalArgumentException if value isn't a valid
+   * encoding attribute value
    */
   public Content setEncoding(String value) {
-    this.encoding = value;
+    if (Strings.isNullOrEmpty(value)) {
+      this.encoding = null;
+    } else {
+      setEncoding(Encoding.fromString(value));
+    }
+    return this;
+  }
+
+  /**
+   * Sets the value of the encoding property.
+   *
+   * @param value allowed object is {@link String} or null
+   * @return this object
+   */
+  public Content setEncoding(Encoding value) {
+    if (value == null) {
+      this.encoding = null;
+    } else {
+      this.encoding = value.toString();
+    }
     return this;
   }
 

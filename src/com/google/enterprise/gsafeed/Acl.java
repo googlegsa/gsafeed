@@ -14,6 +14,7 @@
 
 package com.google.enterprise.gsafeed;
 
+import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -47,6 +48,41 @@ public class Acl {
   protected String inheritFrom;
   protected List<Principal> principal;
 
+  /** Inheritance types. */
+  public static enum InheritanceType {
+    CHILD_OVERRIDES("child-overrides"),
+    PARENT_OVERRIDES("parent-overrides"),
+    AND_BOTH_PERMIT("and-both-permit"),
+    LEAF_NODE("leaf-node");
+
+    private String xmlValue;
+
+    private InheritanceType(String xmlValue) {
+      this.xmlValue = xmlValue;
+    }
+
+    @Override
+    public String toString() {
+      return xmlValue;
+    }
+
+    public static InheritanceType fromString(String value) {
+      if (value.equals("child-overrides")) {
+        return CHILD_OVERRIDES;
+      }
+      if (value.equals("parent-overrides")) {
+          return PARENT_OVERRIDES;
+      }
+      if (value.equals("and-both-permit")) {
+        return AND_BOTH_PERMIT;
+      }
+      if (value.equals("leaf-node")) {
+        return LEAF_NODE;
+      }
+      throw new IllegalArgumentException(value);
+    }
+  }
+
   /**
    * Gets the value of the url property.
    *
@@ -70,24 +106,45 @@ public class Acl {
   /**
    * Gets the value of the inheritanceType property.
    *
-   * @return possible object is {@link String}
+   * @return possible object is {@link InheritanceType}
    */
-  public String getInheritanceType() {
+  public InheritanceType getInheritanceType() {
     if (inheritanceType == null) {
-      return "leaf-node";
+      return null;
     } else {
-      return inheritanceType;
+      return InheritanceType.fromString(inheritanceType);
     }
   }
 
   /**
    * Sets the value of the inheritanceType property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link String} or null
    * @return this object
+   * @throws IllegalArgumentException if value isn't a valid
+   * inheritance-type attribute value
    */
   public Acl setInheritanceType(String value) {
-    this.inheritanceType = value;
+    if (Strings.isNullOrEmpty(value)) {
+      this.inheritanceType = null;
+    } else {
+      setInheritanceType(InheritanceType.fromString(value));
+    }
+    return this;
+  }
+
+  /**
+   * Sets the value of the inheritanceType property.
+   *
+   * @param value allowed object is {@link InheritanceType} or null
+   * @return this object
+   */
+  public Acl setInheritanceType(InheritanceType value) {
+    if (value == null) {
+      this.inheritanceType = null;
+    } else {
+      this.inheritanceType = value.toString();
+    }
     return this;
   }
 

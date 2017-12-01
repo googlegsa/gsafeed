@@ -14,16 +14,20 @@
 
 package com.google.enterprise.gsafeed;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
+import java.nio.charset.Charset;
 
 /**
  * Test Metadata.
  */
 public class MetadataTest {
+  private static final Charset UTF_8 = Charset.forName("UTF-8");
+
   @Test
   public void testMetadata() throws Exception {
     String expected =
@@ -36,5 +40,65 @@ public class MetadataTest {
         .checkForSimilar()
         .build();
     assertFalse(diff.toString(), diff.hasDifferences());
+  }
+
+  @Test
+  public void testGetOverwriteAclsTrue() throws Exception {
+    Metadata metadata = unmarshal("<metadata overwrite-acls='true'/>");
+    assertEquals(true, metadata.getOverwriteAcls());
+  }
+
+  @Test
+  public void testGetOverwriteAclsFalse() throws Exception {
+    Metadata metadata = unmarshal("<metadata overwrite-acls='false'/>");
+    assertEquals(false, metadata.getOverwriteAcls());
+  }
+
+  @Test
+  public void testGetOverwriteAclsUnset() throws Exception {
+    Metadata metadata = unmarshal("<metadata/>");
+    assertEquals(true, metadata.getOverwriteAcls());
+  }
+
+  @Test
+  public void setOverwriteAclsTrue() {
+    String expected = "<metadata overwrite-acls='true'/>";
+    Metadata metadata1 = new Metadata().setOverwriteAcls("true");
+    Metadata metadata2 = new Metadata().setOverwriteAcls(true);
+    assertNoDiffs(expected, metadata1);
+    assertNoDiffs(expected, metadata2);
+  }
+
+  @Test
+  public void setOverwriteAclsFalse() {
+    String expected = "<metadata overwrite-acls='false'/>";
+    Metadata metadata1 = new Metadata().setOverwriteAcls("false");
+    Metadata metadata2 = new Metadata().setOverwriteAcls(false);
+    assertNoDiffs(expected, metadata1);
+    assertNoDiffs(expected, metadata2);
+  }
+
+  @Test
+  public void setOverwriteAclsNull() {
+    String expected = "<metadata overwrite-acls='false'/>";
+    Metadata metadata1 = new Metadata().setOverwriteAcls(null);
+    assertNoDiffs(expected, metadata1);
+  }
+
+  @Test
+  public void setOverwriteAclsInvalid() {
+    String expected = "<metadata overwrite-acls='false'/>";
+    Metadata metadata1 = new Metadata().setOverwriteAcls("foo");
+    assertNoDiffs(expected, metadata1);
+  }
+
+  private void assertNoDiffs(String expected, Object actual) {
+    Diff diff = DiffBuilder.compare(expected).withTest(actual)
+        .checkForSimilar().build();
+    assertFalse(diff.toString(), diff.hasDifferences());
+  }
+
+  private Metadata unmarshal(String value) throws Exception {
+    return (Metadata) JaxbUtil.unmarshalGsafeed(value);
   }
 }
