@@ -16,14 +16,12 @@ package com.google.enterprise.gsafeed;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  *
@@ -36,44 +34,26 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Metadata {
 
   @XmlAttribute(name = "overwrite-acls")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String overwriteAcls;
+  protected Boolean overwriteAcls;
   protected List<Meta> meta;
 
   /**
    * Gets the value of the overwriteAcls property.
    *
-   * @return possible object is {@link boolean}
+   * @return possible object is {@link Boolean}
    */
-  public boolean getOverwriteAcls() {
-    // The default as defined in the dtd is true. Return that
-    // here to reflect the underlying meaning, but don't set the
-    // string to avoid adding the attribute to the generated xml.
-    if (overwriteAcls == null) {
-      return true;
-    }
-    return Boolean.valueOf(overwriteAcls);
+  public Boolean getOverwriteAcls() {
+    return overwriteAcls;
   }
 
   /**
    * Sets the value of the overwriteAcls property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link Boolean} or null
    * @return this object
    */
-  public Metadata setOverwriteAcls(String value) {
-    this.overwriteAcls = Boolean.valueOf(value).toString();
-    return this;
-  }
-
-  /**
-   * Sets the value of the overwriteAcls property.
-   *
-   * @param value allowed object is {@link boolean}
-   * @return this object
-   */
-  public Metadata setOverwriteAcls(boolean value) {
-    this.overwriteAcls = Boolean.toString(value);
+  public Metadata setOverwriteAcls(Boolean value) {
+    this.overwriteAcls = value;
     return this;
   }
 

@@ -22,14 +22,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
-import java.nio.charset.Charset;
 
 /**
  * Test Principal.
  */
 public class PrincipalTest {
-  private static final Charset UTF_8 = Charset.forName("UTF-8");
-
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -42,11 +39,12 @@ public class PrincipalTest {
         + " principal-type='unqualified'>"
         + "user@example.com</principal>";
     Principal principal = new Principal()
-        .setScope("user")
-        .setAccess("permit")
+        .setScope(Principal.Scope.USER)
+        .setAccess(Principal.Access.PERMIT)
         .setNamespace("Default")
-        .setCaseSensitivityType("everything-case-sensitive")
-        .setPrincipalType("unqualified")
+        .setCaseSensitivityType(
+            Principal.CaseSensitivityType.EVERYTHING_CASE_SENSITIVE)
+        .setPrincipalType(Principal.PrincipalType.UNQUALIFIED)
         .setvalue("user@example.com");
     Diff diff = DiffBuilder
         .compare(expected)
@@ -70,54 +68,42 @@ public class PrincipalTest {
 
   @Test
   public void testGetScopeUnset() throws Exception {
-    thrown.expect(NullPointerException.class);
     Principal principal = unmarshal("<principal/>");
-    principal.getScope();
+    assertEquals(null, principal.getScope());
   }
 
   @Test
   public void testGetScopeInvalid() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("foo");
     Principal principal = unmarshal("<principal scope='foo'/>");
-    principal.getScope();
+    assertEquals(null, principal.getScope());
   }
 
   @Test
   public void testSetScopeUser() {
     String expected = "<principal scope='user'/>";
-    Principal principal1 = new Principal().setScope("user");
-    Principal principal2 = new Principal().setScope(Principal.Scope.USER);
-    assertNoDiffs(expected, principal1);
-    assertNoDiffs(expected, principal2);
+    Principal principal = new Principal().setScope(Principal.Scope.USER);
+    assertNoDiffs(expected, principal);
   }
 
   @Test
   public void testSetScopeGroup() {
     String expected = "<principal scope='group'/>";
-    Principal principal1 = new Principal().setScope("group");
-    Principal principal2 = new Principal().setScope(Principal.Scope.GROUP);
-    assertNoDiffs(expected, principal1);
-    assertNoDiffs(expected, principal2);
+    Principal principal = new Principal().setScope(Principal.Scope.GROUP);
+    assertNoDiffs(expected, principal);
   }
 
   @Test
-  public void testSetScopeNullString() {
-    thrown.expect(NullPointerException.class);
-    new Principal().setScope((String) null);
+  public void testSetScopeNull() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("null");
+    new Principal().setScope(null);
   }
 
   @Test
-  public void testSetScopeNullEnum() {
-    thrown.expect(NullPointerException.class);
-    new Principal().setScope((Principal.Scope) null);
-  }
-
-  @Test
-  public void testSetScopeInvalid() {
+  public void testScopeInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
-    new Principal().setScope("foo");
+    Principal.Scope.fromString("foo");
   }
 
   @Test
@@ -134,54 +120,42 @@ public class PrincipalTest {
 
   @Test
   public void testGetAccessUnset() throws Exception {
-    thrown.expect(NullPointerException.class);
     Principal principal = unmarshal("<principal/>");
-    principal.getAccess();
+    assertEquals(null, principal.getAccess());
   }
 
   @Test
   public void testGetAccessInvalid() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("foo");
     Principal principal = unmarshal("<principal access='foo'/>");
-    principal.getAccess();
+    assertEquals(null, principal.getAccess());
   }
 
   @Test
   public void testSetAccessPermit() {
     String expected = "<principal access='permit'/>";
-    Principal principal1 = new Principal().setAccess("permit");
-    Principal principal2 = new Principal().setAccess(Principal.Access.PERMIT);
-    assertNoDiffs(expected, principal1);
-    assertNoDiffs(expected, principal2);
+    Principal principal = new Principal().setAccess(Principal.Access.PERMIT);
+    assertNoDiffs(expected, principal);
   }
 
   @Test
   public void testSetAccessDeny() {
     String expected = "<principal access='deny'/>";
-    Principal principal1 = new Principal().setAccess("deny");
-    Principal principal2 = new Principal().setAccess(Principal.Access.DENY);
-    assertNoDiffs(expected, principal1);
-    assertNoDiffs(expected, principal2);
+    Principal principal = new Principal().setAccess(Principal.Access.DENY);
+    assertNoDiffs(expected, principal);
   }
 
   @Test
-  public void testSetAccessNullString() {
-    thrown.expect(NullPointerException.class);
-    new Principal().setAccess((String) null);
+  public void testSetAccessNull() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("null");
+    new Principal().setAccess(null);
   }
 
   @Test
-  public void testSetAccessNullEnum() {
-    thrown.expect(NullPointerException.class);
-    new Principal().setAccess((Principal.Access) null);
-  }
-
-  @Test
-  public void testSetAccessInvalid() {
+  public void testAccessInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
-    new Principal().setAccess("foo");
+    Principal.Access.fromString("foo");
   }
 
   @Test
@@ -207,55 +181,44 @@ public class PrincipalTest {
 
   @Test
   public void testGetCaseSensitivityTypeInvalid() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("foo");
-    Principal principal = unmarshal("<principal case-sensitivity-type='foo'/>");
-    principal.getCaseSensitivityType();
+    Principal principal =
+        unmarshal("<principal case-sensitivity-type='foo'/>");
+    assertEquals(null, principal.getCaseSensitivityType());
   }
 
   @Test
   public void testSetCaseSensitivityTypeSensitive() {
     String expected =
         "<principal case-sensitivity-type='everything-case-sensitive'/>";
-    Principal principal1 =
-        new Principal().setCaseSensitivityType("everything-case-sensitive");
-    Principal principal2 =
+    Principal principal =
         new Principal().setCaseSensitivityType(
             Principal.CaseSensitivityType.EVERYTHING_CASE_SENSITIVE);
-    assertNoDiffs(expected, principal1);
-    assertNoDiffs(expected, principal2);
+    assertNoDiffs(expected, principal);
   }
 
   @Test
   public void testSetCaseSensitivityTypeInsensitive() {
     String expected =
         "<principal case-sensitivity-type='everything-case-insensitive'/>";
-    Principal principal1 =
-        new Principal().setCaseSensitivityType("everything-case-insensitive");
-    Principal principal2 =
+    Principal principal =
         new Principal().setCaseSensitivityType(
             Principal.CaseSensitivityType.EVERYTHING_CASE_INSENSITIVE);
-    assertNoDiffs(expected, principal1);
-    assertNoDiffs(expected, principal2);
+    assertNoDiffs(expected, principal);
   }
 
   @Test
   public void testSetCaseSensitivityTypeNull() {
     String expected = "<principal/>";
-    Principal principal1 =
-        new Principal().setCaseSensitivityType((String) null);
-    Principal principal2 =
-        new Principal().setCaseSensitivityType(
-            (Principal.CaseSensitivityType) null);
-    assertNoDiffs(expected, principal1);
-    assertNoDiffs(expected, principal2);
+    Principal principal =
+        new Principal().setCaseSensitivityType(null);
+    assertNoDiffs(expected, principal);
   }
 
   @Test
-  public void testSetCaseSensitivityTypeInvalid() {
+  public void testCaseSensitivityTypeInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
-    new Principal().setCaseSensitivityType("foo");
+    Principal.CaseSensitivityType.fromString("foo");
   }
 
   @Test
@@ -274,37 +237,30 @@ public class PrincipalTest {
 
   @Test
   public void testGetPrincipalTypeInvalid() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("foo");
     Principal principal = unmarshal("<principal principal-type='foo'/>");
-    principal.getPrincipalType();
+    assertEquals(null, principal.getPrincipalType());
   }
 
   @Test
   public void testSetPrincipalTypeUnqualified() {
     String expected = "<principal principal-type='unqualified'/>";
-    Principal principal1 = new Principal().setPrincipalType("unqualified");
-    Principal principal2 =
+    Principal principal =
         new Principal().setPrincipalType(Principal.PrincipalType.UNQUALIFIED);
-    assertNoDiffs(expected, principal1);
-    assertNoDiffs(expected, principal2);
+    assertNoDiffs(expected, principal);
   }
 
   @Test
   public void testSetPrincipalTypeNull() {
     String expected = "<principal/>";
-    Principal principal1 = new Principal().setPrincipalType((String) null);
-    Principal principal2 =
-        new Principal().setPrincipalType((Principal.PrincipalType) null);
-    assertNoDiffs(expected, principal1);
-    assertNoDiffs(expected, principal2);
+    Principal principal = new Principal().setPrincipalType(null);
+    assertNoDiffs(expected, principal);
   }
 
   @Test
-  public void testSetPrincipalTypeInvalid() {
+  public void testPrincipalTypeInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
-    new Principal().setPrincipalType("foo");
+    Principal.PrincipalType.fromString("foo");
   }
 
   private void assertNoDiffs(String expected, Object actual) {

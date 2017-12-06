@@ -14,18 +14,18 @@
 
 package com.google.enterprise.gsafeed;
 
-import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  *
@@ -41,18 +41,22 @@ public class Acl {
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String url;
   @XmlAttribute(name = "inheritance-type")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String inheritanceType;
+  protected InheritanceType inheritanceType;
   @XmlAttribute(name = "inherit-from")
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String inheritFrom;
   protected List<Principal> principal;
 
   /** Inheritance types. */
+  @XmlEnum(String.class)
   public static enum InheritanceType {
+    @XmlEnumValue("child-overrides")
     CHILD_OVERRIDES("child-overrides"),
+    @XmlEnumValue("parent-overrides")
     PARENT_OVERRIDES("parent-overrides"),
+    @XmlEnumValue("and-both-permit")
     AND_BOTH_PERMIT("and-both-permit"),
+    @XmlEnumValue("leaf-node")
     LEAF_NODE("leaf-node");
 
     private String xmlValue;
@@ -67,17 +71,10 @@ public class Acl {
     }
 
     public static InheritanceType fromString(String value) {
-      if (value.equals("child-overrides")) {
-        return CHILD_OVERRIDES;
-      }
-      if (value.equals("parent-overrides")) {
-          return PARENT_OVERRIDES;
-      }
-      if (value.equals("and-both-permit")) {
-        return AND_BOTH_PERMIT;
-      }
-      if (value.equals("leaf-node")) {
-        return LEAF_NODE;
+      for (InheritanceType inheritanceType : InheritanceType.values()) {
+        if (inheritanceType.xmlValue.equals(value)) {
+          return inheritanceType;
+        }
       }
       throw new IllegalArgumentException(value);
     }
@@ -109,28 +106,7 @@ public class Acl {
    * @return possible object is {@link InheritanceType}
    */
   public InheritanceType getInheritanceType() {
-    if (inheritanceType == null) {
-      return null;
-    } else {
-      return InheritanceType.fromString(inheritanceType);
-    }
-  }
-
-  /**
-   * Sets the value of the inheritanceType property.
-   *
-   * @param value allowed object is {@link String} or null
-   * @return this object
-   * @throws IllegalArgumentException if value isn't a valid
-   * inheritance-type attribute value
-   */
-  public Acl setInheritanceType(String value) {
-    if (Strings.isNullOrEmpty(value)) {
-      this.inheritanceType = null;
-    } else {
-      setInheritanceType(InheritanceType.fromString(value));
-    }
-    return this;
+    return inheritanceType;
   }
 
   /**
@@ -140,11 +116,7 @@ public class Acl {
    * @return this object
    */
   public Acl setInheritanceType(InheritanceType value) {
-    if (value == null) {
-      this.inheritanceType = null;
-    } else {
-      this.inheritanceType = value.toString();
-    }
+    this.inheritanceType = value;
     return this;
   }
 

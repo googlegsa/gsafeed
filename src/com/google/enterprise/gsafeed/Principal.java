@@ -14,17 +14,16 @@
 
 package com.google.enterprise.gsafeed;
 
-import com.google.common.base.Strings;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  *
@@ -37,26 +36,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Principal {
 
   @XmlAttribute(name = "scope", required = true)
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String scope;
+  protected Scope scope;
   @XmlAttribute(name = "access", required = true)
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String access;
+  protected Access access;
   @XmlAttribute(name = "namespace")
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String namespace;
   @XmlAttribute(name = "case-sensitivity-type")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String caseSensitivityType;
+  protected CaseSensitivityType caseSensitivityType;
   @XmlAttribute(name = "principal-type")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String principalType;
+  protected PrincipalType principalType;
   @XmlValue
   protected String value;
 
   /** Scopes. */
+  @XmlEnum(String.class)
   public static enum Scope {
+    @XmlEnumValue("user")
     USER("user"),
+    @XmlEnumValue("group")
     GROUP("group");
 
     private String xmlValue;
@@ -71,19 +69,21 @@ public class Principal {
     }
 
     public static Scope fromString(String value) {
-      if (value.equals("user")) {
-        return USER;
-      }
-      if (value.equals("group")) {
-        return GROUP;
+      for (Scope scope : Scope.values()) {
+        if (scope.xmlValue.equals(value)) {
+          return scope;
+        }
       }
       throw new IllegalArgumentException(value);
     }
   }
 
   /** Access values. */
+  @XmlEnum(String.class)
   public static enum Access {
+    @XmlEnumValue("permit")
     PERMIT("permit"),
+    @XmlEnumValue("deny")
     DENY("deny");
 
     private String xmlValue;
@@ -98,19 +98,21 @@ public class Principal {
     }
 
     public static Access fromString(String value) {
-      if (value.equals("permit")) {
-        return PERMIT;
-      }
-      if (value.equals("deny")) {
-        return DENY;
+      for (Access access : Access.values()) {
+        if (access.xmlValue.equals(value)) {
+          return access;
+        }
       }
       throw new IllegalArgumentException(value);
     }
   }
 
   /** Case sensitivity. */
+  @XmlEnum(String.class)
   public static enum CaseSensitivityType {
+    @XmlEnumValue("everything-case-sensitive")
     EVERYTHING_CASE_SENSITIVE("everything-case-sensitive"),
+    @XmlEnumValue("everything-case-insensitive")
     EVERYTHING_CASE_INSENSITIVE("everything-case-insensitive");
 
     private String xmlValue;
@@ -125,18 +127,19 @@ public class Principal {
     }
 
     public static CaseSensitivityType fromString(String value) {
-      if (value.equals("everything-case-sensitive")) {
-        return EVERYTHING_CASE_SENSITIVE;
-      }
-      if (value.equals("everything-case-insensitive")) {
-        return EVERYTHING_CASE_INSENSITIVE;
+      for (CaseSensitivityType type : CaseSensitivityType.values()) {
+        if (type.xmlValue.equals(value)) {
+          return type;
+        }
       }
       throw new IllegalArgumentException(value);
     }
   }
 
   /** Principal type. */
+  @XmlEnum(String.class)
   public static enum PrincipalType {
+    @XmlEnumValue("unqualified")
     UNQUALIFIED("unqualified");
 
     private String xmlValue;
@@ -151,8 +154,10 @@ public class Principal {
     }
 
     public static PrincipalType fromString(String value) {
-      if (value.equals("unqualified")) {
-        return UNQUALIFIED;
+      for (PrincipalType type : PrincipalType.values()) {
+        if (type.xmlValue.equals(value)) {
+          return type;
+        }
       }
       throw new IllegalArgumentException(value);
     }
@@ -164,20 +169,7 @@ public class Principal {
    * @return possible object is {@link Scope}
    */
   public Scope getScope() {
-    return Scope.fromString(scope);
-  }
-
-  /**
-   * Sets the value of the scope property.
-   *
-   * @param value allowed object is {@link String}
-   * @return this object
-   * @throws IllegalArgumentException if value isn't a valid
-   * scope attribute value
-   */
-  public Principal setScope(String value) {
-    // scope is required, so don't accept null
-    return setScope(Scope.fromString(value));
+    return scope;
   }
 
   /**
@@ -187,8 +179,10 @@ public class Principal {
    * @return this object
    */
   public Principal setScope(Scope value) {
-    // scope is required, so don't accept null
-    this.scope = value.toString();
+    if (value == null) {
+      throw new IllegalArgumentException("null");
+    }
+    this.scope = value;
     return this;
   }
 
@@ -198,22 +192,20 @@ public class Principal {
    * @return possible object is {@link String}
    */
   public Access getAccess() {
-    return Access.fromString(access);
+    return access;
   }
 
   /**
    * Sets the value of the access property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link Access}
    * @return this object
    */
-  public Principal setAccess(String value) {
-    // access is required, so don't accept null
-    return setAccess(Access.fromString(value));
-  }
-
   public Principal setAccess(Access value) {
-    this.access = value.toString();
+    if (value == null) {
+      throw new IllegalArgumentException("null");
+    }
+    this.access = value;
     return this;
   }
 
@@ -247,28 +239,7 @@ public class Principal {
    * @return possible object is {@link CaseSensitivityType}
    */
   public CaseSensitivityType getCaseSensitivityType() {
-    if (caseSensitivityType == null) {
-      return null;
-    } else {
-      return CaseSensitivityType.fromString(caseSensitivityType);
-    }
-  }
-
-  /**
-   * Sets the value of the caseSensitivityType property.
-   *
-   * @param value allowed object is {@link String} or null
-   * @return this object
-   * @throws IllegalArgumentException if value isn't a valid
-   * case-sensitivity-type attribute value
-   */
-  public Principal setCaseSensitivityType(String value) {
-    if (Strings.isNullOrEmpty(value)) {
-      this.caseSensitivityType = null;
-    } else {
-      setCaseSensitivityType(CaseSensitivityType.fromString(value));
-    }
-    return this;
+    return caseSensitivityType;
   }
 
   /**
@@ -278,11 +249,7 @@ public class Principal {
    * @return this object
    */
   public Principal setCaseSensitivityType(CaseSensitivityType value) {
-    if (value == null) {
-      this.caseSensitivityType = null;
-    } else {
-      this.caseSensitivityType = value.toString();
-    }
+    this.caseSensitivityType = value;
     return this;
   }
 
@@ -292,27 +259,7 @@ public class Principal {
    * @return possible object is {@link PrincipalType}
    */
   public PrincipalType getPrincipalType() {
-    if (principalType == null) {
-      return null;
-    }
-    return PrincipalType.fromString(this.principalType);
-  }
-
-  /**
-   * Sets the value of the principalType property.
-   *
-   * @param value allowed object is {@link String} or null
-   * @return this object
-   * @throws IllegalArgumentException if value isn't a valid
-   * principal-type attribute value
-   */
-  public Principal setPrincipalType(String value) {
-    if (Strings.isNullOrEmpty(value)) {
-      this.principalType = null;
-    } else {
-      setPrincipalType(PrincipalType.fromString(value));
-    }
-    return this;
+    return principalType;
   }
 
   /**
@@ -322,11 +269,7 @@ public class Principal {
    * @return this object
    */
   public Principal setPrincipalType(PrincipalType value) {
-    if (value == null) {
-      this.principalType = null;
-    } else {
-      this.principalType = value.toString();
-    }
+    this.principalType = value;
     return this;
   }
 

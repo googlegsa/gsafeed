@@ -14,16 +14,14 @@
 
 package com.google.enterprise.gsafeed;
 
-import com.google.common.base.Strings;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  *
@@ -36,14 +34,17 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Content {
 
   @XmlAttribute(name = "encoding")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String encoding;
+  protected Encoding encoding;
   @XmlValue
   protected String value;
 
   /** Encoding types. */
+  @XmlType(name = "content-encoding")
+  @XmlEnum(String.class)
   public static enum Encoding {
+    @XmlEnumValue("base64binary")
     BASE_64_BINARY("base64binary"),
+    @XmlEnumValue("base64compressed")
     BASE_64_COMPRESSED("base64compressed");
 
     private String xmlValue;
@@ -58,11 +59,10 @@ public class Content {
     }
 
     public static Encoding fromString(String value) {
-      if (value.equals("base64binary")) {
-        return BASE_64_BINARY;
-      }
-      if (value.equals("base64compressed")) {
-          return BASE_64_COMPRESSED;
+      for (Encoding encoding : Encoding.values()) {
+        if (encoding.xmlValue.equals(value)) {
+          return encoding;
+        }
       }
       throw new IllegalArgumentException(value);
     }
@@ -74,27 +74,7 @@ public class Content {
    * @return possible object is {@link Encoding}
    */
   public Encoding getEncoding() {
-    if (encoding == null) {
-      return null;
-    }
-    return Encoding.fromString(encoding);
-  }
-
-  /**
-   * Sets the value of the encoding property.
-   *
-   * @param value allowed object is {@link String} or null
-   * @return this object
-   * @throws IllegalArgumentException if value isn't a valid
-   * encoding attribute value
-   */
-  public Content setEncoding(String value) {
-    if (Strings.isNullOrEmpty(value)) {
-      this.encoding = null;
-    } else {
-      setEncoding(Encoding.fromString(value));
-    }
-    return this;
+    return encoding;
   }
 
   /**
@@ -104,11 +84,7 @@ public class Content {
    * @return this object
    */
   public Content setEncoding(Encoding value) {
-    if (value == null) {
-      this.encoding = null;
-    } else {
-      this.encoding = value.toString();
-    }
+    this.encoding = value;
     return this;
   }
 

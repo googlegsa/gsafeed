@@ -22,14 +22,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
-import java.nio.charset.Charset;
 
 /**
  * Test Acl.
  */
 public class AclTest {
-  private static final Charset UTF_8 = Charset.forName("UTF-8");
-
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -83,65 +80,53 @@ public class AclTest {
 
   @Test
   public void testGetInheritanceTypeInvalid() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("foo");
     Acl acl = unmarshal("<acl inheritance-type='foo'/>");
-    acl.getInheritanceType();
+    assertEquals(null, acl.getInheritanceType());
   }
 
   @Test
   public void testSetInheritanceTypeChildOverrides() {
     String expected = "<acl inheritance-type='child-overrides'/>";
-    Acl acl1 = new Acl().setInheritanceType("child-overrides");
-    Acl acl2 =
+    Acl acl =
         new Acl().setInheritanceType(Acl.InheritanceType.CHILD_OVERRIDES);
-    assertNoDiffs(expected, acl1);
-    assertNoDiffs(expected, acl2);
+    assertNoDiffs(expected, acl);
   }
 
   @Test
   public void testSetInheritanceTypeParentOverrides() {
     String expected = "<acl inheritance-type='parent-overrides'/>";
-    Acl acl1 = new Acl().setInheritanceType("parent-overrides");
-    Acl acl2 =
+    Acl acl =
         new Acl().setInheritanceType(Acl.InheritanceType.PARENT_OVERRIDES);
-    assertNoDiffs(expected, acl1);
-    assertNoDiffs(expected, acl2);
+    assertNoDiffs(expected, acl);
   }
 
   @Test
   public void testSetInheritanceTypeAndBothPermit() {
     String expected = "<acl inheritance-type='and-both-permit'/>";
-    Acl acl1 = new Acl().setInheritanceType("and-both-permit");
-    Acl acl2 =
+    Acl acl =
         new Acl().setInheritanceType(Acl.InheritanceType.AND_BOTH_PERMIT);
-    assertNoDiffs(expected, acl1);
-    assertNoDiffs(expected, acl2);
+    assertNoDiffs(expected, acl);
   }
 
   @Test
   public void testSetInheritanceTypeLeafNode() {
     String expected = "<acl inheritance-type='leaf-node'/>";
-    Acl acl1 = new Acl().setInheritanceType("leaf-node");
-    Acl acl2 = new Acl().setInheritanceType(Acl.InheritanceType.LEAF_NODE);
-    assertNoDiffs(expected, acl1);
-    assertNoDiffs(expected, acl2);
+    Acl acl = new Acl().setInheritanceType(Acl.InheritanceType.LEAF_NODE);
+    assertNoDiffs(expected, acl);
   }
 
   @Test
   public void testSetInheritanceTypeNull() {
     String expected = "<acl/>";
-    Acl acl1 = new Acl().setInheritanceType((String) null);
-    Acl acl2 = new Acl().setInheritanceType((Acl.InheritanceType) null);
-    assertNoDiffs(expected, acl1);
-    assertNoDiffs(expected, acl2);
+    Acl acl = new Acl().setInheritanceType(null);
+    assertNoDiffs(expected, acl);
   }
 
   @Test
-  public void testSetInheritanceTypeInvalid() {
+  public void testInheritanceTypeInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
-    new Acl().setInheritanceType("foo");
+    Acl.InheritanceType.fromString("foo");
   }
 
   private void assertNoDiffs(String expected, Object actual) {

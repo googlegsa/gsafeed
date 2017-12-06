@@ -22,14 +22,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
-import java.nio.charset.Charset;
 
 /**
  * Test Content.
  */
 public class ContentTest {
-  private static final Charset UTF_8 = Charset.forName("UTF-8");
-
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -38,7 +35,7 @@ public class ContentTest {
     String expected =
         "<content encoding='base64binary'>This is the content.</content>";
     Content content = new Content()
-        .setEncoding("base64binary")
+        .setEncoding(Content.Encoding.BASE_64_BINARY)
         .setvalue("This is the content.");
     Diff diff = DiffBuilder
         .compare(expected)
@@ -62,53 +59,44 @@ public class ContentTest {
 
   @Test
   public void testGetEncodingNotSet() throws Exception {
-    Content content = unmarshal("<content>This is the content.</content>");
+    Content content = unmarshal("<content/>");
     assertEquals(null, content.getEncoding());
   }
 
   @Test
   public void testGetEncodingInvalid() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("foo");
     Content content = unmarshal("<content encoding='foo'/>");
-    content.getEncoding();
+    assertEquals(null, content.getEncoding());
   }
 
   @Test
   public void testSetEncodingBase64Binary() {
     String expected = "<content encoding='base64binary'/>";
-    Content content1 = new Content().setEncoding("base64binary");
-    Content content2 =
+    Content content =
         new Content().setEncoding(Content.Encoding.BASE_64_BINARY);
-    assertNoDiffs(expected, content1);
-    assertNoDiffs(expected, content2);
+    assertNoDiffs(expected, content);
   }
 
   @Test
   public void testSetEncodingBase64Compressed() {
     String expected = "<content encoding='base64compressed'/>";
-    Content content1 = new Content().setEncoding("base64compressed");
-    Content content2 =
+    Content content =
         new Content().setEncoding(Content.Encoding.BASE_64_COMPRESSED);
-    assertNoDiffs(expected, content1);
-    assertNoDiffs(expected, content2);
+    assertNoDiffs(expected, content);
   }
 
   @Test
   public void testSetEncodingNull() {
     String expected = "<content/>";
-    Content content1 = new Content().setEncoding((String) null);
-    Content content2 =
-        new Content().setEncoding((Content.Encoding) null);
-    assertNoDiffs(expected, content1);
-    assertNoDiffs(expected, content2);
+    Content content = new Content().setEncoding(null);
+    assertNoDiffs(expected, content);
   }
 
   @Test
-  public void testSetEncodingInvalid() {
+  public void testEncodingInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
-    new Content().setEncoding("foo");
+    Content.Encoding.fromString("foo");
   }
 
   private void assertNoDiffs(String expected, Object actual) {

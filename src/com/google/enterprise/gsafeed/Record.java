@@ -14,18 +14,18 @@
 
 package com.google.enterprise.gsafeed;
 
-import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  *
@@ -46,8 +46,7 @@ public class Record {
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String displayurl;
   @XmlAttribute(name = "action")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String action;
+  protected Action action;
   @XmlAttribute(name = "mimetype", required = true)
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String mimetype;
@@ -55,11 +54,9 @@ public class Record {
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String lastModified;
   @XmlAttribute(name = "lock")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String lock;
+  protected Boolean lock;
   @XmlAttribute(name = "authmethod")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String authmethod;
+  protected AuthMethod authmethod;
   @XmlAttribute(name = "feedrank")
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String feedrank;
@@ -67,21 +64,22 @@ public class Record {
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String pagerank;
   @XmlAttribute(name = "crawl-immediately")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String crawlImmediately;
+  protected Boolean crawlImmediately;
   @XmlAttribute(name = "crawl-once")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String crawlOnce;
+  protected Boolean crawlOnce;
   @XmlAttribute(name = "scoring")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String scoring;
+  protected Scoring scoring;
   protected Acl acl;
   protected List<Metadata> metadata;
   protected List<Content> content;
 
   /** Action types. */
+  @XmlType(name = "record-action")
+  @XmlEnum(String.class)
   public static enum Action {
+    @XmlEnumValue("add")
     ADD("add"),
+    @XmlEnumValue("delete")
     DELETE("delete");
 
     private String xmlValue;
@@ -96,22 +94,27 @@ public class Record {
     }
 
     public static Action fromString(String value) {
-      if (value.equals("add")) {
-        return ADD;
-      }
-      if (value.equals("delete")) {
-          return DELETE;
+      for (Action action : Action.values()) {
+        if (action.xmlValue.equals(value)) {
+          return action;
+        }
       }
       throw new IllegalArgumentException(value);
     }
   }
 
   /** Auth methods. */
+  @XmlEnum(String.class)
   public enum AuthMethod {
+    @XmlEnumValue("none")
     NONE("none"),
+    @XmlEnumValue("httpbasic")
     HTTPBASIC("httpbasic"),
+    @XmlEnumValue("ntlm")
     NTLM("ntlm"),
+    @XmlEnumValue("httpsso")
     HTTPSSO("httpsso"),
+    @XmlEnumValue("negotiate")
     NEGOTIATE("negotiate");
 
     private String xmlValue;
@@ -126,28 +129,21 @@ public class Record {
     }
 
     public static AuthMethod fromString(String value) {
-      if (value.equals("none")) {
-        return NONE;
-      }
-      if (value.equals("httpbasic")) {
-        return HTTPBASIC;
-      }
-      if (value.equals("ntlm")) {
-        return NTLM;
-      }
-      if (value.equals("httpsso")) {
-        return HTTPSSO;
-      }
-      if (value.equals("negotiate")) {
-        return NEGOTIATE;
+      for (AuthMethod authmethod : AuthMethod.values()) {
+        if (authmethod.xmlValue.equals(value)) {
+          return authmethod;
+        }
       }
       throw new IllegalArgumentException(value);
     }
   };
 
   /** Scoring values. */
+  @XmlEnum(String.class)
   public enum Scoring {
+    @XmlEnumValue("content")
     CONTENT("content"),
+    @XmlEnumValue("web")
     WEB("web");
 
     private String xmlValue;
@@ -162,11 +158,10 @@ public class Record {
     }
 
     public static Scoring fromString(String value) {
-      if (value.equals("content")) {
-        return CONTENT;
-      }
-      if (value.equals("web")) {
-        return WEB;
+      for (Scoring scoring : Scoring.values()) {
+        if (scoring.xmlValue.equals(value)) {
+          return scoring;
+        }
       }
       throw new IllegalArgumentException(value);
     }
@@ -218,28 +213,7 @@ public class Record {
    * @return possible object is {@link Action}
    */
   public Action getAction() {
-    if (action == null) {
-      return null;
-    } else {
-      return Action.fromString(action);
-    }
-  }
-
-  /**
-   * Sets the value of the action property.
-   *
-   * @param value allowed object is {@link String} or null
-   * @return this object
-   * @throws IllegalArgumentException if value isn't a valid
-   * action attribute value
-   */
-  public Record setAction(String value) {
-    if (value == null) {
-      this.action = null;
-    } else {
-      setAction(Action.fromString(value));
-    }
-    return this;
+    return action;
   }
 
   /**
@@ -249,11 +223,7 @@ public class Record {
    * @return this object
    */
   public Record setAction(Action value) {
-    if (value == null) {
-      this.action = null;
-    } else {
-      this.action = value.toString();
-    }
+    this.action = value;
     return this;
   }
 
@@ -300,31 +270,20 @@ public class Record {
   /**
    * Gets the value of the lock property.
    *
-   * @return possible object is {@link boolean}
+   * @return possible object is {@link Boolean}
    */
-  public boolean getLock() {
-    return Boolean.valueOf(lock);
+  public Boolean getLock() {
+    return lock;
   }
 
   /**
    * Sets the value of the lock property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link Boolean}
    * @return this object
    */
-  public Record setLock(String value) {
-    this.lock = Boolean.valueOf(value).toString();
-    return this;
-  }
-
-  /**
-   * Sets the value of the lock property.
-   *
-   * @param value allowed object is {@link boolean}
-   * @return this object
-   */
-  public Record setLock(boolean value) {
-    this.lock = Boolean.toString(value);
+  public Record setLock(Boolean value) {
+    this.lock = value;
     return this;
   }
 
@@ -334,28 +293,7 @@ public class Record {
    * @return possible object is {@link AuthMethod}
    */
   public AuthMethod getAuthmethod() {
-    if (authmethod == null) {
-      return null;
-    } else {
-      return AuthMethod.fromString(authmethod);
-    }
-  }
-
-  /**
-   * Sets the value of the authmethod property.
-   *
-   * @param value allowed object is {@link String} or null
-   * @return this object
-   * @throws IllegalArgumentException if value isn't a valid
-   * auth-method attribute value
-   */
-  public Record setAuthmethod(String value) {
-    if (Strings.isNullOrEmpty(value)) {
-      this.authmethod = null;
-    } else {
-      setAuthmethod(AuthMethod.fromString(value));
-    }
-    return this;
+    return authmethod;
   }
 
   /**
@@ -365,11 +303,7 @@ public class Record {
    * @return this object
    */
   public Record setAuthmethod(AuthMethod value) {
-    if (value == null) {
-      this.authmethod = null;
-    } else {
-      this.authmethod = value.toString();
-    }
+    this.authmethod = value;
     return this;
   }
 
@@ -416,62 +350,40 @@ public class Record {
   /**
    * Gets the value of the crawlImmediately property.
    *
-   * @return possible object is {@link boolean}
+   * @return possible object is {@link Boolean}
    */
-  public boolean getCrawlImmediately() {
-    return Boolean.valueOf(crawlImmediately);
+  public Boolean getCrawlImmediately() {
+    return crawlImmediately;
   }
 
   /**
    * Sets the value of the crawlImmediately property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link Boolean} or null
    * @return this object
    */
-  public Record setCrawlImmediately(String value) {
-    this.crawlImmediately = Boolean.valueOf(value).toString();
-    return this;
-  }
-
-  /**
-   * Sets the value of the crawlImmediately property.
-   *
-   * @param value allowed object is {@link boolean}
-   * @return this object
-   */
-  public Record setCrawlImmediately(boolean value) {
-    this.crawlImmediately = Boolean.toString(value);
+  public Record setCrawlImmediately(Boolean value) {
+    this.crawlImmediately = value;
     return this;
   }
 
   /**
    * Gets the value of the crawlOnce property.
    *
-   * @return possible object is {@link boolean}
+   * @return possible object is {@link Boolean}
    */
-  public boolean getCrawlOnce() {
-    return Boolean.valueOf(crawlOnce);
+  public Boolean getCrawlOnce() {
+    return crawlOnce;
   }
 
   /**
    * Sets the value of the crawlOnce property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link Boolean} or null
    * @return this object
    */
-  public Record setCrawlOnce(String value) {
-    this.crawlOnce = Boolean.valueOf(value).toString();
-    return this;
-  }
-
-  /**
-   * Sets the value of the crawlOnce property.
-   *
-   * @param value allowed object is {@link boolean}
-   * @return this object
-   */
-  public Record setCrawlOnce(boolean value) {
-    this.crawlOnce = Boolean.toString(value);
+  public Record setCrawlOnce(Boolean value) {
+    this.crawlOnce = value;
     return this;
   }
 
@@ -481,42 +393,17 @@ public class Record {
    * @return possible object is {@link Scoring}
    */
   public Scoring getScoring() {
-    if (scoring == null) {
-      return null;
-    } else {
-      return Scoring.fromString(scoring);
-    }
+    return scoring;
   }
 
   /**
    * Sets the value of the scoring property.
    *
-   * @param value allowed object is {@link String} or null
-   * @return this object
-   * @throws IllegalArgumentException if value isn't a valid
-   * scoring attribute value
-   */
-  public Record setScoring(String value) {
-    if (value == null) {
-      this.scoring = null;
-    } else {
-      setScoring(Scoring.fromString(value));
-    }
-    return this;
-  }
-
-  /**
-   * Sets the value of the scoring property.
-   *
-   * @param value allowed object is {@link Scorng} or null
+   * @param value allowed object is {@link Scoring} or null
    * @return this object
    */
   public Record setScoring(Scoring value) {
-    if (value == null) {
-      this.scoring = null;
-    } else {
-      this.scoring = value.toString();
-    }
+    this.scoring = value;
     return this;
   }
 

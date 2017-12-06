@@ -14,16 +14,15 @@
 
 package com.google.enterprise.gsafeed;
 
-import com.google.common.base.Strings;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  *
@@ -34,8 +33,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Meta {
 
   @XmlAttribute(name = "encoding")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String encoding;
+  protected Encoding encoding;
   @XmlAttribute(name = "name", required = true)
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String name;
@@ -44,7 +42,10 @@ public class Meta {
   protected String content;
 
   /** Encoding types. */
+  @XmlType(name = "meta-encoding")
+  @XmlEnum(String.class)
   public static enum Encoding {
+    @XmlEnumValue("base64binary")
     BASE_64_BINARY("base64binary");
 
     private String xmlValue;
@@ -59,8 +60,10 @@ public class Meta {
     }
 
     public static Encoding fromString(String value) {
-      if (value.equals("base64binary")) {
-        return BASE_64_BINARY;
+      for (Encoding encoding : Encoding.values()) {
+        if (encoding.xmlValue.equals(value)) {
+          return encoding;
+        }
       }
       throw new IllegalArgumentException(value);
     }
@@ -72,27 +75,7 @@ public class Meta {
    * @return possible object is {@link Encoding}
    */
   public Encoding getEncoding() {
-    if (encoding == null) {
-      return null;
-    }
-    return Encoding.fromString(encoding);
-  }
-
-  /**
-   * Sets the value of the encoding property.
-   *
-   * @param value allowed object is {@link String} or null
-   * @return this object
-   * @throws IllegalArgumentException if value isn't a valid
-   * encoding attribute value
-   */
-  public Meta setEncoding(String value) {
-    if (Strings.isNullOrEmpty(value)) {
-      this.encoding = null;
-    } else {
-      setEncoding(Encoding.fromString(value));
-    }
-    return this;
+    return encoding;
   }
 
   /**
@@ -102,11 +85,7 @@ public class Meta {
    * @return this object
    */
   public Meta setEncoding(Encoding value) {
-    if (value == null) {
-      this.encoding = null;
-    } else {
-      this.encoding = value.toString();
-    }
+    this.encoding = value;
     return this;
   }
 

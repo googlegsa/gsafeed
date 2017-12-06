@@ -22,14 +22,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
-import java.nio.charset.Charset;
 
 /**
  * Test Meta.
  */
 public class MetaTest {
-  private static final Charset UTF_8 = Charset.forName("UTF-8");
-
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -40,7 +37,7 @@ public class MetaTest {
         + " name='meta-name'"
         + " content='meta-content'></meta>";
     Meta meta = new Meta()
-        .setEncoding("base64binary")
+        .setEncoding(Meta.Encoding.BASE_64_BINARY)
         .setName("meta-name")
         .setContent("meta-content");
     Diff diff = DiffBuilder
@@ -65,35 +62,29 @@ public class MetaTest {
 
   @Test
   public void testGetEncodingInvalid() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("foo");
     Meta meta = unmarshal("<meta encoding='foo'/>");
-    meta.getEncoding();
+    assertEquals(null, meta.getEncoding());
   }
 
   @Test
   public void testSetEncodingBase64Binary() {
     String expected = "<meta encoding='base64binary'/>";
-    Meta meta1 = new Meta().setEncoding("base64binary");
-    Meta meta2 = new Meta().setEncoding(Meta.Encoding.BASE_64_BINARY);
-    assertNoDiffs(expected, meta1);
-    assertNoDiffs(expected, meta2);
+    Meta meta = new Meta().setEncoding(Meta.Encoding.BASE_64_BINARY);
+    assertNoDiffs(expected, meta);
   }
 
   @Test
   public void testSetEncodingNull() {
     String expected = "<meta/>";
-    Meta meta1 = new Meta().setEncoding((String) null);
-    Meta meta2 = new Meta().setEncoding((Meta.Encoding) null);
-    assertNoDiffs(expected, meta1);
-    assertNoDiffs(expected, meta2);
+    Meta meta = new Meta().setEncoding(null);
+    assertNoDiffs(expected, meta);
   }
 
   @Test
-  public void testSetEncodingInvalid() {
+  public void testEncodingInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
-    new Meta().setEncoding("foo");
+    Meta.Encoding.fromString("foo");
   }
 
   private void assertNoDiffs(String expected, Object actual) {

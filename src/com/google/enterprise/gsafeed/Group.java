@@ -16,17 +16,18 @@ package com.google.enterprise.gsafeed;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  *
@@ -39,8 +40,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Group {
 
   @XmlAttribute(name = "action")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String action;
+  protected Action action;
   @XmlAttribute(name = "feedrank")
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String feedrank;
@@ -54,8 +54,12 @@ public class Group {
   protected List<Object> aclOrRecord;
 
   /** Action types. */
+  @XmlType(name = "group-action")
+  @XmlEnum(String.class)
   public static enum Action {
+    @XmlEnumValue("add")
     ADD("add"),
+    @XmlEnumValue("delete")
     DELETE("delete");
 
     private String xmlValue;
@@ -70,11 +74,10 @@ public class Group {
     }
 
     public static Action fromString(String value) {
-      if (value.equals("add")) {
-        return ADD;
-      }
-      if (value.equals("delete")) {
-          return DELETE;
+      for (Action action : Action.values()) {
+        if (action.xmlValue.equals(value)) {
+          return action;
+        }
       }
       throw new IllegalArgumentException(value);
     }
@@ -86,28 +89,7 @@ public class Group {
    * @return possible object is {@link Action}
    */
   public Action getAction() {
-    if (action == null) {
-      return null;
-    } else {
-      return Action.fromString(action);
-    }
-  }
-
-  /**
-   * Sets the value of the action property.
-   *
-   * @param value allowed object is {@link String} or null
-   * @return this object
-   * @throws IllegalArgumentException if value isn't a valid
-   * action attribute value
-   */
-  public Group setAction(String value) {
-    if (value == null) {
-      this.action = null;
-    } else {
-      setAction(Action.fromString(value));
-    }
-    return this;
+    return action;
   }
 
   /**
@@ -117,11 +99,7 @@ public class Group {
    * @return this object
    */
   public Group setAction(Action value) {
-    if (value == null) {
-      this.action = null;
-    } else {
-      this.action = value.toString();
-    }
+    this.action = value;
     return this;
   }
 

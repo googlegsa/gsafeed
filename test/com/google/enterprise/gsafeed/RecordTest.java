@@ -22,14 +22,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
-import java.nio.charset.Charset;
 
 /**
  * Test Record.
  */
 public class RecordTest {
-  private static final Charset UTF_8 = Charset.forName("UTF-8");
-
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -46,16 +43,16 @@ public class RecordTest {
     Record record = new Record()
         .setUrl("http://example.com")
         .setDisplayurl("http://example.com")
-        .setAction("add")
+        .setAction(Record.Action.ADD)
         .setMimetype("text/plain")
         .setLastModified("Tue, 6 Nov 2007 12:45:26 GMT")
-        .setLock("false")
-        .setAuthmethod("none")
+        .setLock(false)
+        .setAuthmethod(Record.AuthMethod.NONE)
         .setFeedrank("1")
         .setPagerank("1")
-        .setCrawlImmediately("false")
-        .setCrawlOnce("false")
-        .setScoring("content");
+        .setCrawlImmediately(false)
+        .setCrawlOnce(false)
+        .setScoring(Record.Scoring.CONTENT);
     Diff diff = DiffBuilder
         .compare(expected)
         .withTest(record)
@@ -84,44 +81,36 @@ public class RecordTest {
 
   @Test
   public void testGetActionInvalid() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("foo");
     Record record = unmarshal("<record action='foo'/>");
-    record.getAction();
+    assertEquals(null, record.getAction());
   }
 
   @Test
   public void testSetActionAdd() {
     String expected = "<record action='add'/>";
-    Record record1 = new Record().setAction("add");
-    Record record2 = new Record().setAction(Record.Action.ADD);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setAction(Record.Action.ADD);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void testSetActionDelete() {
     String expected = "<record action='delete'/>";
-    Record record1 = new Record().setAction("delete");
-    Record record2 = new Record().setAction(Record.Action.DELETE);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setAction(Record.Action.DELETE);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void testSetActionNull() {
     String expected = "<record/>";
-    Record record1 = new Record().setAction((String) null);
-    Record record2 = new Record().setAction((Record.Action) null);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setAction(null);
+    assertNoDiffs(expected, record);
   }
 
   @Test
-  public void testSetActionInvalid() {
+  public void testActionInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
-    new Record().setAction("foo");
+    Record.Action.fromString("foo");
   }
 
   @Test
@@ -139,39 +128,28 @@ public class RecordTest {
   @Test
   public void testGetLockUnset() throws Exception {
     Record record = unmarshal("<record/>");
-    assertEquals(false, record.getLock());
+    assertEquals(null, record.getLock());
   }
 
   @Test
   public void setLockTrue() {
     String expected = "<record lock='true'/>";
-    Record record1 = new Record().setLock("true");
-    Record record2 = new Record().setLock(true);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setLock(true);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void setLockFalse() {
     String expected = "<record lock='false'/>";
-    Record record1 = new Record().setLock("false");
-    Record record2 = new Record().setLock(false);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setLock(false);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void setLockNull() {
-    String expected = "<record lock='false'/>";
-    Record record1 = new Record().setLock(null);
-    assertNoDiffs(expected, record1);
-  }
-
-  @Test
-  public void setLockInvalid() {
-    String expected = "<record lock='false'/>";
-    Record record1 = new Record().setLock("foo");
-    assertNoDiffs(expected, record1);
+    String expected = "<record/>";
+    Record record = new Record().setLock(null);
+    assertNoDiffs(expected, record);
   }
 
   @Test
@@ -212,71 +190,57 @@ public class RecordTest {
 
   @Test
   public void testGetAuthmethodInvalid() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("foo");
     Record record = unmarshal("<record authmethod='foo'/>");
-    record.getAuthmethod();
+    assertEquals(null, record.getAuthmethod());
   }
 
   @Test
   public void setAuthmethodNone() {
     String expected = "<record authmethod='none'/>";
-    Record record1 = new Record().setAuthmethod("none");
-    Record record2 = new Record().setAuthmethod(Record.AuthMethod.NONE);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setAuthmethod(Record.AuthMethod.NONE);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void setAuthmethodHttpbasic() {
     String expected = "<record authmethod='httpbasic'/>";
-    Record record1 = new Record().setAuthmethod("httpbasic");
-    Record record2 = new Record().setAuthmethod(Record.AuthMethod.HTTPBASIC);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setAuthmethod(Record.AuthMethod.HTTPBASIC);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void setAuthmethodNtlm() {
     String expected = "<record authmethod='ntlm'/>";
-    Record record1 = new Record().setAuthmethod("ntlm");
-    Record record2 = new Record().setAuthmethod(Record.AuthMethod.NTLM);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setAuthmethod(Record.AuthMethod.NTLM);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void setAuthmethodHttpsso() {
     String expected = "<record authmethod='httpsso'/>";
-    Record record1 = new Record().setAuthmethod("httpsso");
-    Record record2 = new Record().setAuthmethod(Record.AuthMethod.HTTPSSO);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setAuthmethod(Record.AuthMethod.HTTPSSO);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void setAuthmethodNegotiate() {
     String expected = "<record authmethod='negotiate'/>";
-    Record record1 = new Record().setAuthmethod("negotiate");
-    Record record2 = new Record().setAuthmethod(Record.AuthMethod.NEGOTIATE);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setAuthmethod(Record.AuthMethod.NEGOTIATE);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void testSetAuthmethodNull() {
     String expected = "<record/>";
-    Record record1 = new Record().setAuthmethod((String) null);
-    Record record2 = new Record().setAuthmethod((Record.AuthMethod) null);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setAuthmethod(null);
+    assertNoDiffs(expected, record);
   }
 
   @Test
-  public void testSetAuthmethodInvalid() {
+  public void testAuthmethodInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
-    new Record().setAuthmethod("foo");
+    Record.AuthMethod.fromString("foo");
   }
 
   @Test
@@ -294,38 +258,27 @@ public class RecordTest {
   @Test
   public void testGetCrawlImmediatelyUnset() throws Exception {
     Record record = unmarshal("<record/>");
-    assertEquals(false, record.getCrawlImmediately());
+    assertEquals(null, record.getCrawlImmediately());
   }
 
   @Test
   public void setCrawlImmediatelyTrue() {
     String expected = "<record crawl-immediately='true'/>";
-    Record record1 = new Record().setCrawlImmediately("true");
-    Record record2 = new Record().setCrawlImmediately(true);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setCrawlImmediately(true);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void setCrawlImmediatelyFalse() {
     String expected = "<record crawl-immediately='false'/>";
-    Record record1 = new Record().setCrawlImmediately("false");
-    Record record2 = new Record().setCrawlImmediately(false);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setCrawlImmediately(false);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void setCrawlImmediatelyNull() {
-    String expected = "<record crawl-immediately='false'/>";
+    String expected = "<record/>";
     Record record1 = new Record().setCrawlImmediately(null);
-    assertNoDiffs(expected, record1);
-  }
-
-  @Test
-  public void setCrawlImmediatelyInvalid() {
-    String expected = "<record crawl-immediately='false'/>";
-    Record record1 = new Record().setCrawlImmediately("foo");
     assertNoDiffs(expected, record1);
   }
 
@@ -344,39 +297,28 @@ public class RecordTest {
   @Test
   public void testGetCrawlOnceUnset() throws Exception {
     Record record = unmarshal("<record/>");
-    assertEquals(false, record.getCrawlOnce());
+    assertEquals(null, record.getCrawlOnce());
   }
 
   @Test
   public void setCrawlOnceTrue() {
     String expected = "<record crawl-once='true'/>";
-    Record record1 = new Record().setCrawlOnce("true");
-    Record record2 = new Record().setCrawlOnce(true);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setCrawlOnce(true);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void setCrawlOnceFalse() {
     String expected = "<record crawl-once='false'/>";
-    Record record1 = new Record().setCrawlOnce("false");
-    Record record2 = new Record().setCrawlOnce(false);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setCrawlOnce(false);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void setCrawlOnceNull() {
-    String expected = "<record crawl-once='false'/>";
-    Record record1 = new Record().setCrawlOnce(null);
-    assertNoDiffs(expected, record1);
-  }
-
-  @Test
-  public void setCrawlOnceInvalid() {
-    String expected = "<record crawl-once='false'/>";
-    Record record1 = new Record().setCrawlOnce("foo");
-    assertNoDiffs(expected, record1);
+    String expected = "<record/>";
+    Record record = new Record().setCrawlOnce(null);
+    assertNoDiffs(expected, record);
   }
 
   @Test
@@ -399,44 +341,36 @@ public class RecordTest {
 
   @Test
   public void testGetScoringInvalid() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("foo");
     Record record = unmarshal("<record scoring='foo'/>");
-    record.getScoring();
+    assertEquals(null, record.getScoring());
   }
 
   @Test
   public void testSetScoringContent() {
     String expected = "<record scoring='content'/>";
-    Record record1 = new Record().setScoring("content");
-    Record record2 = new Record().setScoring(Record.Scoring.CONTENT);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setScoring(Record.Scoring.CONTENT);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void testSetScoringWeb() {
     String expected = "<record scoring='web'/>";
-    Record record1 = new Record().setScoring("web");
-    Record record2 = new Record().setScoring(Record.Scoring.WEB);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setScoring(Record.Scoring.WEB);
+    assertNoDiffs(expected, record);
   }
 
   @Test
   public void testSetScoringNull() {
     String expected = "<record/>";
-    Record record1 = new Record().setScoring((String) null);
-    Record record2 = new Record().setScoring((Record.Scoring) null);
-    assertNoDiffs(expected, record1);
-    assertNoDiffs(expected, record2);
+    Record record = new Record().setScoring(null);
+    assertNoDiffs(expected, record);
   }
 
   @Test
-  public void testSetScoringInvalid() {
+  public void testScoringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
-    new Record().setScoring("foo");
+    Record.Scoring.fromString("foo");
   }
 
   private void assertNoDiffs(String expected, Object actual) {

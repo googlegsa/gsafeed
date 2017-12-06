@@ -22,14 +22,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
-import java.nio.charset.Charset;
 
 /**
  * Test Group.
  */
 public class GroupTest {
-  private static final Charset UTF_8 = Charset.forName("UTF-8");
-
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -38,7 +35,7 @@ public class GroupTest {
     String expected =
         "<group action='add' feedrank='1' pagerank='1'></group>";
     Group group = new Group()
-        .setAction("add")
+        .setAction(Group.Action.ADD)
         .setFeedrank("1").setPagerank("1");
     Diff diff = DiffBuilder
         .compare(expected)
@@ -68,44 +65,36 @@ public class GroupTest {
 
   @Test
   public void testGetActionInvalid() throws Exception {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("foo");
     Group group = unmarshal("<group action='foo'/>");
-    group.getAction();
+    assertEquals(null, group.getAction());
   }
 
   @Test
   public void testSetActionAdd() {
     String expected = "<group action='add'/>";
-    Group group1 = new Group().setAction("add");
-    Group group2 = new Group().setAction(Group.Action.ADD);
-    assertNoDiffs(expected, group1);
-    assertNoDiffs(expected, group2);
+    Group group = new Group().setAction(Group.Action.ADD);
+    assertNoDiffs(expected, group);
   }
 
   @Test
   public void testSetActionDelete() {
     String expected = "<group action='delete'/>";
-    Group group1 = new Group().setAction("delete");
-    Group group2 = new Group().setAction(Group.Action.DELETE);
-    assertNoDiffs(expected, group1);
-    assertNoDiffs(expected, group2);
+    Group group = new Group().setAction(Group.Action.DELETE);
+    assertNoDiffs(expected, group);
   }
 
   @Test
   public void testSetActionNull() {
     String expected = "<group/>";
-    Group group1 = new Group().setAction((String) null);
-    Group group2 = new Group().setAction((Group.Action) null);
-    assertNoDiffs(expected, group1);
-    assertNoDiffs(expected, group2);
+    Group group = new Group().setAction(null);
+    assertNoDiffs(expected, group);
   }
 
   @Test
-  public void testSetActionInvalid() {
+  public void testInvalidAction() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
-    new Group().setAction("foo");
+    Group.Action.fromString("foo");
   }
 
   private void assertNoDiffs(String expected, Object actual) {
