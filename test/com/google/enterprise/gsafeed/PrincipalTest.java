@@ -100,10 +100,22 @@ public class PrincipalTest {
   }
 
   @Test
-  public void testScopeInvalid() {
+  public void testScopeFromString() {
+    for (Principal.Scope value : Principal.Scope.values()) {
+      assertEquals(value, Principal.Scope.fromString(value.toString()));
+    }
+  }
+
+  @Test
+  public void testScopeFromStringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
     Principal.Scope.fromString("foo");
+  }
+
+  @Test
+  public void testScopeFromStringNull() {
+    assertEquals(null, Principal.Scope.fromString(null));
   }
 
   @Test
@@ -152,10 +164,22 @@ public class PrincipalTest {
   }
 
   @Test
-  public void testAccessInvalid() {
+  public void testAccessFromString() {
+    for (Principal.Access value : Principal.Access.values()) {
+      assertEquals(value, Principal.Access.fromString(value.toString()));
+    }
+  }
+
+  @Test
+  public void testAccessFromStringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
     Principal.Access.fromString("foo");
+  }
+
+  @Test
+  public void testAccessFromStringNull() {
+    assertEquals(null, Principal.Access.fromString(null));
   }
 
   @Test
@@ -215,10 +239,24 @@ public class PrincipalTest {
   }
 
   @Test
-  public void testCaseSensitivityTypeInvalid() {
+  public void testCaseSensitivityTypeFromString() {
+    for (Principal.CaseSensitivityType value
+             : Principal.CaseSensitivityType.values()) {
+      assertEquals(value,
+          Principal.CaseSensitivityType.fromString(value.toString()));
+    }
+  }
+
+  @Test
+  public void testCaseSensitivityTypeFromStringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
     Principal.CaseSensitivityType.fromString("foo");
+  }
+
+  @Test
+  public void testCaseSensitivityTypeFromStringNull() {
+    assertEquals(null, Principal.CaseSensitivityType.fromString(null));
   }
 
   @Test
@@ -257,10 +295,22 @@ public class PrincipalTest {
   }
 
   @Test
-  public void testPrincipalTypeInvalid() {
+  public void testPrincipalTypeFromString() {
+    for (Principal.PrincipalType value : Principal.PrincipalType.values()) {
+      assertEquals(value, Principal.PrincipalType.fromString(value.toString()));
+    }
+  }
+
+  @Test
+  public void testPrincipalTypeFromStringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
     Principal.PrincipalType.fromString("foo");
+  }
+
+  @Test
+  public void testPrincipalTypeFromStringNull() {
+    assertEquals(null, Principal.PrincipalType.fromString(null));
   }
 
   private void assertNoDiffs(String expected, Object actual) {
@@ -270,6 +320,6 @@ public class PrincipalTest {
   }
 
   private Principal unmarshal(String value) throws Exception {
-    return (Principal) JaxbUtil.unmarshalGsafeed(value);
+    return (Principal) JaxbUtil.unmarshalGsafeedElement(value);
   }
 }

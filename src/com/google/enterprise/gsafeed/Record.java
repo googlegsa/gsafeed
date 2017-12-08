@@ -94,6 +94,9 @@ public class Record {
     }
 
     public static Action fromString(String value) {
+      if (value == null) {
+        return null;
+      }
       for (Action action : Action.values()) {
         if (action.xmlValue.equals(value)) {
           return action;
@@ -129,6 +132,9 @@ public class Record {
     }
 
     public static AuthMethod fromString(String value) {
+      if (value == null) {
+        return null;
+      }
       for (AuthMethod authmethod : AuthMethod.values()) {
         if (authmethod.xmlValue.equals(value)) {
           return authmethod;
@@ -158,6 +164,9 @@ public class Record {
     }
 
     public static Scoring fromString(String value) {
+      if (value == null) {
+        return null;
+      }
       for (Scoring scoring : Scoring.values()) {
         if (scoring.xmlValue.equals(value)) {
           return scoring;

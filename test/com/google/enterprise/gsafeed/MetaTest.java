@@ -81,10 +81,22 @@ public class MetaTest {
   }
 
   @Test
-  public void testEncodingInvalid() {
+  public void testEncodingFromString() {
+    for (Meta.Encoding value : Meta.Encoding.values()) {
+      assertEquals(value, Meta.Encoding.fromString(value.toString()));
+    }
+  }
+
+  @Test
+  public void testEncodingFromStringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
     Meta.Encoding.fromString("foo");
+  }
+
+  @Test
+  public void testEncodingFromStringNull() {
+    assertEquals(null, Meta.Encoding.fromString(null));
   }
 
   private void assertNoDiffs(String expected, Object actual) {
@@ -94,6 +106,6 @@ public class MetaTest {
   }
 
   private Meta unmarshal(String value) throws Exception {
-    return (Meta) JaxbUtil.unmarshalGsafeed(value);
+    return (Meta) JaxbUtil.unmarshalGsafeedElement(value);
   }
 }

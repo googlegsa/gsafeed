@@ -60,6 +60,9 @@ public class Meta {
     }
 
     public static Encoding fromString(String value) {
+      if (value == null) {
+        return null;
+      }
       for (Encoding encoding : Encoding.values()) {
         if (encoding.xmlValue.equals(value)) {
           return encoding;

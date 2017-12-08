@@ -123,10 +123,22 @@ public class AclTest {
   }
 
   @Test
-  public void testInheritanceTypeInvalid() {
+  public void testInheritanceTypeFromString() {
+    for (Acl.InheritanceType value : Acl.InheritanceType.values()) {
+      assertEquals(value, Acl.InheritanceType.fromString(value.toString()));
+    }
+  }
+
+  @Test
+  public void testInheritanceTypeFromStringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
     Acl.InheritanceType.fromString("foo");
+  }
+
+  @Test
+  public void testInheritanceTypeFromStringNull() {
+    assertEquals(null, Acl.InheritanceType.fromString(null));
   }
 
   private void assertNoDiffs(String expected, Object actual) {
@@ -136,6 +148,6 @@ public class AclTest {
   }
 
   private Acl unmarshal(String value) throws Exception {
-    return (Acl) JaxbUtil.unmarshalGsafeed(value);
+    return (Acl) JaxbUtil.unmarshalGsafeedElement(value);
   }
 }

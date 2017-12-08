@@ -71,6 +71,9 @@ public class Acl {
     }
 
     public static InheritanceType fromString(String value) {
+      if (value == null) {
+        return null;
+      }
       for (InheritanceType inheritanceType : InheritanceType.values()) {
         if (inheritanceType.xmlValue.equals(value)) {
           return inheritanceType;

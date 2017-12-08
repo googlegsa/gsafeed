@@ -91,10 +91,22 @@ public class GroupTest {
   }
 
   @Test
-  public void testInvalidAction() {
+  public void testActionFromString() {
+    for (Group.Action value : Group.Action.values()) {
+      assertEquals(value, Group.Action.fromString(value.toString()));
+    }
+  }
+
+  @Test
+  public void testActionFromStringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
     Group.Action.fromString("foo");
+  }
+
+  @Test
+  public void testActionFromStringNull() {
+    assertEquals(null, Group.Action.fromString(null));
   }
 
   private void assertNoDiffs(String expected, Object actual) {
@@ -104,6 +116,6 @@ public class GroupTest {
   }
 
   private Group unmarshal(String value) throws Exception {
-    return (Group) JaxbUtil.unmarshalGsafeed(value);
+    return (Group) JaxbUtil.unmarshalGsafeedElement(value);
   }
 }

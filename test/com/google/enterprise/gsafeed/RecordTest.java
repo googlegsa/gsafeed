@@ -106,11 +106,22 @@ public class RecordTest {
     assertNoDiffs(expected, record);
   }
 
+  public void testActionFromString() {
+    for (Record.Action value : Record.Action.values()) {
+      assertEquals(value, Record.Action.fromString(value.toString()));
+    }
+  }
+
   @Test
-  public void testActionInvalid() {
+  public void testActionFromStringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
     Record.Action.fromString("foo");
+  }
+
+  @Test
+  public void testActionFromStringNull() {
+    assertEquals(null, Record.Action.fromString(null));
   }
 
   @Test
@@ -236,11 +247,22 @@ public class RecordTest {
     assertNoDiffs(expected, record);
   }
 
+  public void testAuthMethodFromString() {
+    for (Record.AuthMethod value : Record.AuthMethod.values()) {
+      assertEquals(value, Record.AuthMethod.fromString(value.toString()));
+    }
+  }
+
   @Test
-  public void testAuthmethodInvalid() {
+  public void testAuthMethodFromStringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
     Record.AuthMethod.fromString("foo");
+  }
+
+  @Test
+  public void testAuthMethodFromStringNull() {
+    assertEquals(null, Record.AuthMethod.fromString(null));
   }
 
   @Test
@@ -366,11 +388,64 @@ public class RecordTest {
     assertNoDiffs(expected, record);
   }
 
+  public void testScoringFromString() {
+    for (Record.Scoring value : Record.Scoring.values()) {
+      assertEquals(value, Record.Scoring.fromString(value.toString()));
+    }
+  }
+
   @Test
-  public void testScoringInvalid() {
+  public void testScoringFromStringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
     Record.Scoring.fromString("foo");
+  }
+
+  @Test
+  public void testScoringFromStringNull() {
+    assertEquals(null, Record.Scoring.fromString(null));
+  }
+
+  @Test
+  public void testActionValidation() throws Exception {
+    String xml =
+        "<?xml version='1.0' encoding='utf-8'?>"
+        + "<!DOCTYPE gsafeed PUBLIC '-//Google//DTD GSA Feeds//EN' ''>"
+        + "<gsafeed>"
+        + "  <header>"
+        + "    <datasource>sample</datasource>"
+        + "    <feedtype>full</feedtype>"
+        + "  </header>"
+        + "  <group>"
+        + "   <record url='url' mimetype='mimetype' action='foo'/>"
+        + "  </group>"
+        + "</gsafeed>";
+
+    thrown.expect(org.xml.sax.SAXParseException.class);
+    thrown.expectMessage("Attribute \"action\" with value \"foo\" must"
+        + " have a value from the list \"add delete \".");
+    new GsafeedHelper().unmarshalWithDtd(xml);
+  }
+
+  @Test
+  public void testLockValidation() throws Exception {
+    String xml =
+        "<?xml version='1.0' encoding='utf-8'?>"
+        + "<!DOCTYPE gsafeed PUBLIC '-//Google//DTD GSA Feeds//EN' ''>"
+        + "<gsafeed>"
+        + "  <header>"
+        + "    <datasource>sample</datasource>"
+        + "    <feedtype>full</feedtype>"
+        + "  </header>"
+        + "  <group>"
+        + "   <record url='url' mimetype='mimetype' lock='foo'/>"
+        + "  </group>"
+        + "</gsafeed>";
+
+    thrown.expect(org.xml.sax.SAXParseException.class);
+    thrown.expectMessage("Attribute \"lock\" with value \"foo\" must"
+        + " have a value from the list \"true false \".");
+    new GsafeedHelper().unmarshalWithDtd(xml);
   }
 
   private void assertNoDiffs(String expected, Object actual) {
@@ -380,6 +455,6 @@ public class RecordTest {
   }
 
   private Record unmarshal(String value) throws Exception {
-    return (Record) JaxbUtil.unmarshalGsafeed(value);
+    return (Record) JaxbUtil.unmarshalGsafeedElement(value);
   }
 }

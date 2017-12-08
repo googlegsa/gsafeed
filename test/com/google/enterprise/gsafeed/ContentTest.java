@@ -93,10 +93,22 @@ public class ContentTest {
   }
 
   @Test
-  public void testEncodingInvalid() {
+  public void testEncodingFromString() {
+    for (Content.Encoding value : Content.Encoding.values()) {
+      assertEquals(value, Content.Encoding.fromString(value.toString()));
+    }
+  }
+
+  @Test
+  public void testEncodingFromStringInvalid() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("foo");
     Content.Encoding.fromString("foo");
+  }
+
+  @Test
+  public void testEncodingFromStringNull() {
+    assertEquals(null, Content.Encoding.fromString(null));
   }
 
   private void assertNoDiffs(String expected, Object actual) {
@@ -106,6 +118,6 @@ public class ContentTest {
   }
 
   private Content unmarshal(String value) throws Exception {
-    return (Content) JaxbUtil.unmarshalGsafeed(value);
+    return (Content) JaxbUtil.unmarshalGsafeedElement(value);
   }
 }

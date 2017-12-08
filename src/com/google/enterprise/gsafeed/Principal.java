@@ -69,6 +69,9 @@ public class Principal {
     }
 
     public static Scope fromString(String value) {
+      if (value == null) {
+        return null;
+      }
       for (Scope scope : Scope.values()) {
         if (scope.xmlValue.equals(value)) {
           return scope;
@@ -98,6 +101,9 @@ public class Principal {
     }
 
     public static Access fromString(String value) {
+      if (value == null) {
+        return null;
+      }
       for (Access access : Access.values()) {
         if (access.xmlValue.equals(value)) {
           return access;
@@ -127,6 +133,9 @@ public class Principal {
     }
 
     public static CaseSensitivityType fromString(String value) {
+      if (value == null) {
+        return null;
+      }
       for (CaseSensitivityType type : CaseSensitivityType.values()) {
         if (type.xmlValue.equals(value)) {
           return type;
@@ -154,6 +163,9 @@ public class Principal {
     }
 
     public static PrincipalType fromString(String value) {
+      if (value == null) {
+        return null;
+      }
       for (PrincipalType type : PrincipalType.values()) {
         if (type.xmlValue.equals(value)) {
           return type;

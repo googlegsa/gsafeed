@@ -85,6 +85,6 @@ public class MetadataTest {
   }
 
   private Metadata unmarshal(String value) throws Exception {
-    return (Metadata) JaxbUtil.unmarshalGsafeed(value);
+    return (Metadata) JaxbUtil.unmarshalGsafeedElement(value);
   }
 }

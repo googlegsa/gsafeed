@@ -74,6 +74,9 @@ public class Group {
     }
 
     public static Action fromString(String value) {
+      if (value == null) {
+        return null;
+      }
       for (Action action : Action.values()) {
         if (action.xmlValue.equals(value)) {
           return action;
