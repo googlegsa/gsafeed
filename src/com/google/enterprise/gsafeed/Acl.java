@@ -16,15 +16,16 @@ package com.google.enterprise.gsafeed;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  *
@@ -40,12 +41,47 @@ public class Acl {
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String url;
   @XmlAttribute(name = "inheritance-type")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String inheritanceType;
+  protected InheritanceType inheritanceType;
   @XmlAttribute(name = "inherit-from")
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String inheritFrom;
   protected List<Principal> principal;
+
+  /** Inheritance types. */
+  @XmlEnum(String.class)
+  public static enum InheritanceType {
+    @XmlEnumValue("child-overrides")
+    CHILD_OVERRIDES("child-overrides"),
+    @XmlEnumValue("parent-overrides")
+    PARENT_OVERRIDES("parent-overrides"),
+    @XmlEnumValue("and-both-permit")
+    AND_BOTH_PERMIT("and-both-permit"),
+    @XmlEnumValue("leaf-node")
+    LEAF_NODE("leaf-node");
+
+    private String xmlValue;
+
+    private InheritanceType(String xmlValue) {
+      this.xmlValue = xmlValue;
+    }
+
+    @Override
+    public String toString() {
+      return xmlValue;
+    }
+
+    public static InheritanceType fromString(String value) {
+      if (value == null) {
+        return null;
+      }
+      for (InheritanceType inheritanceType : InheritanceType.values()) {
+        if (inheritanceType.xmlValue.equals(value)) {
+          return inheritanceType;
+        }
+      }
+      throw new IllegalArgumentException(value);
+    }
+  }
 
   /**
    * Gets the value of the url property.
@@ -70,23 +106,19 @@ public class Acl {
   /**
    * Gets the value of the inheritanceType property.
    *
-   * @return possible object is {@link String}
+   * @return possible object is {@link InheritanceType}
    */
-  public String getInheritanceType() {
-    if (inheritanceType == null) {
-      return "leaf-node";
-    } else {
-      return inheritanceType;
-    }
+  public InheritanceType getInheritanceType() {
+    return inheritanceType;
   }
 
   /**
    * Sets the value of the inheritanceType property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link InheritanceType} or null
    * @return this object
    */
-  public Acl setInheritanceType(String value) {
+  public Acl setInheritanceType(InheritanceType value) {
     this.inheritanceType = value;
     return this;
   }

@@ -19,10 +19,12 @@ import com.google.enterprise.gsafeed.groups.Xmlgroups;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -30,6 +32,7 @@ import javax.xml.parsers.ParserConfigurationException;
  * Helper for reading and creating GSA feed files.
  */
 public class XmlgroupsHelper extends FeedHelper {
+  private static final Charset UTF_8 = Charset.forName("UTF-8");
 
   public XmlgroupsHelper() throws JAXBException {
     super(Xmlgroups.class, "xmlgroups", "/groupsfeed.dtd");
@@ -57,6 +60,16 @@ public class XmlgroupsHelper extends FeedHelper {
   }
 
   /**
+   * Use the DTD to check for errors in the feed being read. The
+   * xml is assumed to be UTF-8.
+   */
+  public Xmlgroups unmarshalWithDtd(String xml)
+      throws JAXBException, IOException, ParserConfigurationException,
+      SAXException {
+    return unmarshalWithDtd(new ByteArrayInputStream(xml.getBytes(UTF_8)));
+  }
+
+  /**
    * Avoid reading the DTD. No validation will happen.
    */
   public Xmlgroups unmarshalWithoutDtd(URL url) throws JAXBException,
@@ -71,6 +84,16 @@ public class XmlgroupsHelper extends FeedHelper {
       throws JAXBException, IOException, ParserConfigurationException,
       SAXException {
     return (Xmlgroups) unmarshal(inputStream, Validation.FALSE);
+  }
+
+  /**
+   * Avoid reading the DTD. No validation will happen. The xml is
+   * assumed to be UTF-8.
+   */
+  public Xmlgroups unmarshalWithoutDtd(String xml)
+      throws JAXBException, IOException, ParserConfigurationException,
+      SAXException {
+    return unmarshalWithoutDtd(new ByteArrayInputStream(xml.getBytes(UTF_8)));
   }
 
   /**

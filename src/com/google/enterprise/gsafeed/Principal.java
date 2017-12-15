@@ -17,13 +17,13 @@ package com.google.enterprise.gsafeed;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  *
@@ -36,39 +36,164 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Principal {
 
   @XmlAttribute(name = "scope", required = true)
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String scope;
+  protected Scope scope;
   @XmlAttribute(name = "access", required = true)
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String access;
+  protected Access access;
   @XmlAttribute(name = "namespace")
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String namespace;
   @XmlAttribute(name = "case-sensitivity-type")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String caseSensitivityType;
+  protected CaseSensitivityType caseSensitivityType;
   @XmlAttribute(name = "principal-type")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String principalType;
+  protected PrincipalType principalType;
   @XmlValue
   protected String value;
+
+  /** Scopes. */
+  @XmlEnum(String.class)
+  public static enum Scope {
+    @XmlEnumValue("user")
+    USER("user"),
+    @XmlEnumValue("group")
+    GROUP("group");
+
+    private String xmlValue;
+
+    private Scope(String xmlValue) {
+      this.xmlValue = xmlValue;
+    }
+
+    @Override
+    public String toString() {
+      return xmlValue;
+    }
+
+    public static Scope fromString(String value) {
+      if (value == null) {
+        return null;
+      }
+      for (Scope scope : Scope.values()) {
+        if (scope.xmlValue.equals(value)) {
+          return scope;
+        }
+      }
+      throw new IllegalArgumentException(value);
+    }
+  }
+
+  /** Access values. */
+  @XmlEnum(String.class)
+  public static enum Access {
+    @XmlEnumValue("permit")
+    PERMIT("permit"),
+    @XmlEnumValue("deny")
+    DENY("deny");
+
+    private String xmlValue;
+
+    private Access(String xmlValue) {
+      this.xmlValue = xmlValue;
+    }
+
+    @Override
+    public String toString() {
+      return xmlValue;
+    }
+
+    public static Access fromString(String value) {
+      if (value == null) {
+        return null;
+      }
+      for (Access access : Access.values()) {
+        if (access.xmlValue.equals(value)) {
+          return access;
+        }
+      }
+      throw new IllegalArgumentException(value);
+    }
+  }
+
+  /** Case sensitivity. */
+  @XmlEnum(String.class)
+  public static enum CaseSensitivityType {
+    @XmlEnumValue("everything-case-sensitive")
+    EVERYTHING_CASE_SENSITIVE("everything-case-sensitive"),
+    @XmlEnumValue("everything-case-insensitive")
+    EVERYTHING_CASE_INSENSITIVE("everything-case-insensitive");
+
+    private String xmlValue;
+
+    private CaseSensitivityType(String xmlValue) {
+      this.xmlValue = xmlValue;
+    }
+
+    @Override
+    public String toString() {
+      return xmlValue;
+    }
+
+    public static CaseSensitivityType fromString(String value) {
+      if (value == null) {
+        return null;
+      }
+      for (CaseSensitivityType type : CaseSensitivityType.values()) {
+        if (type.xmlValue.equals(value)) {
+          return type;
+        }
+      }
+      throw new IllegalArgumentException(value);
+    }
+  }
+
+  /** Principal type. */
+  @XmlEnum(String.class)
+  public static enum PrincipalType {
+    @XmlEnumValue("unqualified")
+    UNQUALIFIED("unqualified");
+
+    private String xmlValue;
+
+    private PrincipalType(String xmlValue) {
+      this.xmlValue = xmlValue;
+    }
+
+    @Override
+    public String toString() {
+      return xmlValue;
+    }
+
+    public static PrincipalType fromString(String value) {
+      if (value == null) {
+        return null;
+      }
+      for (PrincipalType type : PrincipalType.values()) {
+        if (type.xmlValue.equals(value)) {
+          return type;
+        }
+      }
+      throw new IllegalArgumentException(value);
+    }
+  }
 
   /**
    * Gets the value of the scope property.
    *
-   * @return possible object is {@link String}
+   * @return possible object is {@link Scope}
    */
-  public String getScope() {
+  public Scope getScope() {
     return scope;
   }
 
   /**
    * Sets the value of the scope property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link Scope}
    * @return this object
    */
-  public Principal setScope(String value) {
+  public Principal setScope(Scope value) {
+    if (value == null) {
+      throw new IllegalArgumentException("null");
+    }
     this.scope = value;
     return this;
   }
@@ -78,17 +203,20 @@ public class Principal {
    *
    * @return possible object is {@link String}
    */
-  public String getAccess() {
+  public Access getAccess() {
     return access;
   }
 
   /**
    * Sets the value of the access property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link Access}
    * @return this object
    */
-  public Principal setAccess(String value) {
+  public Principal setAccess(Access value) {
+    if (value == null) {
+      throw new IllegalArgumentException("null");
+    }
     this.access = value;
     return this;
   }
@@ -120,23 +248,19 @@ public class Principal {
   /**
    * Gets the value of the caseSensitivityType property.
    *
-   * @return possible object is {@link String}
+   * @return possible object is {@link CaseSensitivityType}
    */
-  public String getCaseSensitivityType() {
-    if (caseSensitivityType == null) {
-      return "everything-case-sensitive";
-    } else {
-      return caseSensitivityType;
-    }
+  public CaseSensitivityType getCaseSensitivityType() {
+    return caseSensitivityType;
   }
 
   /**
    * Sets the value of the caseSensitivityType property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link CaseSensitivityType} or null
    * @return this object
    */
-  public Principal setCaseSensitivityType(String value) {
+  public Principal setCaseSensitivityType(CaseSensitivityType value) {
     this.caseSensitivityType = value;
     return this;
   }
@@ -144,19 +268,19 @@ public class Principal {
   /**
    * Gets the value of the principalType property.
    *
-   * @return possible object is {@link String}
+   * @return possible object is {@link PrincipalType}
    */
-  public String getPrincipalType() {
+  public PrincipalType getPrincipalType() {
     return principalType;
   }
 
   /**
    * Sets the value of the principalType property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link PrincipalType} or null
    * @return this object
    */
-  public Principal setPrincipalType(String value) {
+  public Principal setPrincipalType(PrincipalType value) {
     this.principalType = value;
     return this;
   }

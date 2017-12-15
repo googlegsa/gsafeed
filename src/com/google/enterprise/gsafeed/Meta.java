@@ -17,12 +17,12 @@ package com.google.enterprise.gsafeed;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  *
@@ -33,8 +33,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Meta {
 
   @XmlAttribute(name = "encoding")
-  @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-  protected String encoding;
+  protected Encoding encoding;
   @XmlAttribute(name = "name", required = true)
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String name;
@@ -42,22 +41,53 @@ public class Meta {
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String content;
 
+  /** Encoding types. */
+  @XmlType(name = "meta-encoding")
+  @XmlEnum(String.class)
+  public static enum Encoding {
+    @XmlEnumValue("base64binary")
+    BASE64_BINARY("base64binary");
+
+    private String xmlValue;
+
+    private Encoding(String xmlValue) {
+      this.xmlValue = xmlValue;
+    }
+
+    @Override
+    public String toString() {
+      return xmlValue;
+    }
+
+    public static Encoding fromString(String value) {
+      if (value == null) {
+        return null;
+      }
+      for (Encoding encoding : Encoding.values()) {
+        if (encoding.xmlValue.equals(value)) {
+          return encoding;
+        }
+      }
+      throw new IllegalArgumentException(value);
+    }
+  }
+
   /**
    * Gets the value of the encoding property.
    *
-   * @return possible object is {@link String}
+   * @return possible object is {@link Encoding}
    */
-  public String getEncoding() {
+  public Encoding getEncoding() {
     return encoding;
   }
 
   /**
    * Sets the value of the encoding property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link Encoding} or null
    * @return this object
    */
-  public Meta setEncoding(String value) {
+  public Meta setEncoding(Encoding value) {
     this.encoding = value;
     return this;
   }

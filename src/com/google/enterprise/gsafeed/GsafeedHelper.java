@@ -17,10 +17,12 @@ package com.google.enterprise.gsafeed;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -28,6 +30,7 @@ import javax.xml.parsers.ParserConfigurationException;
  * Helper for reading and creating GSA feed files.
  */
 public class GsafeedHelper extends FeedHelper {
+  private static final Charset UTF_8 = Charset.forName("UTF-8");
 
   public GsafeedHelper() throws JAXBException {
     super(Gsafeed.class, "gsafeed", "/gsafeed.dtd");
@@ -55,6 +58,16 @@ public class GsafeedHelper extends FeedHelper {
   }
 
   /**
+   * Use the DTD to check for errors in the feed being read. The
+   * xml is assumed to be UTF-8.
+   */
+  public Gsafeed unmarshalWithDtd(String xml)
+      throws JAXBException, IOException, ParserConfigurationException,
+      SAXException {
+    return unmarshalWithDtd(new ByteArrayInputStream(xml.getBytes(UTF_8)));
+  }
+
+  /**
    * Avoid reading the DTD. No validation will happen.
    */
   public Gsafeed unmarshalWithoutDtd(URL url) throws JAXBException,
@@ -69,6 +82,16 @@ public class GsafeedHelper extends FeedHelper {
       throws JAXBException, IOException, ParserConfigurationException,
       SAXException {
     return (Gsafeed) unmarshal(inputStream, Validation.FALSE);
+  }
+
+  /**
+   * Avoid reading the DTD. No validation will happen. The xml is
+   * assumed to be UTF-8.
+   */
+  public Gsafeed unmarshalWithoutDtd(String xml)
+      throws JAXBException, IOException, ParserConfigurationException,
+      SAXException {
+    return unmarshalWithoutDtd(new ByteArrayInputStream(xml.getBytes(UTF_8)));
   }
 
   /**
