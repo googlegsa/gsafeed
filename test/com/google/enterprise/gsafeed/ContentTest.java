@@ -35,7 +35,7 @@ public class ContentTest {
     String expected =
         "<content encoding='base64binary'>This is the content.</content>";
     Content content = new Content()
-        .setEncoding(Content.Encoding.BASE_64_BINARY)
+        .setEncoding(Content.Encoding.BASE64_BINARY)
         .setvalue("This is the content.");
     Diff diff = DiffBuilder
         .compare(expected)
@@ -48,13 +48,13 @@ public class ContentTest {
   @Test
   public void testGetEncodingBase64Binary() throws Exception {
     Content content = unmarshal("<content encoding='base64binary'/>");
-    assertEquals(Content.Encoding.BASE_64_BINARY, content.getEncoding());
+    assertEquals(Content.Encoding.BASE64_BINARY, content.getEncoding());
   }
 
   @Test
   public void testGetEncodingBase64Compressed() throws Exception {
     Content content = unmarshal("<content encoding='base64compressed'/>");
-    assertEquals(Content.Encoding.BASE_64_COMPRESSED, content.getEncoding());
+    assertEquals(Content.Encoding.BASE64_COMPRESSED, content.getEncoding());
   }
 
   @Test
@@ -73,7 +73,7 @@ public class ContentTest {
   public void testSetEncodingBase64Binary() {
     String expected = "<content encoding='base64binary'/>";
     Content content =
-        new Content().setEncoding(Content.Encoding.BASE_64_BINARY);
+        new Content().setEncoding(Content.Encoding.BASE64_BINARY);
     assertNoDiffs(expected, content);
   }
 
@@ -81,7 +81,7 @@ public class ContentTest {
   public void testSetEncodingBase64Compressed() {
     String expected = "<content encoding='base64compressed'/>";
     Content content =
-        new Content().setEncoding(Content.Encoding.BASE_64_COMPRESSED);
+        new Content().setEncoding(Content.Encoding.BASE64_COMPRESSED);
     assertNoDiffs(expected, content);
   }
 

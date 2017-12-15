@@ -37,7 +37,7 @@ public class MetaTest {
         + " name='meta-name'"
         + " content='meta-content'></meta>";
     Meta meta = new Meta()
-        .setEncoding(Meta.Encoding.BASE_64_BINARY)
+        .setEncoding(Meta.Encoding.BASE64_BINARY)
         .setName("meta-name")
         .setContent("meta-content");
     Diff diff = DiffBuilder
@@ -51,7 +51,7 @@ public class MetaTest {
   @Test
   public void testGetEncodingBase64Binary() throws Exception {
     Meta meta = unmarshal("<meta encoding='base64binary'/>");
-    assertEquals(Meta.Encoding.BASE_64_BINARY, meta.getEncoding());
+    assertEquals(Meta.Encoding.BASE64_BINARY, meta.getEncoding());
   }
 
   @Test
@@ -69,7 +69,7 @@ public class MetaTest {
   @Test
   public void testSetEncodingBase64Binary() {
     String expected = "<meta encoding='base64binary'/>";
-    Meta meta = new Meta().setEncoding(Meta.Encoding.BASE_64_BINARY);
+    Meta meta = new Meta().setEncoding(Meta.Encoding.BASE64_BINARY);
     assertNoDiffs(expected, meta);
   }
 

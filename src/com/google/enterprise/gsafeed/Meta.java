@@ -46,7 +46,7 @@ public class Meta {
   @XmlEnum(String.class)
   public static enum Encoding {
     @XmlEnumValue("base64binary")
-    BASE_64_BINARY("base64binary");
+    BASE64_BINARY("base64binary");
 
     private String xmlValue;
 

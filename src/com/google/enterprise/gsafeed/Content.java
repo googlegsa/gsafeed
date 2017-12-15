@@ -43,9 +43,9 @@ public class Content {
   @XmlEnum(String.class)
   public static enum Encoding {
     @XmlEnumValue("base64binary")
-    BASE_64_BINARY("base64binary"),
+    BASE64_BINARY("base64binary"),
     @XmlEnumValue("base64compressed")
-    BASE_64_COMPRESSED("base64compressed");
+    BASE64_COMPRESSED("base64compressed");
 
     private String xmlValue;
 
