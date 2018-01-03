@@ -200,7 +200,8 @@ public class GsafeedHelperTest {
   }
 
   @Test
-  public void testWithDtdInvalidDoc() throws Exception {
+  public void testWithDtdInvalidDoc_withValidationEventHandler()
+      throws Exception {
     thrown.expect(SAXParseException.class);
     thrown.expectMessage(
         "Element type \"invalid-element\" must be declared.");
@@ -208,7 +209,20 @@ public class GsafeedHelperTest {
   }
 
   @Test
-  public void testWithoutDtdInvalidDoc() throws Exception {
+  public void testWithDtdInvalidDoc_withoutValidationEventHandler()
+      throws Exception {
+    helper.setValidationEventHandler(null);
+    thrown.expect(SAXParseException.class);
+    thrown.expectMessage(
+        "Element type \"invalid-element\" must be declared.");
+    helper.unmarshalWithDtd(asStream(invalidFeed));
+  }
+
+  @Test
+  public void testWithoutDtdInvalidDoc()
+      throws Exception {
+    // When not validating, no ValidationEventHandler is
+    // installed and the invalid element is ignored.
     Gsafeed feed = helper.unmarshalWithoutDtd(asStream(invalidFeed));
     assertEquals("sample", feed.getHeader().getDatasource());
   }

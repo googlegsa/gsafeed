@@ -31,6 +31,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.UnmarshallerHandler;
+import javax.xml.bind.ValidationEvent;
+import javax.xml.bind.ValidationEventHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -46,6 +48,7 @@ class FeedHelper {
   private JAXBContext jaxbContext;
   private EntityResolver entityResolver;
   ErrorHandler errorHandler;
+  ValidationEventHandler validationEventHandler;
 
   FeedHelper(Class<?> rootElementClass, String rootElementName,
       final String dtdPath) throws JAXBException {
@@ -82,6 +85,33 @@ class FeedHelper {
           throw exception;
         }
       };
+    this.validationEventHandler = new ValidationEventHandler() {
+        public boolean handleEvent(ValidationEvent event) {
+          boolean shouldContinue;
+          String severity;
+          switch (event.getSeverity()) {
+            case ValidationEvent.WARNING:
+              severity = "WARNING";
+              shouldContinue = true;
+              break;
+            case ValidationEvent.ERROR:
+              severity = "ERROR";
+              shouldContinue = false;
+              break;
+            case ValidationEvent.FATAL_ERROR:
+              severity = "FATAL_ERROR";
+              shouldContinue = false;
+              break;
+            default:
+              throw new IllegalArgumentException(
+                  "Unknown severity " + event.getSeverity());
+          }
+          // TODO(aptls): find out if we want logging, System.out, ...
+          System.out.println("Validation event: "
+              + severity + " " + event.getMessage());
+          return shouldContinue;
+        }
+      };
   }
 
   Object unmarshal(InputStream inputStream, Validation validation)
@@ -102,6 +132,9 @@ class FeedHelper {
     xmlReader.setEntityResolver(entityResolver);
     xmlReader.setErrorHandler(errorHandler);
     Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+    if (validation == Validation.TRUE && validationEventHandler != null) {
+      unmarshaller.setEventHandler(validationEventHandler);
+    }
     UnmarshallerHandler unmarshallerHandler =
         unmarshaller.getUnmarshallerHandler();
     xmlReader.setContentHandler(unmarshallerHandler);
