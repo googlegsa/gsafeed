@@ -18,6 +18,7 @@ import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -29,11 +30,15 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.logging.Level;
 
 /**
  * Test Record.
  */
 public class RecordTest {
+  @ClassRule
+  public static final ConsoleLogging logging = new ConsoleLogging(Level.OFF);
+
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -43,7 +48,7 @@ public class RecordTest {
         "<record url='http://example.com'"
         + " displayurl='http://example.com' action='add'"
         + " mimetype='text/plain'"
-        + " last-modified='Tue, 06 Nov 2007 12:45:26 +0000'"
+        + " last-modified='Tue, 06 Nov 2007 12:45:26 GMT'"
         + " lock='false' authmethod='none' feedrank='1'"
         + " pagerank='1' crawl-immediately='false'"
         + " crawl-once='false' scoring='content'></record>";
@@ -54,7 +59,7 @@ public class RecordTest {
         .setMimetype("text/plain")
         .setLastModified(
             new SimpleDateFormat(DateAdapter.FORMAT, Locale.ENGLISH)
-            .parse("Tue, 06 Nov 2007 12:45:26 +0000"))
+            .parse("Tue, 06 Nov 2007 12:45:26 GMT"))
         .setLock(false)
         .setAuthmethod(Record.AuthMethod.NONE)
         .setFeedrank("1")
@@ -460,11 +465,11 @@ public class RecordTest {
   @Test
   public void testLastModifiedMarshal() throws Exception {
     String expected =
-        "<record last-modified='Tue, 06 Nov 2007 12:45:26 +0000'/>";
+        "<record last-modified='Tue, 06 Nov 2007 12:45:26 GMT'/>";
     Record record = new Record()
         .setLastModified(
             new SimpleDateFormat(DateAdapter.FORMAT, Locale.ENGLISH)
-            .parse("Tue, 06 Nov 2007 12:45:26 +0000"));
+            .parse("Tue, 06 Nov 2007 12:45:26 GMT"));
     assertNoDiffs(expected, record);
   }
 
@@ -480,7 +485,7 @@ public class RecordTest {
     cal.set(Calendar.SECOND, 26);
     cal.set(Calendar.MILLISECOND, 0);
     Record record = unmarshal(
-        "<record last-modified='Tue, 06 Nov 2007 12:45:26 +0000'/>");
+        "<record last-modified='Tue, 06 Nov 2007 12:45:26 GMT'/>");
     assertEquals(cal.getTime(), record.getLastModified());
   }
 
@@ -517,6 +522,24 @@ public class RecordTest {
     thrown.expectCause(isA(javax.xml.bind.UnmarshalException.class));
     thrown.expectMessage("Unparseable date: \"Nov 6, 2007\"");
     new GsafeedHelper().unmarshalWithDtd(feed);
+  }
+
+  // Add an even more straightforward date format test here.
+  @Test
+  public void testDateAdapterMarshal() throws Exception {
+    GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"),
+      Locale.ENGLISH);
+    cal.set(Calendar.YEAR, 2007);
+    cal.set(Calendar.MONTH, Calendar.NOVEMBER);
+    cal.set(Calendar.DATE, 6);
+    cal.set(Calendar.HOUR_OF_DAY, 12);
+    cal.set(Calendar.MINUTE, 45);
+    cal.set(Calendar.SECOND, 26);
+    cal.set(Calendar.MILLISECOND, 0);
+
+    DateAdapter adapter = new DateAdapter();
+    assertEquals(
+        "Tue, 06 Nov 2007 12:45:26 GMT", adapter.marshal(cal.getTime()));
   }
 
   private void assertNoDiffs(String expected, Object actual) {

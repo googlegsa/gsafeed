@@ -26,13 +26,13 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  * Converts between XML string representation of dates in RFC 822
  * format and java.util.Date objects during marshal/unmarshal.
  */
-public class DateAdapter extends XmlAdapter<String, Date> {
-  public static final String FORMAT = "EEE, dd MMM yyyy HH:mm:ss Z";
+class DateAdapter extends XmlAdapter<String, Date> {
+  public static final String FORMAT = "EEE, dd MMM yyyy HH:mm:ss z";
 
   // Definition copied from GsaFeedFileMaker in adaptor library;
   // format string extracted for access by other code if desired.
-  private static ThreadLocal<DateFormat> rfc822Format
-    = new ThreadLocal<DateFormat>() {
+  private static final ThreadLocal<DateFormat> rfc822Format =
+      new ThreadLocal<DateFormat>() {
         @Override
         protected DateFormat initialValue() {
           DateFormat df = new SimpleDateFormat(FORMAT, Locale.ENGLISH);

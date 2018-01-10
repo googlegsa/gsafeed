@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -41,6 +43,8 @@ import javax.xml.parsers.SAXParserFactory;
  */
 class FeedHelper {
   private static final String PUBLIC_ID = "-//Google//DTD GSA Feeds//EN";
+  private static final Logger log =
+      Logger.getLogger(FeedHelper.class.getName());
 
   enum Validation { FALSE, TRUE }
 
@@ -104,10 +108,10 @@ class FeedHelper {
               break;
             default:
               throw new IllegalArgumentException(
-                  "Unknown severity " + event.getSeverity());
+                  "Unknown severity " + event.getSeverity()
+                  + " for " + event.getMessage());
           }
-          // TODO(aptls): find out if we want logging, System.out, ...
-          System.out.println("Validation event: "
+          log.log(Level.INFO, "Validation event: "
               + severity + " " + event.getMessage());
           return shouldContinue;
         }
