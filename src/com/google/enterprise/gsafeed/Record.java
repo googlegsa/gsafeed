@@ -15,6 +15,7 @@
 package com.google.enterprise.gsafeed;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -51,8 +52,8 @@ public class Record {
   @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
   protected String mimetype;
   @XmlAttribute(name = "last-modified")
-  @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
-  protected String lastModified;
+  @XmlJavaTypeAdapter(DateAdapter.class)
+  protected Date lastModified;
   @XmlAttribute(name = "lock")
   protected Boolean lock;
   @XmlAttribute(name = "authmethod")
@@ -259,19 +260,19 @@ public class Record {
   /**
    * Gets the value of the lastModified property.
    *
-   * @return possible object is {@link String}
+   * @return possible object is {@link Date}
    */
-  public String getLastModified() {
+  public Date getLastModified() {
     return lastModified;
   }
 
   /**
    * Sets the value of the lastModified property.
    *
-   * @param value allowed object is {@link String}
+   * @param value allowed object is {@link Date}
    * @return this object
    */
-  public Record setLastModified(String value) {
+  public Record setLastModified(Date value) {
     this.lastModified = value;
     return this;
   }

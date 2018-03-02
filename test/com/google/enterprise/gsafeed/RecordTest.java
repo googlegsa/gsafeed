@@ -14,19 +14,31 @@
 
 package com.google.enterprise.gsafeed;
 
+import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.logging.Level;
+
 /**
  * Test Record.
  */
 public class RecordTest {
+  @ClassRule
+  public static final ConsoleLogging logging = new ConsoleLogging(Level.OFF);
+
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -36,7 +48,7 @@ public class RecordTest {
         "<record url='http://example.com'"
         + " displayurl='http://example.com' action='add'"
         + " mimetype='text/plain'"
-        + " last-modified='Tue, 6 Nov 2007 12:45:26 GMT'"
+        + " last-modified='Tue, 06 Nov 2007 12:45:26 GMT'"
         + " lock='false' authmethod='none' feedrank='1'"
         + " pagerank='1' crawl-immediately='false'"
         + " crawl-once='false' scoring='content'></record>";
@@ -45,7 +57,9 @@ public class RecordTest {
         .setDisplayurl("http://example.com")
         .setAction(Record.Action.ADD)
         .setMimetype("text/plain")
-        .setLastModified("Tue, 6 Nov 2007 12:45:26 GMT")
+        .setLastModified(
+            new SimpleDateFormat(DateAdapter.FORMAT, Locale.ENGLISH)
+            .parse("Tue, 06 Nov 2007 12:45:26 GMT"))
         .setLock(false)
         .setAuthmethod(Record.AuthMethod.NONE)
         .setFeedrank("1")
@@ -446,6 +460,87 @@ public class RecordTest {
     thrown.expectMessage("Attribute \"lock\" with value \"foo\" must"
         + " have a value from the list \"true false \".");
     new GsafeedHelper().unmarshalWithDtd(xml);
+  }
+
+  @Test
+  public void testLastModifiedMarshal() throws Exception {
+    String expected =
+        "<record last-modified='Tue, 06 Nov 2007 12:45:26 GMT'/>";
+    Record record = new Record()
+        .setLastModified(
+            new SimpleDateFormat(DateAdapter.FORMAT, Locale.ENGLISH)
+            .parse("Tue, 06 Nov 2007 12:45:26 GMT"));
+    assertNoDiffs(expected, record);
+  }
+
+  @Test
+  public void testLastModifiedUnmarshal() throws Exception {
+    GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"),
+      Locale.ENGLISH);
+    cal.set(Calendar.YEAR, 2007);
+    cal.set(Calendar.MONTH, Calendar.NOVEMBER);
+    cal.set(Calendar.DATE, 6);
+    cal.set(Calendar.HOUR_OF_DAY, 12);
+    cal.set(Calendar.MINUTE, 45);
+    cal.set(Calendar.SECOND, 26);
+    cal.set(Calendar.MILLISECOND, 0);
+    Record record = unmarshal(
+        "<record last-modified='Tue, 06 Nov 2007 12:45:26 GMT'/>");
+    assertEquals(cal.getTime(), record.getLastModified());
+  }
+
+  @Test
+  public void testLastModifiedDifferentFormatWithoutValidation()
+      throws Exception {
+    Record record = unmarshal("<record last-modified='May 3, 2011'/>");
+    assertEquals(null, record.getLastModified());
+  }
+
+  @Test
+  public void testLastModifiedDifferentFormatWithValidation()
+      throws Exception {
+    String feed =
+        "<?xml version='1.0' encoding='utf-8'?>"
+        + "<!DOCTYPE gsafeed PUBLIC '-//Google//DTD GSA Feeds//EN' ''>"
+        + "<gsafeed>"
+        + "  <header>"
+        + "    <datasource>sample</datasource>"
+        + "    <feedtype>full</feedtype>"
+        + "  </header>"
+        + "  <group>"
+        + "    <record url='http://www.example.com/hello01'"
+        + "      mimetype='text/plain'"
+        + "      last-modified='Nov 6, 2007'>"
+        + "      <content>This is hello01</content>"
+        + "    </record>"
+        + "  </group>"
+        + "</gsafeed>";
+
+    // The actual exception class is coming back as
+    // com.sun.istack.internal.SAXParseException2.class, so check
+    // using the cause for a more readable test.
+    thrown.expectCause(isA(javax.xml.bind.UnmarshalException.class));
+    thrown.expectMessage("Unparseable date: \"Nov 6, 2007\"");
+    new GsafeedHelper().unmarshalWithDtd(feed);
+  }
+
+  // This is an even more straightforward date format test, using
+  // the adapter directly.
+  @Test
+  public void testDateAdapterMarshal() throws Exception {
+    GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"),
+      Locale.ENGLISH);
+    cal.set(Calendar.YEAR, 2007);
+    cal.set(Calendar.MONTH, Calendar.NOVEMBER);
+    cal.set(Calendar.DATE, 6);
+    cal.set(Calendar.HOUR_OF_DAY, 12);
+    cal.set(Calendar.MINUTE, 45);
+    cal.set(Calendar.SECOND, 26);
+    cal.set(Calendar.MILLISECOND, 0);
+
+    DateAdapter adapter = new DateAdapter();
+    assertEquals(
+        "Tue, 06 Nov 2007 12:45:26 GMT", adapter.marshal(cal.getTime()));
   }
 
   private void assertNoDiffs(String expected, Object actual) {

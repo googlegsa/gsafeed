@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.charset.Charset;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.ValidationEventHandler;
 import javax.xml.parsers.ParserConfigurationException;
 
 /**
@@ -40,6 +41,10 @@ public class XmlgroupsHelper extends FeedHelper {
 
   public void setErrorHandler(ErrorHandler errorHandler) {
     this.errorHandler = errorHandler;
+  }
+
+  public void setValidationEventHandler(ValidationEventHandler eventHandler) {
+    this.validationEventHandler = eventHandler;
   }
 
   /**
