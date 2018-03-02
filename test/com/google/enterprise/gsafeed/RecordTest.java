@@ -524,7 +524,8 @@ public class RecordTest {
     new GsafeedHelper().unmarshalWithDtd(feed);
   }
 
-  // Add an even more straightforward date format test here.
+  // This is an even more straightforward date format test, using
+  // the adapter directly.
   @Test
   public void testDateAdapterMarshal() throws Exception {
     GregorianCalendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"),
