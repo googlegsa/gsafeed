@@ -16,9 +16,12 @@ package com.google.enterprise.gsafeed.groups;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -32,10 +35,35 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "membership")
 public class Membership {
 
+  @XmlAttribute(name = "source")
+  @XmlJavaTypeAdapter(NormalizedStringAdapter.class)
+  protected String source;
   @XmlElement(required = true)
   protected Principal principal;
   @XmlElement(required = true)
   protected Members members;
+
+
+  /**
+   * Gets the value of the source attribute.
+   *
+   * @return possible object is {@link String}
+   */
+  public String getSource() {
+    return source;
+  }
+
+  /**
+   * Sets the value of the source attribute.
+   *
+   * @param value allowed object is {@link String}
+   * @return this object
+   */
+  public Membership setSource(String value) {
+    this.source = value;
+    return this;
+  }
+
 
   /**
    * Gets the value of the principal property.

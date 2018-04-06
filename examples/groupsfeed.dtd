@@ -4,6 +4,9 @@
 <!ELEMENT members (principal+)>
 <!ELEMENT principal (#PCDATA)>
 
+<!ATTLIST membership
+   source CDATA #IMPLIED>
+
 <!ATTLIST principal
    scope (USER|GROUP) #REQUIRED
    namespace CDATA "Default"
