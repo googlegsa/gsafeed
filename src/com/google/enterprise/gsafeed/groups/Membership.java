@@ -59,7 +59,13 @@ public class Membership {
    * @param value allowed object is {@link String}
    * @return this object
    */
-  public Membership setSource(String value) {
+  /* The source attribute is present when downloading the groups
+   * database from the GSA. It is not used when uploading groups
+   * to the GSA. The GSA determines the source value from the
+   * groupsource parameter in the upload. This setter is
+   * preserved for use in tests.
+   */
+  Membership setSource(String value) {
     this.source = value;
     return this;
   }
