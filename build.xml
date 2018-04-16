@@ -103,7 +103,7 @@
       <arg value="-target"/>
       <arg value="2.0"/>
       <arg value="-no-header"/>
-      <arg value="examples/groups.dtd"/>
+      <arg value="examples/groupsfeed.dtd"/>
     </exec>
   </target>
 
